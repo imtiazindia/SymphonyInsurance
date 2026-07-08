@@ -1,0 +1,82 @@
+[
+  {
+    "id": "TM-001",
+    "name": "Maya Srinivasan",
+    "role": "Senior Account Manager",
+    "email": "maya.srinivasan@symphony.example",
+    "region": "North America",
+    "specialty": "Commercial airline programs"
+  },
+  {
+    "id": "TM-002",
+    "name": "Julian Mercer",
+    "role": "Placement Lead",
+    "email": "julian.mercer@symphony.example",
+    "region": "London Market",
+    "specialty": "Hull and liability"
+  },
+  {
+    "id": "TM-003",
+    "name": "Arielle Chen",
+    "role": "Account Manager",
+    "email": "arielle.chen@symphony.example",
+    "region": "West Coast",
+    "specialty": "Charter and corporate aviation"
+  },
+  {
+    "id": "TM-004",
+    "name": "Owen Patel",
+    "role": "Placement Lead",
+    "email": "owen.patel@symphony.example",
+    "region": "North America",
+    "specialty": "Excess liability and war risk"
+  },
+  {
+    "id": "TM-005",
+    "name": "Elena Brooks",
+    "role": "Claims Advocate",
+    "email": "elena.brooks@symphony.example",
+    "region": "Central",
+    "specialty": "Major loss and bodily injury"
+  },
+  {
+    "id": "TM-006",
+    "name": "Nikhil Rao",
+    "role": "Compliance Lead",
+    "email": "nikhil.rao@symphony.example",
+    "region": "Global",
+    "specialty": "KYC, sanctions and certificates"
+  },
+  {
+    "id": "TM-007",
+    "name": "Sofia Almeida",
+    "role": "Account Manager",
+    "email": "sofia.almeida@symphony.example",
+    "region": "Southeast",
+    "specialty": "Flight schools and FBOs"
+  },
+  {
+    "id": "TM-008",
+    "name": "Graham Holt",
+    "role": "Placement Lead",
+    "email": "graham.holt@symphony.example",
+    "region": "London Market",
+    "specialty": "Airport liability and property"
+  },
+  {
+    "id": "TM-009",
+    "name": "Priya Menon",
+    "role": "Account Manager",
+    "email": "priya.menon@symphony.example",
+    "region": "Mountain West",
+    "specialty": "Helicopter and utility operations"
+  },
+  {
+    "id": "TM-010",
+    "name": "Marcus Reed",
+    "role": "Placement Lead",
+    "email": "marcus.reed@symphony.example",
+    "region": "Specialty Markets",
+    "specialty": "Cyber, MRO and hangarkeepers"
+  }
+]

@@ -1,0 +1,81 @@
+[
+  {
+    "id": "CLM-001",
+    "clientId": "COMM-003",
+    "policyId": "POL-003",
+    "claimType": "AOG engine incident",
+    "severity": "High",
+    "incurredAmount": 6800000,
+    "reserve": 4800000,
+    "status": "Executive Review",
+    "adjuster": "NorthPoint Aviation Adjusting",
+    "timelineEvents": [
+      { "date": "2026-06-18", "event": "Initial notice received" },
+      { "date": "2026-06-22", "event": "Engine teardown authorized" },
+      { "date": "2026-07-08", "event": "Reserve increased pending cause analysis" }
+    ]
+  },
+  {
+    "id": "CLM-002",
+    "clientId": "COMM-002",
+    "policyId": "POL-002",
+    "claimType": "Ground handling liability",
+    "severity": "Medium",
+    "incurredAmount": 1250000,
+    "reserve": 870000,
+    "status": "Counsel Response Due",
+    "adjuster": "Summit Claims Aviation",
+    "timelineEvents": [
+      { "date": "2026-05-31", "event": "Passenger injury allegation filed" },
+      { "date": "2026-06-14", "event": "Witness statements collected" },
+      { "date": "2026-07-07", "event": "Defense counsel requested indemnity review" }
+    ]
+  },
+  {
+    "id": "CLM-003",
+    "clientId": "FBO-002",
+    "policyId": "POL-009",
+    "claimType": "Hangar storm damage",
+    "severity": "Low",
+    "incurredAmount": 410000,
+    "reserve": 310000,
+    "status": "Monitoring",
+    "adjuster": "Harbor Specialty Adjusters",
+    "timelineEvents": [
+      { "date": "2026-06-03", "event": "Wind damage notice opened" },
+      { "date": "2026-06-09", "event": "Roof inspection completed" },
+      { "date": "2026-07-02", "event": "Repair estimate received" }
+    ]
+  },
+  {
+    "id": "CLM-004",
+    "clientId": "HELI-001",
+    "policyId": "POL-012",
+    "claimType": "External load hard landing",
+    "severity": "High",
+    "incurredAmount": 2400000,
+    "reserve": 1900000,
+    "status": "Open",
+    "adjuster": "Rotor Claims Associates",
+    "timelineEvents": [
+      { "date": "2026-05-12", "event": "Incident during utility lift operation" },
+      { "date": "2026-05-20", "event": "Airframe inspection completed" },
+      { "date": "2026-07-05", "event": "Operator corrective action requested" }
+    ]
+  },
+  {
+    "id": "CLM-005",
+    "clientId": "COMM-014",
+    "policyId": null,
+    "claimType": "Ramp heat damage",
+    "severity": "Medium",
+    "incurredAmount": 780000,
+    "reserve": 520000,
+    "status": "Open",
+    "adjuster": "DesertLine Adjusting",
+    "timelineEvents": [
+      { "date": "2026-06-25", "event": "Ground equipment fire notice" },
+      { "date": "2026-07-01", "event": "Subrogation review opened" }
+    ]
+  }
+]

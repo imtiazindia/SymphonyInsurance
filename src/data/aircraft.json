@@ -1,0 +1,22 @@
+[
+  { "id": "AC-001", "clientId": "COMM-001", "tailNumber": "N312AN", "type": "Embraer E175", "year": 2018, "hullValue": 31000000, "baseAirport": "KMSP", "scheduleStatus": "Verified" },
+  { "id": "AC-002", "clientId": "COMM-002", "tailNumber": "N884SK", "type": "Airbus A320-neo", "year": 2021, "hullValue": 56500000, "baseAirport": "KPHX", "scheduleStatus": "Pending lease endorsement" },
+  { "id": "AC-003", "clientId": "COMM-003", "tailNumber": "N767HC", "type": "Boeing 767-300F", "year": 1999, "hullValue": 42000000, "baseAirport": "KSDF", "scheduleStatus": "Needs valuation update" },
+  { "id": "AC-004", "clientId": "COMM-004", "tailNumber": "N901TC", "type": "Boeing 737-800BCF", "year": 2007, "hullValue": 36000000, "baseAirport": "PANC", "scheduleStatus": "Verified" },
+  { "id": "AC-005", "clientId": "COMM-008", "tailNumber": "N428HW", "type": "Airbus A321", "year": 2017, "hullValue": 49000000, "baseAirport": "KSEA", "scheduleStatus": "Verified" },
+  { "id": "AC-006", "clientId": "COMM-018", "tailNumber": "N918OB", "type": "Boeing 737 MAX 8", "year": 2022, "hullValue": 61000000, "baseAirport": "KMIA", "scheduleStatus": "Pending lender clause" },
+  { "id": "AC-007", "clientId": "COMM-023", "tailNumber": "N623OP", "type": "Airbus A330-200", "year": 2013, "hullValue": 72000000, "baseAirport": "PHNL", "scheduleStatus": "Needs oceanic equipment confirmation" },
+  { "id": "AC-008", "clientId": "FS-001", "tailNumber": "N141VF", "type": "Cessna 172S", "year": 2016, "hullValue": 410000, "baseAirport": "KIWA", "scheduleStatus": "Verified" },
+  { "id": "AC-009", "clientId": "FS-006", "tailNumber": "N226CW", "type": "Piper Seminole", "year": 2014, "hullValue": 620000, "baseAirport": "KORL", "scheduleStatus": "Needs engine hours" },
+  { "id": "AC-010", "clientId": "CH-001", "tailNumber": "N900SG", "type": "Gulfstream G550", "year": 2015, "hullValue": 28500000, "baseAirport": "KTEB", "scheduleStatus": "Verified" },
+  { "id": "AC-011", "clientId": "CH-002", "tailNumber": "N700CB", "type": "Gulfstream G650", "year": 2018, "hullValue": 43500000, "baseAirport": "KVNY", "scheduleStatus": "Owner approval pending" },
+  { "id": "AC-012", "clientId": "CH-004", "tailNumber": "N525AO", "type": "Citation CJ4", "year": 2020, "hullValue": 8600000, "baseAirport": "KASE", "scheduleStatus": "Mountain ops review" },
+  { "id": "AC-013", "clientId": "HELI-001", "tailNumber": "N410RP", "type": "Bell 412EP", "year": 2012, "hullValue": 5200000, "baseAirport": "KRNO", "scheduleStatus": "External load kit pending" },
+  { "id": "AC-014", "clientId": "HELI-002", "tailNumber": "N135ML", "type": "Airbus H145", "year": 2021, "hullValue": 9800000, "baseAirport": "KCMH", "scheduleStatus": "Verified" },
+  { "id": "AC-015", "clientId": "HELI-003", "tailNumber": "N407HH", "type": "Bell 407GXi", "year": 2022, "hullValue": 4100000, "baseAirport": "KJRB", "scheduleStatus": "Pilot warranty pending" },
+  { "id": "AC-016", "clientId": "CORP-001", "tailNumber": "N880MC", "type": "Dassault Falcon 8X", "year": 2019, "hullValue": 46500000, "baseAirport": "KHPN", "scheduleStatus": "Verified" },
+  { "id": "AC-017", "clientId": "CORP-002", "tailNumber": "N650SH", "type": "Gulfstream G650ER", "year": 2020, "hullValue": 51500000, "baseAirport": "KPWK", "scheduleStatus": "Verified" },
+  { "id": "AC-018", "clientId": "PRIVATE-001", "tailNumber": "N88AF", "type": "Pilatus PC-24", "year": 2021, "hullValue": 9800000, "baseAirport": "KPBI", "scheduleStatus": "Named pilot review" },
+  { "id": "AC-019", "clientId": "PRIVATE-002", "tailNumber": "N22LR", "type": "Pilatus PC-12 NGX", "year": 2022, "hullValue": 6100000, "baseAirport": "KBDN", "scheduleStatus": "Training warranty pending" },
+  { "id": "AC-020", "clientId": "PRIVATE-003", "tailNumber": "N505CP", "type": "TBM 960", "year": 2024, "hullValue": 5100000, "baseAirport": "KSAF", "scheduleStatus": "Verified" }
+]

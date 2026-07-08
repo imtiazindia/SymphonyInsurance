@@ -1,0 +1,14 @@
+[
+  { "id": "REN-001", "clientId": "COMM-001", "policyIds": ["POL-001"], "stage": "Negotiating", "dueDate": "2026-08-15", "daysToExpiry": 54, "actionRequiredToday": true, "premiumExpiring": 17100000, "targetPremium": 18600000, "ownerId": "TM-001" },
+  { "id": "REN-002", "clientId": "COMM-002", "policyIds": ["POL-002"], "stage": "Submission Prep", "dueDate": "2026-08-05", "daysToExpiry": 99, "actionRequiredToday": true, "premiumExpiring": 20900000, "targetPremium": 22400000, "ownerId": "TM-001" },
+  { "id": "REN-003", "clientId": "COMM-003", "policyIds": ["POL-003"], "stage": "At Risk", "dueDate": "2026-07-25", "daysToExpiry": 24, "actionRequiredToday": true, "premiumExpiring": 14300000, "targetPremium": 17100000, "ownerId": "TM-001" },
+  { "id": "REN-004", "clientId": "COMM-004", "policyIds": ["POL-004"], "stage": "Binding", "dueDate": "2026-07-18", "daysToExpiry": 42, "actionRequiredToday": false, "premiumExpiring": 3900000, "targetPremium": 4200000, "ownerId": "TM-003" },
+  { "id": "REN-005", "clientId": "CH-001", "policyIds": ["POL-006"], "stage": "Negotiating", "dueDate": "2026-07-22", "daysToExpiry": 38, "actionRequiredToday": true, "premiumExpiring": 2920000, "targetPremium": 3100000, "ownerId": "TM-003" },
+  { "id": "REN-006", "clientId": "CH-004", "policyIds": ["POL-007"], "stage": "At Risk", "dueDate": "2026-07-20", "daysToExpiry": 64, "actionRequiredToday": true, "premiumExpiring": 650000, "targetPremium": 790000, "ownerId": "TM-003" },
+  { "id": "REN-007", "clientId": "FBO-002", "policyIds": ["POL-009"], "stage": "Submission Prep", "dueDate": "2026-07-26", "daysToExpiry": 53, "actionRequiredToday": false, "premiumExpiring": 540000, "targetPremium": 610000, "ownerId": "TM-007" },
+  { "id": "REN-008", "clientId": "APT-003", "policyIds": ["POL-010"], "stage": "At Risk", "dueDate": "2026-07-27", "daysToExpiry": 55, "actionRequiredToday": true, "premiumExpiring": 1240000, "targetPremium": 1500000, "ownerId": "TM-007" },
+  { "id": "REN-009", "clientId": "HELI-001", "policyIds": ["POL-012"], "stage": "At Risk", "dueDate": "2026-07-19", "daysToExpiry": 43, "actionRequiredToday": true, "premiumExpiring": 2310000, "targetPremium": 2700000, "ownerId": "TM-009" },
+  { "id": "REN-010", "clientId": "MRO-002", "policyIds": ["POL-015"], "stage": "Submission Prep", "dueDate": "2026-08-01", "daysToExpiry": 55, "actionRequiredToday": false, "premiumExpiring": 180000, "targetPremium": 210000, "ownerId": "TM-007" },
+  { "id": "REN-011", "clientId": "FS-006", "policyIds": ["POL-017"], "stage": "At Risk", "dueDate": "2026-07-21", "daysToExpiry": 38, "actionRequiredToday": true, "premiumExpiring": 260000, "targetPremium": 310000, "ownerId": "TM-007" },
+  { "id": "REN-012", "clientId": "PRIVATE-002", "policyIds": ["POL-019"], "stage": "Data Collection", "dueDate": "2026-07-30", "daysToExpiry": 55, "actionRequiredToday": false, "premiumExpiring": 390000, "targetPremium": 420000, "ownerId": "TM-003" }
+]

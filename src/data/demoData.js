@@ -15,6 +15,134 @@ import {
   Settings,
   ShieldCheck,
 } from 'lucide-react';
+import activitiesJson from './activities.json';
+import aircraftJson from './aircraft.json';
+import aiInsightsJson from './aiInsights.json';
+import claimsJson from './claims.json';
+import clientsJson from './clients.json';
+import complianceJson from './compliance.json';
+import documentsJson from './documents.json';
+import marketConditionsJson from './marketConditions.json';
+import negotiationsJson from './negotiations.json';
+import pilotsJson from './pilots.json';
+import policiesJson from './policies.json';
+import renewalsJson from './renewals.json';
+import submissionsJson from './submissions.json';
+import teamMembersJson from './teamMembers.json';
+
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 1,
+  notation: 'compact',
+  style: 'currency',
+  currency: 'USD',
+});
+
+const numberFormatter = new Intl.NumberFormat('en-US');
+
+const clientById = new Map(clientsJson.map((client) => [client.id, client]));
+
+const totalPremium = clientsJson.reduce((sum, client) => sum + client.totalPremium, 0);
+const openClaims = claimsJson.filter((claim) => claim.status !== 'Closed').length;
+const incurredClaims = claimsJson.reduce((sum, claim) => sum + claim.incurredAmount, 0);
+const overdueCompliance = complianceJson.filter((item) => item.status === 'Overdue').length;
+const openCompliance = complianceJson.filter((item) => item.status !== 'Closed').length;
+const averageCompliance = Math.round(
+  clientsJson.reduce((sum, client) => sum + client.complianceScore, 0) / clientsJson.length,
+);
+const renewalActions = renewalsJson.filter((renewal) => renewal.actionRequiredToday).length;
+const awaitingApproval = negotiationsJson.filter((item) => item.status.toLowerCase().includes('approval')).length;
+const executiveClaims = claimsJson.filter((claim) => claim.status.toLowerCase().includes('executive')).length;
+const recommendedNegotiations = negotiationsJson.filter((item) => item.recommendationFlag === 'Recommended').length;
+const premiumOpportunity = negotiationsJson
+  .filter((item) => item.recommendationFlag === 'Recommended')
+  .reduce((sum, item) => {
+    const renewal = renewalsJson.find((candidate) => candidate.id === item.renewalId);
+    return sum + Math.max(0, (renewal?.targetPremium ?? item.premiumQuoted) - item.premiumQuoted);
+  }, 0);
+
+function compactCurrency(value) {
+  return currencyFormatter.format(value).replace('.0', '');
+}
+
+function clientName(clientId) {
+  return clientById.get(clientId)?.name ?? 'Unassigned account';
+}
+
+function shortClientName(clientId) {
+  return clientName(clientId)
+    .replace(' Airways', '')
+    .replace(' Airlines', '')
+    .replace(' Express', '')
+    .replace(' Group', '');
+}
+
+function toneForStatus(status) {
+  const normalized = status.toLowerCase();
+  if (normalized.includes('attention') || normalized.includes('overdue') || normalized.includes('risk') || normalized.includes('executive')) {
+    return 'red';
+  }
+  if (normalized.includes('awaiting') || normalized.includes('pending') || normalized.includes('review') || normalized.includes('flight')) {
+    return 'amber';
+  }
+  if (normalized.includes('success') || normalized.includes('complete') || normalized.includes('ready') || normalized.includes('recommended')) {
+    return 'green';
+  }
+  return 'cyan';
+}
+
+function toneForSeverity(severity) {
+  if (severity === 'High') return 'red';
+  if (severity === 'Medium') return 'amber';
+  return 'green';
+}
+
+function renewalProgress(stage) {
+  return {
+    'Data Collection': 24,
+    'Submission Prep': 42,
+    Marketed: 58,
+    Quoted: 70,
+    Negotiating: 78,
+    Binding: 92,
+    'At Risk': 18,
+  }[stage] ?? 35;
+}
+
+function dateLabel(date) {
+  const due = new Date(`${date}T00:00:00Z`);
+  const now = new Date('2026-07-08T00:00:00Z');
+  const days = Math.ceil((due - now) / 86400000);
+  if (days < 0) return `${Math.abs(days)}d overdue`;
+  if (days === 0) return 'Today';
+  if (days === 1) return 'Tomorrow';
+  return `${days}d`;
+}
+
+function timeLabel(timestamp) {
+  return new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    hour12: false,
+    minute: '2-digit',
+    timeZone: 'UTC',
+  }).format(new Date(timestamp));
+}
+
+export const simulationData = {
+  activities: activitiesJson,
+  aircraft: aircraftJson,
+  aiInsights: aiInsightsJson,
+  claims: claimsJson,
+  clients: clientsJson,
+  compliance: complianceJson,
+  documents: documentsJson,
+  marketConditions: marketConditionsJson,
+  negotiations: negotiationsJson,
+  pilots: pilotsJson,
+  policies: policiesJson,
+  renewals: renewalsJson,
+  submissions: submissionsJson,
+  teamMembers: teamMembersJson,
+};
 
 export const navItems = [
   { label: 'Command Center', path: '/', icon: RadioTower, tone: 'cyan' },
@@ -35,8 +163,8 @@ export const roles = ['Executive', 'Broker Lead', 'Claims Ops', 'Compliance'];
 export const metrics = [
   {
     label: 'Fleet Pipeline',
-    value: '$312M',
-    delta: '+12.4% vs LY',
+    value: compactCurrency(totalPremium),
+    delta: `${clientsJson.length} active aviation accounts`,
     status: 'live',
     icon: Plane,
     accent: 'cyan',
@@ -44,8 +172,8 @@ export const metrics = [
   },
   {
     label: 'Open Claims',
-    value: '38',
-    delta: 'Incurred $24.6M',
+    value: numberFormatter.format(openClaims),
+    delta: `Incurred ${compactCurrency(incurredClaims)}`,
     status: 'monitored',
     icon: Bell,
     accent: 'blue',
@@ -53,18 +181,18 @@ export const metrics = [
   },
   {
     label: 'Compliance',
-    value: '92%',
-    delta: '4 controls pending',
-    status: 'on track',
+    value: `${averageCompliance}%`,
+    delta: `${openCompliance} controls pending`,
+    status: overdueCompliance ? 'attention' : 'on track',
     icon: BadgeCheck,
-    accent: 'green',
-    spark: [73, 76, 78, 82, 80, 84, 86, 88, 89, 90, 92, 92],
+    accent: overdueCompliance ? 'amber' : 'green',
+    spark: [73, 76, 78, 82, 80, 84, 86, 88, 89, 90, averageCompliance, averageCompliance],
   },
   {
     label: 'Market Capacity',
-    value: '$1.8B',
-    delta: '+6 active carriers',
-    status: 'expanding',
+    value: compactCurrency(marketConditionsJson.capacity.hullAndLiability),
+    delta: marketConditionsJson.overallMarketStatus,
+    status: 'market',
     icon: Landmark,
     accent: 'amber',
     spark: [38, 42, 46, 45, 51, 57, 62, 60, 68, 72, 77, 82],
@@ -72,160 +200,102 @@ export const metrics = [
 ];
 
 export const missionStatements = [
-  { label: 'Renewals requiring action today', value: '6', tone: 'amber' },
-  { label: 'Negotiations may reduce premium by $482K', value: '3', tone: 'green' },
-  { label: 'Claims require executive review', value: '2', tone: 'red' },
-  { label: 'Portfolio health across active fleets', value: '94%', tone: 'cyan' },
+  { label: 'Renewals requiring action today', value: String(renewalActions), tone: 'amber' },
+  {
+    label: `Negotiations may reduce premium by ${compactCurrency(premiumOpportunity || 482000)}`,
+    value: String(recommendedNegotiations),
+    tone: 'green',
+  },
+  { label: 'Claims require executive review', value: String(executiveClaims), tone: executiveClaims ? 'red' : 'green' },
+  { label: 'Portfolio compliance health', value: `${averageCompliance}%`, tone: 'cyan' },
 ];
 
 export const missionStatusSummary = [
-  '3 renewals need action',
-  '1 negotiation awaiting approval',
-  '2 compliance items overdue',
+  `${renewalActions} renewals need action`,
+  `${awaitingApproval} negotiation awaiting approval`,
+  `${overdueCompliance} compliance item overdue`,
 ];
 
 export const intelligenceBriefing = {
-  summary:
-    'Market pressure is rising across hull and excess liability, but three carrier conversations can still protect margin before the renewal board closes today.',
+  summary: aiInsightsJson.executiveBriefing,
   priorities: [
-    'Approve Skylark deductible strategy before the Lloyd\'s syndicate window closes.',
-    'Move AeroNorth pilot roster validation ahead of certificate release.',
-    'Escalate HelioCargo reserve movement to executive claims review.',
+    aiInsightsJson.policyOptimizationSuggestions[0].suggestion,
+    aiInsightsJson.submissionGaps[0].nextBestAction,
+    aiInsightsJson.claimsWarnings[0].warning,
   ],
-  alerts: [
-    { label: 'War risk appetite narrowed across APAC corridors', tone: 'amber' },
-    { label: 'Two certificates expire inside 72 hours', tone: 'red' },
-  ],
-  actions: [
-    'Open negotiation approval packet',
-    'Request updated fleet utilization',
-    'Prepare executive claims note',
-  ],
+  alerts: aiInsightsJson.renewalRisks.slice(0, 2).map((risk) => ({
+    label: `${shortClientName(risk.clientId)}: ${risk.summary}`,
+    tone: toneForSeverity(risk.severity),
+  })),
+  actions: aiInsightsJson.submissionGaps.slice(0, 3).map((gap) => gap.nextBestAction),
 };
 
-export const renewalStages = [
-  { label: 'Data Collection', count: 12, progress: 92, tone: 'green' },
-  { label: 'Submission Prep', count: 8, progress: 74, tone: 'cyan' },
-  { label: 'Marketed', count: 15, progress: 68, tone: 'blue' },
-  { label: 'Quoted', count: 9, progress: 52, tone: 'amber' },
-  { label: 'Negotiating', count: 6, progress: 46, tone: 'amber' },
-  { label: 'Binding', count: 4, progress: 32, tone: 'green' },
-  { label: 'At Risk', count: 3, progress: 18, tone: 'red' },
-];
+export const renewalStages = ['Data Collection', 'Submission Prep', 'Marketed', 'Quoted', 'Negotiating', 'Binding', 'At Risk'].map(
+  (stage) => ({
+    label: stage,
+    count: renewalsJson.filter((renewal) => renewal.stage === stage).length,
+    progress: renewalProgress(stage),
+    tone: stage === 'At Risk' ? 'red' : stage === 'Binding' ? 'green' : stage === 'Negotiating' || stage === 'Quoted' ? 'amber' : 'cyan',
+  }),
+);
 
-export const insurerStatusCards = [
-  {
-    market: "Lloyd's Syndicate 4412",
-    account: 'Skylark Airlines',
-    status: 'Deductible accepted',
-    premium: '-$218K',
-    appetite: 'Strong hull appetite',
-    tone: 'green',
-  },
-  {
-    market: 'AXA Aviation',
-    account: 'AeroNorth Group',
-    status: 'Awaiting executive approval',
-    premium: '-$164K',
-    appetite: 'Capacity held until 16:00',
-    tone: 'amber',
-  },
-  {
-    market: 'Swiss Re Corporate',
-    account: 'HelioCargo',
-    status: 'Reserve movement flagged',
-    premium: '+$91K',
-    appetite: 'Claims review required',
-    tone: 'red',
-  },
-];
+export const insurerStatusCards = negotiationsJson.slice(0, 3).map((negotiation) => {
+  const renewal = renewalsJson.find((item) => item.id === negotiation.renewalId);
+  const premiumDelta = renewal ? renewal.targetPremium - negotiation.premiumQuoted : 0;
+  return {
+    market: negotiation.insurerName,
+    account: shortClientName(negotiation.clientId),
+    status: negotiation.status,
+    premium: premiumDelta < 0 ? `+${compactCurrency(Math.abs(premiumDelta))}` : `-${compactCurrency(Math.abs(premiumDelta))}`,
+    appetite: negotiation.underwriterQuestions[0] ?? negotiation.subjectivities[0],
+    tone: toneForStatus(negotiation.recommendationFlag),
+  };
+});
 
-export const claimsReviewItems = [
-  {
-    claim: 'AOG engine incident',
-    account: 'HelioCargo',
-    severity: 'High',
-    reserve: '$4.8M',
-    review: 'Executive review',
-    tone: 'red',
-  },
-  {
-    claim: 'Ground handling liability',
-    account: 'Skylark Airlines',
-    severity: 'Medium',
-    reserve: '$870K',
-    review: 'Counsel response due',
-    tone: 'amber',
-  },
-  {
-    claim: 'Hangar storm damage',
-    account: 'AeroNorth Group',
-    severity: 'Low',
-    reserve: '$310K',
-    review: 'Monitor',
-    tone: 'green',
-  },
-];
+export const claimsReviewItems = claimsJson
+  .slice()
+  .sort((a, b) => b.reserve - a.reserve)
+  .slice(0, 3)
+  .map((claim) => ({
+    claim: claim.claimType,
+    account: shortClientName(claim.clientId),
+    severity: claim.severity,
+    reserve: compactCurrency(claim.reserve),
+    review: claim.status,
+    tone: toneForSeverity(claim.severity),
+  }));
 
-export const complianceMissions = [
-  { label: 'Certificate expiry', due: '48h', status: '2 overdue', progress: 38, tone: 'red' },
-  { label: 'Sanctions screening', due: 'Today', status: '1 pending', progress: 72, tone: 'amber' },
-  { label: 'Policy wording', due: '3d', status: '5 in review', progress: 84, tone: 'cyan' },
-  { label: 'KYC refresh', due: '7d', status: 'On track', progress: 96, tone: 'green' },
-];
+export const complianceMissions = complianceJson.slice(0, 4).map((item) => ({
+  label: item.auditFinding.split(' ').slice(0, 4).join(' '),
+  due: dateLabel(item.dueDate),
+  status: item.status,
+  progress: item.status === 'Overdue' ? 28 : item.status === 'Open' ? 58 : 78,
+  tone: item.status === 'Overdue' ? 'red' : toneForSeverity(item.severity),
+}));
 
-export const activities = [
-  {
-    time: '13:41',
-    eventType: 'Carrier Update',
-    account: 'AeroNorth',
-    action: 'Carrier accepted revised deductible',
-    status: 'Success',
-    tone: 'green',
-  },
-  {
-    time: '13:18',
-    eventType: 'Fleet Data',
-    account: 'Skylark Airlines',
-    action: 'Pilot roster uploaded',
-    status: 'Complete',
-    tone: 'green',
-  },
-  {
-    time: '12:51',
-    eventType: 'Claims',
-    account: 'HelioCargo',
-    action: 'Claim reserve updated',
-    status: 'Attention',
-    tone: 'red',
-  },
-  {
-    time: '12:34',
-    eventType: 'Compliance',
-    account: 'BlueOrbit',
-    action: 'Certificate wording cleared',
-    status: 'Ready',
-    tone: 'cyan',
-  },
-  {
-    time: '11:58',
-    eventType: 'Renewal',
-    account: 'Trisula Cargo',
-    action: 'Binding checklist moved to legal',
-    status: 'In Flight',
-    tone: 'amber',
-  },
-];
+export const activities = activitiesJson.slice(0, 5).map((activity) => ({
+  time: timeLabel(activity.timestamp),
+  eventType: activity.eventType,
+  account: shortClientName(activity.clientId),
+  action: activity.action,
+  status: activity.status,
+  tone: toneForStatus(activity.status),
+}));
 
-export const timeline = [
-  { label: 'Aviation renewal board', detail: 'Capacity model refreshed for APAC carriers', time: '08:15' },
-  { label: 'Broker desk sync', detail: 'Priority negotiation queue updated', time: '09:20' },
-  { label: 'Carrier signal', detail: 'Two markets reopened excess liability appetite', time: '11:45' },
-];
+export const timeline = activitiesJson.slice(5, 8).map((activity) => ({
+  label: activity.eventType,
+  detail: `${clientName(activity.clientId)} - ${activity.action}`,
+  time: timeLabel(activity.timestamp),
+}));
 
-export const workspaceRows = [
-  ['AeroNorth Group', 'Fleet Renewal', 'High', 'Reviewing', '$42M'],
-  ['HelioCargo', 'Claims', 'Medium', 'Action Needed', '$18M'],
-  ['Skylark Airlines', 'Negotiation', 'Elevated', 'Live', '$77M'],
-  ['BlueOrbit', 'Compliance', 'Low', 'On Track', '$12M'],
-];
+export const workspaceRows = clientsJson
+  .slice()
+  .sort((a, b) => b.riskScore - a.riskScore)
+  .slice(0, 6)
+  .map((client) => [
+    client.name,
+    client.type,
+    client.riskScore >= 75 ? 'High' : client.riskScore >= 62 ? 'Medium' : 'Low',
+    client.renewalStatus,
+    compactCurrency(client.totalPremium),
+  ]);

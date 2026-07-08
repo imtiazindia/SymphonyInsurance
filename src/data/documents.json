@@ -1,0 +1,12 @@
+[
+  { "id": "DOC-001", "clientId": "COMM-001", "documentType": "Aircraft Schedule", "status": "Approved", "uploadedDate": "2026-07-06", "expiryDate": "2026-09-01", "aiSummary": "Schedule matches renewal expiring fleet with two lender clauses to confirm." },
+  { "id": "DOC-002", "clientId": "COMM-002", "documentType": "Pilot Roster", "status": "Uploaded", "uploadedDate": "2026-07-08", "expiryDate": "2026-10-15", "aiSummary": "Roster includes new A320 captains; simulator validation still pending." },
+  { "id": "DOC-003", "clientId": "COMM-003", "documentType": "Claims Loss Run", "status": "Needs Review", "uploadedDate": "2026-07-07", "expiryDate": "2026-08-01", "aiSummary": "Reserve movement requires narrative before market release." },
+  { "id": "DOC-004", "clientId": "CH-001", "documentType": "Charter Contract", "status": "Legal Review", "uploadedDate": "2026-07-05", "expiryDate": "2026-08-15", "aiSummary": "Indemnity language could conflict with insurer contractual liability position." },
+  { "id": "DOC-005", "clientId": "FBO-002", "documentType": "Property Statement of Values", "status": "Approved", "uploadedDate": "2026-07-02", "expiryDate": "2026-08-30", "aiSummary": "Hangar values increased 8.4%; catastrophe model update recommended." },
+  { "id": "DOC-006", "clientId": "APT-003", "documentType": "Fuel Farm Inspection", "status": "Overdue", "uploadedDate": "2026-04-01", "expiryDate": "2026-07-01", "aiSummary": "Expired inspection is a binding subjectivity for airport liability." },
+  { "id": "DOC-007", "clientId": "HELI-001", "documentType": "External Load Manual", "status": "Requested", "uploadedDate": null, "expiryDate": "2026-08-20", "aiSummary": "Manual is required before utility helicopter markets will release firm terms." },
+  { "id": "DOC-008", "clientId": "MRO-002", "documentType": "Cyber Controls Attestation", "status": "Requested", "uploadedDate": null, "expiryDate": "2026-09-01", "aiSummary": "MFA and backup controls needed to support cyber quote." },
+  { "id": "DOC-009", "clientId": "FS-006", "documentType": "Safety Manual", "status": "Needs Revision", "uploadedDate": "2026-06-20", "expiryDate": "2026-08-15", "aiSummary": "Ramp safety chapter does not reflect latest corrective actions." },
+  { "id": "DOC-010", "clientId": "PRIVATE-002", "documentType": "Pilot Training Record", "status": "Requested", "uploadedDate": null, "expiryDate": "2026-09-01", "aiSummary": "Owner-pilot training warranty cannot be cleared without recurrent certificate." }
+]
