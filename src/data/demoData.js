@@ -34,7 +34,7 @@ export const roles = ['Executive', 'Broker Lead', 'Claims Ops', 'Compliance'];
 
 export const metrics = [
   {
-    label: 'Total Pipeline',
+    label: 'Fleet Pipeline',
     value: '$312M',
     delta: '+12.4% vs LY',
     status: 'live',
@@ -71,72 +71,150 @@ export const metrics = [
   },
 ];
 
-export const renewalSeries = [
-  { name: 'Fleet Other', color: '#1d9bf0', values: [10, 17, 22, 19, 30, 27, 41, 35, 52, 66, 61, 74, 80] },
-  { name: 'Excess', color: '#20d3a2', values: [8, 12, 16, 18, 20, 25, 31, 34, 39, 46, 52, 57, 64] },
-  { name: 'Hull', color: '#ff6b4a', values: [9, 14, 15, 21, 24, 31, 36, 40, 47, 52, 61, 66, 68] },
-  { name: 'Casualty', color: '#a26cf8', values: [5, 9, 11, 15, 18, 21, 25, 28, 34, 38, 42, 47, 51] },
+export const missionStatements = [
+  { label: 'Renewals requiring action today', value: '6', tone: 'amber' },
+  { label: 'Negotiations may reduce premium by $482K', value: '3', tone: 'green' },
+  { label: 'Claims require executive review', value: '2', tone: 'red' },
+  { label: 'Portfolio health across active fleets', value: '94%', tone: 'cyan' },
 ];
 
-export const submissionStatus = [
-  { label: 'New', value: 28, color: '#1d9bf0' },
-  { label: 'Quote Pending', value: 22, color: '#f7c948' },
-  { label: 'Info Requested', value: 14, color: '#ff6b4a' },
-  { label: 'Review', value: 8, color: '#a26cf8' },
+export const missionStatusSummary = [
+  '3 renewals need action',
+  '1 negotiation awaiting approval',
+  '2 compliance items overdue',
 ];
 
-export const negotiations = [
-  ['Skylark Airlines', 'Hull & Liability', "Lloyd's / AXA", 'In Negotiation', '+12%'],
-  ['Aviance Solutions', 'Aviation Liability', 'Chubb / AIG', 'In Negotiation', '+8%'],
-  ['Trisula Cargo', 'Hull & Liability', "Lloyd's / Allianz", 'In Negotiation', '+19%'],
-  ['Global Wings', 'War & AP', 'Beazley / Swiss Re', 'Quoted', '+6%'],
+export const intelligenceBriefing = {
+  summary:
+    'Market pressure is rising across hull and excess liability, but three carrier conversations can still protect margin before the renewal board closes today.',
+  priorities: [
+    'Approve Skylark deductible strategy before the Lloyd\'s syndicate window closes.',
+    'Move AeroNorth pilot roster validation ahead of certificate release.',
+    'Escalate HelioCargo reserve movement to executive claims review.',
+  ],
+  alerts: [
+    { label: 'War risk appetite narrowed across APAC corridors', tone: 'amber' },
+    { label: 'Two certificates expire inside 72 hours', tone: 'red' },
+  ],
+  actions: [
+    'Open negotiation approval packet',
+    'Request updated fleet utilization',
+    'Prepare executive claims note',
+  ],
+};
+
+export const renewalStages = [
+  { label: 'Data Collection', count: 12, progress: 92, tone: 'green' },
+  { label: 'Submission Prep', count: 8, progress: 74, tone: 'cyan' },
+  { label: 'Marketed', count: 15, progress: 68, tone: 'blue' },
+  { label: 'Quoted', count: 9, progress: 52, tone: 'amber' },
+  { label: 'Negotiating', count: 6, progress: 46, tone: 'amber' },
+  { label: 'Binding', count: 4, progress: 32, tone: 'green' },
+  { label: 'At Risk', count: 3, progress: 18, tone: 'red' },
 ];
 
-export const claimsBars = [22, 35, 44, 31, 28, 18, 26, 39, 51, 34, 27, 42, 58, 47, 61, 72, 45, 36];
+export const insurerStatusCards = [
+  {
+    market: "Lloyd's Syndicate 4412",
+    account: 'Skylark Airlines',
+    status: 'Deductible accepted',
+    premium: '-$218K',
+    appetite: 'Strong hull appetite',
+    tone: 'green',
+  },
+  {
+    market: 'AXA Aviation',
+    account: 'AeroNorth Group',
+    status: 'Awaiting executive approval',
+    premium: '-$164K',
+    appetite: 'Capacity held until 16:00',
+    tone: 'amber',
+  },
+  {
+    market: 'Swiss Re Corporate',
+    account: 'HelioCargo',
+    status: 'Reserve movement flagged',
+    premium: '+$91K',
+    appetite: 'Claims review required',
+    tone: 'red',
+  },
+];
 
-export const complianceControls = [
-  ['KYC / Due Diligence', '98%'],
-  ['Sanctions Screening', '96%'],
-  ['Policy Wording', '90%'],
-  ['Certificates', '88%'],
-  ['Training', '87%'],
+export const claimsReviewItems = [
+  {
+    claim: 'AOG engine incident',
+    account: 'HelioCargo',
+    severity: 'High',
+    reserve: '$4.8M',
+    review: 'Executive review',
+    tone: 'red',
+  },
+  {
+    claim: 'Ground handling liability',
+    account: 'Skylark Airlines',
+    severity: 'Medium',
+    reserve: '$870K',
+    review: 'Counsel response due',
+    tone: 'amber',
+  },
+  {
+    claim: 'Hangar storm damage',
+    account: 'AeroNorth Group',
+    severity: 'Low',
+    reserve: '$310K',
+    review: 'Monitor',
+    tone: 'green',
+  },
+];
+
+export const complianceMissions = [
+  { label: 'Certificate expiry', due: '48h', status: '2 overdue', progress: 38, tone: 'red' },
+  { label: 'Sanctions screening', due: 'Today', status: '1 pending', progress: 72, tone: 'amber' },
+  { label: 'Policy wording', due: '3d', status: '5 in review', progress: 84, tone: 'cyan' },
+  { label: 'KYC refresh', due: '7d', status: 'On track', progress: 96, tone: 'green' },
 ];
 
 export const activities = [
   {
-    name: 'New submission received',
-    detail: 'HNI Operations',
-    time: '10m ago',
-    avatar: 'AK',
-    tone: 'cyan',
-  },
-  {
-    name: 'Market update published',
-    detail: 'Hull & Liability',
-    time: '25m ago',
-    avatar: 'MR',
+    time: '13:41',
+    eventType: 'Carrier Update',
+    account: 'AeroNorth',
+    action: 'Carrier accepted revised deductible',
+    status: 'Success',
     tone: 'green',
   },
   {
-    name: 'Claim resolved',
-    detail: 'Fuselage surge',
-    time: '1h ago',
-    avatar: 'LS',
+    time: '13:18',
+    eventType: 'Fleet Data',
+    account: 'Skylark Airlines',
+    action: 'Pilot roster uploaded',
+    status: 'Complete',
+    tone: 'green',
+  },
+  {
+    time: '12:51',
+    eventType: 'Claims',
+    account: 'HelioCargo',
+    action: 'Claim reserve updated',
+    status: 'Attention',
     tone: 'red',
   },
   {
-    name: 'Policy bound',
-    detail: 'AirCrest',
-    time: '2h ago',
-    avatar: 'JT',
+    time: '12:34',
+    eventType: 'Compliance',
+    account: 'BlueOrbit',
+    action: 'Certificate wording cleared',
+    status: 'Ready',
+    tone: 'cyan',
+  },
+  {
+    time: '11:58',
+    eventType: 'Renewal',
+    account: 'Trisula Cargo',
+    action: 'Binding checklist moved to legal',
+    status: 'In Flight',
     tone: 'amber',
   },
-];
-
-export const insights = [
-  'Market hardening expected to create a 10.2% profitability gap for Hull & Liability and War coverage.',
-  '3 accounts have optimization opportunities above $500K.',
-  'Claims severity is trending down across regional cargo fleets.',
 ];
 
 export const timeline = [

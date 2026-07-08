@@ -4,7 +4,7 @@ import { Bell, Command, Menu, Search, Shield, Sparkles } from 'lucide-react';
 import { Drawer } from '../components/Drawer.jsx';
 import { Modal } from '../components/Modal.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
-import { navItems, roles } from '../data/demoData.js';
+import { missionStatusSummary, navItems, roles } from '../data/demoData.js';
 
 function Brand() {
   return (
@@ -69,6 +69,13 @@ function TopCommandBar({ activeRole, setActiveRole, onMenu, onNotify }) {
       </div>
 
       <div className="command-actions">
+        <div className="mission-status-pill" aria-label="Mission status stable">
+          <span>
+            <i />
+            Mission Status: <strong>Stable</strong>
+          </span>
+          <small>{missionStatusSummary.join(' | ')}</small>
+        </div>
         <span className="live-pill">
           <span />
           Live Data

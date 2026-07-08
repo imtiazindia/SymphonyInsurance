@@ -1,14 +1,13 @@
-import { UserAvatar } from './UserAvatar.jsx';
-
 export function ActivityFeedItem({ item }) {
   return (
-    <li className="activity-feed-item">
-      <UserAvatar initials={item.avatar} tone={item.tone} />
-      <div>
-        <strong>{item.name}</strong>
-        <span>{item.detail}</span>
-      </div>
+    <li className={`activity-feed-item activity-feed-item--${item.tone}`}>
       <time>{item.time}</time>
+      <div>
+        <span className="activity-feed-item__type">{item.eventType}</span>
+        <strong>{item.action}</strong>
+        <span>{item.account}</span>
+      </div>
+      <em>{item.status}</em>
     </li>
   );
 }
