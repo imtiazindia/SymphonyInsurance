@@ -103,10 +103,34 @@ export const complianceControls = [
 ];
 
 export const activities = [
-  { name: 'New submission received', detail: 'HNI Operations', time: '10m ago', avatar: 'AK', tone: 'cyan' },
-  { name: 'Market update published', detail: 'Hull & Liability', time: '25m ago', avatar: 'MR', tone: 'green' },
-  { name: 'Claim resolved', detail: 'Fuselage surge', time: '1h ago', avatar: 'LS', tone: 'red' },
-  { name: 'Policy bound', detail: 'AirCrest', time: '2h ago', avatar: 'JT', tone: 'amber' },
+  {
+    name: 'New submission received',
+    detail: 'HNI Operations',
+    time: '10m ago',
+    avatar: 'AK',
+    tone: 'cyan',
+  },
+  {
+    name: 'Market update published',
+    detail: 'Hull & Liability',
+    time: '25m ago',
+    avatar: 'MR',
+    tone: 'green',
+  },
+  {
+    name: 'Claim resolved',
+    detail: 'Fuselage surge',
+    time: '1h ago',
+    avatar: 'LS',
+    tone: 'red',
+  },
+  {
+    name: 'Policy bound',
+    detail: 'AirCrest',
+    time: '2h ago',
+    avatar: 'JT',
+    tone: 'amber',
+  },
 ];
 
 export const insights = [
