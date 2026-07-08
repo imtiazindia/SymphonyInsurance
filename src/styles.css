@@ -6,9 +6,9 @@
   --panel-strong: rgba(10, 29, 46, 0.96);
   --panel-line: rgba(132, 188, 255, 0.14);
   --panel-line-strong: rgba(132, 188, 255, 0.28);
-  --text: #edf7ff;
-  --text-soft: #a9bfd0;
-  --muted: #6f8497;
+  --text: #f6fbff;
+  --text-soft: #c7d8e7;
+  --muted: #94aabd;
   --cyan: #1dd4ff;
   --blue: #2a78ff;
   --green: #20d3a2;
@@ -309,7 +309,7 @@ svg {
 }
 
 .global-search input::placeholder {
-  color: #6f8497;
+  color: #93a9bc;
 }
 
 .global-search span {
