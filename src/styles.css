@@ -6,9 +6,9 @@
   --panel-strong: rgba(10, 29, 46, 0.96);
   --panel-line: rgba(132, 188, 255, 0.14);
   --panel-line-strong: rgba(132, 188, 255, 0.28);
-  --text: #f6fbff;
-  --text-soft: #c7d8e7;
-  --muted: #94aabd;
+  --text: #ffffff;
+  --text-soft: #dceaf5;
+  --muted: #b7cadd;
   --cyan: #1dd4ff;
   --blue: #2a78ff;
   --green: #20d3a2;
@@ -28,8 +28,8 @@
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 17px;
+  line-height: 1.55;
   font-weight: 400;
   background: var(--bg);
   color: var(--text);
@@ -309,7 +309,7 @@ svg {
 }
 
 .global-search input::placeholder {
-  color: #93a9bc;
+  color: #aec2d2;
 }
 
 .global-search span {
@@ -1902,6 +1902,133 @@ td:first-child {
   gap: 10px;
 }
 
+/* Readability pass for executive users: brighter labels and larger dense content. */
+.brand span,
+.nav-item span,
+.mission-status-pill span,
+.mission-status-pill small,
+.global-search span,
+.role-switcher__item,
+.live-pill,
+.eyebrow,
+.muted-label,
+.claims-summary span,
+.claims-summary small,
+.chart-months,
+.chart-legend,
+.donut-chart__legend,
+.control-list span,
+.card-context,
+.airspace-visual__label,
+.airspace-visual__readouts,
+.mission-statement span,
+.priority-list li,
+.risk-alert,
+.next-action,
+.workflow-stage span,
+.claims-review span,
+.claims-review em,
+.insurer-card span,
+.insurer-card small,
+.compliance-mission span,
+.timeline-item p,
+.timeline-item time,
+.empty-state p,
+.loading-state span,
+.data-dock span {
+  color: var(--text-soft);
+}
+
+.data-card__header h2 {
+  color: var(--text);
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
+.section-header p,
+.mission-hero__subtitle,
+.intelligence-card__briefing {
+  color: #e4f0f8;
+  font-size: 1.06rem;
+}
+
+.metric-card__delta,
+.claims-summary span,
+.claims-summary small,
+.muted-label,
+.workflow-stage span,
+.claims-review span,
+.insurer-card span,
+.insurer-card small,
+.compliance-mission span,
+.card-context {
+  font-size: 0.86rem;
+}
+
+.responsive-table {
+  scrollbar-color: rgba(183, 202, 221, 0.48) rgba(255, 255, 255, 0.06);
+}
+
+th,
+td {
+  padding: 13px 10px;
+  font-size: 0.9rem;
+}
+
+th {
+  color: #e5f1fa;
+  font-weight: 950;
+}
+
+td {
+  color: #dceaf5;
+}
+
+td:first-child {
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.activity-feed-item {
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+}
+
+.activity-feed-item strong,
+.claims-review strong,
+.insurer-card strong,
+.compliance-mission strong,
+.timeline-item strong {
+  color: #ffffff;
+  font-size: 0.94rem;
+  font-weight: 900;
+}
+
+.activity-feed-item span,
+.activity-feed-item time {
+  color: #cfe0ed;
+  font-size: 0.84rem;
+}
+
+.activity-feed-item__type {
+  color: #bfd2e1 !important;
+  font-size: 0.76rem !important;
+}
+
+.activity-feed-item em,
+.risk-badge,
+.status-badge {
+  font-size: 0.78rem;
+}
+
+.timeline-item p,
+.timeline-item time {
+  font-size: 0.84rem;
+}
+
+.workspace-page .section-header p {
+  max-width: 860px;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -2273,13 +2400,14 @@ td:first-child {
     gap: 10px;
     padding: 0;
     border: 0;
-    font-size: 0.8rem;
+    color: #dceaf5;
+    font-size: 0.9rem;
   }
 
   td::before {
     content: attr(data-label);
-    color: var(--muted);
-    font-weight: 800;
+    color: #e5f1fa;
+    font-weight: 950;
   }
 
   .activity-feed-item {
