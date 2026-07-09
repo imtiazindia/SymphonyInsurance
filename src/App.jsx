@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { Shell } from './layout/Shell.jsx';
-import { CommandCenter } from './pages/CommandCenter.jsx';
+import { ExecutiveOverview } from './pages/ExecutiveOverview.jsx';
 import { WorkspacePage } from './pages/WorkspacePage.jsx';
 import { navItems } from './data/demoData.js';
 
@@ -8,7 +8,7 @@ export default function App() {
   return (
     <Shell>
       <Routes>
-        <Route path="/" element={<CommandCenter />} />
+        <Route path="/" element={<ExecutiveOverview />} />
         {navItems
           .filter((item) => item.path !== '/')
           .map((item) => (

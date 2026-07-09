@@ -1,6 +1,6 @@
 import { Radar } from 'lucide-react';
 
-export function EmptyState({ title = 'No signals yet', text = 'Mission data will appear here once feeds are connected.' }) {
+export function EmptyState({ title = 'No signals yet', text = 'Business data will appear here once feeds are connected.' }) {
   return (
     <div className="empty-state">
       <span className="icon-orb icon-orb--blue">

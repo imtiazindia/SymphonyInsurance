@@ -68,9 +68,9 @@ function MarketConditions() {
   );
 }
 
-function TopCommandBar({ onMenu, onNotify }) {
+function TopBar({ onMenu, onNotify }) {
   return (
-    <header className="top-command-bar">
+    <header className="top-bar">
       <button className="icon-button menu-button" type="button" onClick={onMenu} aria-label="Open menu">
         <Menu size={21} />
       </button>
@@ -80,7 +80,7 @@ function TopCommandBar({ onMenu, onNotify }) {
         <input type="search" placeholder="Search clients, policies, submissions..." />
       </label>
 
-      <div className="command-actions">
+      <div className="top-actions">
         <button className="notification-button" type="button" onClick={onNotify} aria-label="Notifications">
           <Bell size={21} strokeWidth={1.75} />
           <span>3</span>
@@ -89,7 +89,7 @@ function TopCommandBar({ onMenu, onNotify }) {
           <UserAvatar initials="AM" tone="blue" />
           <div>
             <strong>Alexandra Morgan</strong>
-            <span>Executive</span>
+            <span>Owner</span>
           </div>
           <ChevronDown size={18} />
         </div>
@@ -110,7 +110,7 @@ function BottomNavigation() {
         return (
           <NavLink key={item.path} to={item.path} className={active ? 'bottom-nav__item bottom-nav__item--active' : 'bottom-nav__item'}>
             <Icon size={19} />
-            <span>{item.label}</span>
+            <span>{item.mobileLabel ?? item.label}</span>
           </NavLink>
         );
       })}
@@ -130,8 +130,8 @@ export function Shell({ children }) {
         <MarketConditions />
       </aside>
 
-      <div className="mission-stage">
-        <TopCommandBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} />
+      <div className="app-stage">
+        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} />
         <main className="main-content">{children}</main>
       </div>
 

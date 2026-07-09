@@ -30,12 +30,7 @@ import {
   getAverage,
   getClaimsExposure,
   getComplianceRiskLevel,
-  getDocumentGapCount,
-  getHighPriorityClients,
-  getOverdueTasks,
-  getRenewalsDueSoon,
   getSum,
-  getTeamWorkload,
 } from '../utils/businessCalculations.js';
 
 const currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -51,15 +46,8 @@ const clientById = new Map(clientsJson.map((client) => [client.id, client]));
 const totalPremium = getSum(clientsJson, 'annualPremium');
 const estimatedRevenue = getSum(clientsJson, 'estimatedRevenue');
 const revenueAtRisk = calculateRevenueAtRisk(renewalsJson, clientsJson);
-const renewalsDue30 = getRenewalsDueSoon(renewalsJson, 30);
-const highPriorityClients = getHighPriorityClients(clientsJson);
-const overdueTasks = getOverdueTasks(tasksJson);
 const claimsExposure = getClaimsExposure(claimsJson);
 const averageCompliance = getAverage(clientsJson, 'complianceScore');
-const averageClientHealth = getAverage(clientsJson, 'clientHealthScore');
-const documentCompletionRate = getAverage(clientsJson, 'documentCompleteness');
-const teamWorkload = getTeamWorkload(teamMembersJson, tasksJson);
-const savingsOpportunity = getSum(negotiationsJson, 'estimatedSavings');
 
 function compactCurrency(value) {
   return currencyFormatter.format(value).replace('.0', '');
@@ -67,53 +55,6 @@ function compactCurrency(value) {
 
 function clientName(clientId) {
   return clientById.get(clientId)?.name ?? 'Unassigned account';
-}
-
-function shortClientName(clientId) {
-  return clientName(clientId)
-    .replace(' Airlines', '')
-    .replace(' Transport', '')
-    .replace(' Services', '')
-    .replace(' Solutions', '');
-}
-
-function toneForStatus(status) {
-  const normalized = status.toLowerCase();
-  if (normalized.includes('risk') || normalized.includes('critical') || normalized.includes('overdue') || normalized.includes('attention')) {
-    return 'red';
-  }
-  if (normalized.includes('review') || normalized.includes('pending') || normalized.includes('open') || normalized.includes('negotiation')) {
-    return 'amber';
-  }
-  if (normalized.includes('ready') || normalized.includes('complete') || normalized.includes('approved') || normalized.includes('strong')) {
-    return 'green';
-  }
-  return 'cyan';
-}
-
-function toneForSeverity(severity) {
-  if (severity === 'High' || severity === 'Critical') return 'red';
-  if (severity === 'Medium' || severity === 'Elevated') return 'amber';
-  return 'green';
-}
-
-function dateLabel(date) {
-  const due = new Date(`${date}T00:00:00Z`);
-  const now = new Date('2026-07-09T00:00:00Z');
-  const days = Math.ceil((due - now) / 86400000);
-  if (days < 0) return `${Math.abs(days)}d overdue`;
-  if (days === 0) return 'Today';
-  if (days === 1) return 'Tomorrow';
-  return `${days}d`;
-}
-
-function timeLabel(timestamp) {
-  return new Intl.DateTimeFormat('en-US', {
-    hour: '2-digit',
-    hour12: false,
-    minute: '2-digit',
-    timeZone: 'UTC',
-  }).format(new Date(timestamp));
 }
 
 export const simulationData = {
@@ -132,7 +73,7 @@ export const simulationData = {
 };
 
 export const navItems = [
-  { label: 'Dashboard', path: '/', icon: Home, tone: 'blue' },
+  { label: 'Executive Overview', mobileLabel: 'Overview', path: '/', icon: Home, tone: 'blue' },
   { label: 'Clients', path: '/clients', icon: Building2, tone: 'blue' },
   { label: 'Renewals', path: '/renewals', icon: RefreshCw, tone: 'green' },
   { label: 'Placements', path: '/negotiations', icon: Plane, tone: 'teal' },
@@ -185,88 +126,11 @@ export const metrics = [
   },
 ];
 
-export const missionStatements = [
-  { label: 'Renewals due in 30 days', value: String(renewalsDue30.length), tone: 'amber' },
-  { label: `Negotiation savings opportunity ${compactCurrency(savingsOpportunity)}`, value: String(negotiationsJson.length), tone: 'green' },
-  { label: 'Claims requiring review', value: String(claimsExposure.requiringReview), tone: claimsExposure.requiringReview ? 'red' : 'green' },
-  { label: 'Average client health', value: `${averageClientHealth}%`, tone: 'cyan' },
-];
-
-export const missionStatusSummary = [
-  `${highPriorityClients.length} priority clients`,
-  `${overdueTasks.length} overdue tasks`,
-  `${documentCompletionRate}% document completion`,
-];
-
-export const intelligenceBriefing = {
-  summary:
-    'Portfolio performance is stable, with near-term attention needed on renewal readiness, documentation gaps and a small set of high-value placements.',
-  priorities: [
-    `Review ${compactCurrency(revenueAtRisk)} of revenue at risk across priority renewals.`,
-    `Resolve ${overdueTasks.length} overdue client tasks before the next renewal meeting.`,
-    `Improve document completeness for ${documentsJson.filter((document) => document.status === 'Missing').length} missing files.`,
-  ],
-  alerts: highPriorityClients.slice(0, 2).map((client) => ({
-    label: `${client.name}: ${client.retentionRisk} retention risk, ${client.openTasksCount} open tasks`,
-    tone: toneForSeverity(client.priorityLevel),
-  })),
-  actions: tasksJson
-    .filter((task) => task.status !== 'Completed')
-    .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-    .slice(0, 3)
-    .map((task) => task.title),
-};
-
 export const renewalStages = ['Data Collection', 'Submission Ready', 'Marketed', 'Negotiation', 'Binding', 'At Risk'].map((stage) => ({
   label: stage,
   count: renewalsJson.filter((renewal) => renewal.currentStage === stage).length,
   progress: stage === 'At Risk' ? 22 : stage === 'Binding' ? 92 : stage === 'Negotiation' ? 74 : stage === 'Marketed' ? 62 : stage === 'Submission Ready' ? 48 : 30,
   tone: stage === 'At Risk' ? 'red' : stage === 'Binding' ? 'green' : stage === 'Negotiation' ? 'amber' : 'cyan',
-}));
-
-export const insurerStatusCards = negotiationsJson.slice(0, 3).map((negotiation) => ({
-  market: negotiation.recommendedInsurer,
-  account: shortClientName(negotiation.clientId),
-  status: negotiation.currentStatus,
-  premium: compactCurrency(negotiation.estimatedSavings),
-  appetite: negotiation.pendingQuestions[0],
-  tone: negotiation.decisionRequired ? 'amber' : 'green',
-}));
-
-export const claimsReviewItems = claimsJson
-  .slice()
-  .sort((a, b) => b.reserveAmount - a.reserveAmount)
-  .slice(0, 3)
-  .map((claim) => ({
-    claim: claim.claimType,
-    account: shortClientName(claim.clientId),
-    severity: claim.severity,
-    reserve: compactCurrency(claim.reserveAmount),
-    review: claim.status,
-    tone: toneForSeverity(claim.severity),
-  }));
-
-export const complianceMissions = complianceJson.slice(0, 4).map((item) => ({
-  label: item.findingType,
-  due: dateLabel(item.dueDate),
-  status: item.status,
-  progress: item.status === 'Overdue' ? 28 : item.status === 'Open' ? 58 : 78,
-  tone: item.status === 'Overdue' ? 'red' : toneForSeverity(item.severity),
-}));
-
-export const activities = activitiesJson.slice(0, 5).map((activity) => ({
-  time: timeLabel(activity.timestamp),
-  eventType: activity.activityType,
-  account: shortClientName(activity.clientId),
-  action: activity.summary,
-  status: activity.importanceLevel,
-  tone: toneForStatus(activity.importanceLevel),
-}));
-
-export const timeline = activitiesJson.slice(5, 8).map((activity) => ({
-  label: activity.activityType,
-  detail: `${clientName(activity.clientId)} - ${activity.summary}`,
-  time: timeLabel(activity.timestamp),
 }));
 
 export const workspaceRows = clientsJson
