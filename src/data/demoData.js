@@ -2,18 +2,16 @@ import {
   BadgeCheck,
   BarChart3,
   Bell,
-  Bot,
   Building2,
-  ClipboardCheck,
   FileStack,
-  Gauge,
+  Home,
   Headphones,
   Landmark,
-  MessagesSquare,
+  RefreshCw,
   Plane,
-  RadioTower,
   Settings,
   ShieldCheck,
+  UsersRound,
 } from 'lucide-react';
 import activitiesJson from './activities.json';
 import businessMetricsJson from './businessMetrics.json';
@@ -134,16 +132,15 @@ export const simulationData = {
 };
 
 export const navItems = [
-  { label: 'Dashboard', path: '/', icon: RadioTower, tone: 'cyan' },
+  { label: 'Dashboard', path: '/', icon: Home, tone: 'blue' },
   { label: 'Clients', path: '/clients', icon: Building2, tone: 'blue' },
-  { label: 'Renewals', path: '/renewals', icon: Gauge, tone: 'green' },
-  { label: 'Submissions', path: '/submissions', icon: ClipboardCheck, tone: 'amber' },
-  { label: 'Placements', path: '/negotiations', icon: MessagesSquare, tone: 'teal' },
+  { label: 'Renewals', path: '/renewals', icon: RefreshCw, tone: 'green' },
+  { label: 'Placements', path: '/negotiations', icon: Plane, tone: 'teal' },
   { label: 'Claims', path: '/claims', icon: Headphones, tone: 'red' },
   { label: 'Compliance', path: '/compliance', icon: ShieldCheck, tone: 'green' },
   { label: 'Documents', path: '/documents', icon: FileStack, tone: 'violet' },
-  { label: 'Insights', path: '/ai-insights', icon: Bot, tone: 'cyan' },
   { label: 'Reports', path: '/reports', icon: BarChart3, tone: 'blue' },
+  { label: 'Team', path: '/team', icon: UsersRound, tone: 'cyan' },
   { label: 'Settings', path: '/settings', icon: Settings, tone: 'slate' },
 ];
 

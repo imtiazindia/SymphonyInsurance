@@ -1,20 +1,23 @@
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Bell, Building2, Menu, Search, Shield, Sparkles } from 'lucide-react';
+import { Bell, ChevronDown, Menu, Search, ShieldCheck } from 'lucide-react';
 import { Drawer } from '../components/Drawer.jsx';
 import { Modal } from '../components/Modal.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
-import { missionStatusSummary, navItems, roles } from '../data/demoData.js';
+import { navItems } from '../data/demoData.js';
 
 function Brand() {
   return (
-    <div className="brand">
-      <span className="brand__mark">
-        <Building2 size={21} />
+    <div className="brand" aria-label="Symphony Aerospace Services Insurance Brokers">
+      <span className="brand__mark" aria-hidden="true">
+        <i />
+        <i />
+        <i />
       </span>
-      <div>
-        <strong>Symphony</strong>
-        <span>Aerospace Services</span>
+      <div className="brand__copy">
+        <strong>SYMPHONY</strong>
+        <span>AEROSPACE SERVICES</span>
+        <em>INSURANCE BROKERS</em>
       </div>
     </div>
   );
@@ -33,7 +36,7 @@ function Navigation({ onNavigate }) {
             onClick={onNavigate}
             className={({ isActive }) => `nav-item ${isActive ? 'nav-item--active' : ''}`}
           >
-            <Icon size={17} />
+            <Icon size={20} strokeWidth={1.8} />
             <span>{item.label}</span>
           </NavLink>
         );
@@ -42,56 +45,61 @@ function Navigation({ onNavigate }) {
   );
 }
 
-function TopCommandBar({ activeRole, setActiveRole, onMenu, onNotify }) {
+function MarketConditions() {
+  return (
+    <aside className="market-card" aria-label="Market conditions">
+      <h2>Market Conditions</h2>
+      <div className="market-card__rule" />
+      <p>Aviation Market Index</p>
+      <div className="market-card__metric">
+        <strong>97</strong>
+        <span>-3 pts</span>
+        <small>vs last 30 days</small>
+      </div>
+      <svg className="market-card__chart" viewBox="0 0 190 70" role="img" aria-label="Stable upward market trend">
+        <path d="M3 56 C18 52 25 60 38 47 S60 42 75 32 S97 35 109 24 S130 29 142 17 S166 21 187 10" />
+      </svg>
+      <div className="market-card__status">
+        <span />
+        Stable
+      </div>
+      <time>As of Jul 9, 2026</time>
+    </aside>
+  );
+}
+
+function TopCommandBar({ onMenu, onNotify }) {
   return (
     <header className="top-command-bar">
       <button className="icon-button menu-button" type="button" onClick={onMenu} aria-label="Open menu">
-        <Menu size={20} />
+        <Menu size={21} />
       </button>
 
       <label className="global-search">
-        <Search size={18} />
-        <input type="search" placeholder="Search clients, policies, aircraft, markets..." />
-        <span>Ctrl K</span>
+        <Search size={19} strokeWidth={1.8} />
+        <input type="search" placeholder="Search clients, policies, submissions..." />
       </label>
 
-      <div className="role-switcher" aria-label="User role switcher">
-        {roles.map((role) => (
-          <button
-            key={role}
-            type="button"
-            className={role === activeRole ? 'role-switcher__item role-switcher__item--active' : 'role-switcher__item'}
-            onClick={() => setActiveRole(role)}
-          >
-            {role}
-          </button>
-        ))}
-      </div>
-
       <div className="command-actions">
-        <div className="mission-status-pill" aria-label="Portfolio status stable">
-          <span>
-            <i />
-            Portfolio Status: <strong>Stable</strong>
-          </span>
-          <small>{missionStatusSummary.join(' | ')}</small>
-        </div>
-        <span className="live-pill">
-          <span />
-          Live Data
-        </span>
-        <button className="icon-button" type="button" onClick={onNotify} aria-label="Notifications">
-          <Bell size={18} />
-          <i />
+        <button className="notification-button" type="button" onClick={onNotify} aria-label="Notifications">
+          <Bell size={21} strokeWidth={1.75} />
+          <span>3</span>
         </button>
-        <UserAvatar initials="IS" tone="amber" />
+        <div className="user-profile">
+          <UserAvatar initials="AM" tone="blue" />
+          <div>
+            <strong>Alexandra Morgan</strong>
+            <span>Executive</span>
+          </div>
+          <ChevronDown size={18} />
+        </div>
       </div>
     </header>
   );
 }
 
 function BottomNavigation() {
-  const primary = navItems.slice(0, 4);
+  const primary = navItems.slice(0, 5);
   const location = useLocation();
 
   return (
@@ -101,8 +109,8 @@ function BottomNavigation() {
         const active = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
         return (
           <NavLink key={item.path} to={item.path} className={active ? 'bottom-nav__item bottom-nav__item--active' : 'bottom-nav__item'}>
-            <Icon size={18} />
-            <span>{item.label.split(' ')[0]}</span>
+            <Icon size={19} />
+            <span>{item.label}</span>
           </NavLink>
         );
       })}
@@ -113,27 +121,17 @@ function BottomNavigation() {
 export function Shell({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeRole, setActiveRole] = useState(roles[0]);
 
   return (
     <div className="app-shell">
       <aside className="sidebar">
         <Brand />
         <Navigation />
-        <div className="sidebar__intel">
-          <Sparkles size={16} />
-          <span>AI placement confidence</span>
-          <strong>87%</strong>
-        </div>
+        <MarketConditions />
       </aside>
 
       <div className="mission-stage">
-        <TopCommandBar
-          activeRole={activeRole}
-          setActiveRole={setActiveRole}
-          onMenu={() => setMenuOpen(true)}
-          onNotify={() => setModalOpen(true)}
-        />
+        <TopCommandBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} />
         <main className="main-content">{children}</main>
       </div>
 
@@ -143,20 +141,20 @@ export function Shell({ children }) {
         <Navigation onNavigate={() => setMenuOpen(false)} />
       </Drawer>
 
-      <Modal open={modalOpen} title="Notification Center" onClose={() => setModalOpen(false)}>
+      <Modal open={modalOpen} title="Priority Notifications" onClose={() => setModalOpen(false)}>
         <div className="notification-stack">
           <article>
-            <Shield size={18} />
+            <ShieldCheck size={18} />
             <div>
-              <strong>Compliance packet ready</strong>
-              <p>Skylark Airlines sanctions screening and KYC documents are ready for review.</p>
+              <strong>Claims follow-up required</strong>
+              <p>Pacific Charters has an executive review item due May 18.</p>
             </div>
           </article>
           <article>
             <Bell size={18} />
             <div>
-              <strong>Market response received</strong>
-              <p>Two carriers updated lead terms for aviation liability placement.</p>
+              <strong>Renewal due in 7 days</strong>
+              <p>Coastal Air Transport requires underwriter feedback review.</p>
             </div>
           </article>
         </div>
