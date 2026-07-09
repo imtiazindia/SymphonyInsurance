@@ -4,6 +4,7 @@ import {
   Bell,
   BriefcaseBusiness,
   Building2,
+  ClipboardCheck,
   FileStack,
   Home,
   Headphones,
@@ -12,7 +13,6 @@ import {
   Plane,
   Settings,
   ShieldCheck,
-  UsersRound,
 } from 'lucide-react';
 import activitiesJson from './activities.json';
 import businessMetricsJson from './businessMetrics.json';
@@ -75,16 +75,16 @@ export const simulationData = {
 
 export const navItems = [
   { label: 'Executive Overview', mobileLabel: 'Overview', path: '/', icon: Home, tone: 'blue' },
-  { label: 'Account Manager', mobileLabel: 'Manager', path: '/account-manager', icon: BriefcaseBusiness, tone: 'cyan' },
+  { label: 'Account Manager Workspace', mobileLabel: 'Manager', path: '/account-manager', icon: BriefcaseBusiness, tone: 'cyan' },
   { label: 'Clients', path: '/clients', icon: Building2, tone: 'blue' },
   { label: 'Renewals', path: '/renewals', icon: RefreshCw, tone: 'green' },
-  { label: 'Placements', path: '/negotiations', icon: Plane, tone: 'teal' },
+  { label: 'Submissions', path: '/submissions', icon: ClipboardCheck, tone: 'amber' },
+  { label: 'Market Placement', mobileLabel: 'Placement', path: '/market-placement', icon: Plane, tone: 'teal' },
   { label: 'Claims', path: '/claims', icon: Headphones, tone: 'red' },
   { label: 'Compliance', path: '/compliance', icon: ShieldCheck, tone: 'green' },
   { label: 'Documents', path: '/documents', icon: FileStack, tone: 'violet' },
   { label: 'Reports', path: '/reports', icon: BarChart3, tone: 'blue' },
-  { label: 'Team', path: '/team', icon: UsersRound, tone: 'cyan' },
-  { label: 'Settings', path: '/settings', icon: Settings, tone: 'slate' },
+  { label: 'Administration', mobileLabel: 'Admin', path: '/administration', icon: Settings, tone: 'slate' },
 ];
 
 export const roles = ['Executive', 'Account Manager', 'Placement Lead', 'Claims', 'Compliance'];

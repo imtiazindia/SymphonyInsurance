@@ -13,8 +13,17 @@ import {
   UserPlus,
   UsersRound,
 } from 'lucide-react';
+import {
+  BusinessActivityTimeline,
+  BusinessKpiCard,
+  ClientHealthBadge,
+  DocumentStatusBadge,
+  PriorityItemCard,
+  RenewalStatusBadge,
+  RevenueImpactLabel,
+} from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
-import { getClientHealthCategory, getRenewalsDueSoon } from '../utils/businessCalculations.js';
+import { getRenewalsDueSoon } from '../utils/businessCalculations.js';
 
 const asOfDate = '2026-07-09';
 const today = new Date(`${asOfDate}T00:00:00Z`);
@@ -67,24 +76,9 @@ function priorityScore(priority) {
   return { Critical: 4, High: 3, Medium: 2, Low: 1 }[priority] ?? 1;
 }
 
-function toneForPriority(priority) {
-  if (priority === 'Critical' || priority === 'High') return 'high';
-  if (priority === 'Medium') return 'medium';
-  return 'low';
-}
-
 function SummaryCard({ icon: Icon, label, value, helper, tone = 'blue' }) {
   return (
-    <article className={`am-summary-card am-summary-card--${tone}`}>
-      <span>
-        <Icon size={21} />
-      </span>
-      <div>
-        <strong>{value}</strong>
-        <p>{label}</p>
-        <small>{helper}</small>
-      </div>
-    </article>
+    <BusinessKpiCard icon={Icon} label={label} value={value} helper={helper} tone={tone} className="am-summary-card" />
   );
 }
 
@@ -119,6 +113,8 @@ function buildPriorities({ assignedClientIds, selectedUserId, completedTaskIds, 
         priority: document.status === 'Missing' ? 'High' : 'Medium',
         sourceId: document.id,
         actionType: 'request-document',
+        detailHref: `/documents/${document.id}`,
+        detailLabel: 'Open document',
       });
     });
 
@@ -138,6 +134,8 @@ function buildPriorities({ assignedClientIds, selectedUserId, completedTaskIds, 
         priority: renewal.ownerAttentionRequired ? 'Critical' : 'High',
         sourceId: renewal.id,
         actionType: 'open-client',
+        detailHref: `/renewals/${renewal.id}`,
+        detailLabel: 'Open renewal',
       });
     });
 
@@ -158,6 +156,8 @@ function buildPriorities({ assignedClientIds, selectedUserId, completedTaskIds, 
         priority: task.status === 'Overdue' ? 'High' : task.priority,
         sourceId: task.id,
         actionType: 'complete-task',
+        detailHref: `/clients?clientId=${task.clientId}`,
+        detailLabel: 'Open client',
       });
     });
 
@@ -177,6 +177,8 @@ function buildPriorities({ assignedClientIds, selectedUserId, completedTaskIds, 
         priority: submission.completionPercent < 75 ? 'High' : 'Medium',
         sourceId: submission.id,
         actionType: 'add-note',
+        detailHref: `/submissions/${submission.id}`,
+        detailLabel: 'Open submission',
       });
     });
 
@@ -196,6 +198,8 @@ function buildPriorities({ assignedClientIds, selectedUserId, completedTaskIds, 
         priority: claim.executiveReviewRequired ? 'High' : 'Medium',
         sourceId: claim.id,
         actionType: 'assign-follow-up',
+        detailHref: `/claims/${claim.id}`,
+        detailLabel: 'Open claim',
       });
     });
 
@@ -215,6 +219,8 @@ function buildPriorities({ assignedClientIds, selectedUserId, completedTaskIds, 
         priority: item.status === 'Overdue' || item.severity === 'High' ? 'High' : 'Medium',
         sourceId: item.id,
         actionType: 'change-priority',
+        detailHref: `/compliance/${item.id}`,
+        detailLabel: 'Open compliance item',
       });
     });
 
@@ -234,6 +240,8 @@ function buildPriorities({ assignedClientIds, selectedUserId, completedTaskIds, 
         priority: negotiation.decisionRequired ? 'High' : 'Medium',
         sourceId: negotiation.id,
         actionType: 'request-document',
+        detailHref: `/market-placement/${negotiation.id}`,
+        detailLabel: 'Open placement',
       });
     });
 
@@ -268,37 +276,12 @@ function TodayPriorities({ priorities, onAction, notesByPriority }) {
       />
       <div className="am-priority-list">
         {priorities.map((priority) => (
-          <article className="am-priority-item" key={priority.id}>
-            <div className="am-priority-main">
-              <span className={`priority-chip priority-chip--${toneForPriority(priority.priority)}`}>{priority.priority}</span>
-              <div>
-                <h3>{priority.clientName}</h3>
-                <p>{priority.issue}</p>
-                {notesByPriority[priority.id] ? <small>{notesByPriority[priority.id]}</small> : null}
-              </div>
-            </div>
-            <dl>
-              <div>
-                <dt>Due Date</dt>
-                <dd>{formatDate(priority.dueDate)}</dd>
-              </div>
-              <div>
-                <dt>Business Impact</dt>
-                <dd>{priority.impact}</dd>
-              </div>
-              <div>
-                <dt>Related Workflow</dt>
-                <dd>{priority.workflow}</dd>
-              </div>
-            </dl>
-            <div className="am-priority-actions">
-              <button type="button" onClick={() => onAction(priority)}>
-                {priority.nextStep}
-                <ArrowRight size={15} />
-              </button>
-              <Link to={`/clients?clientId=${priority.clientId}`}>Open client workspace</Link>
-            </div>
-          </article>
+          <PriorityItemCard
+            key={priority.id}
+            item={{ ...priority, dueLabel: formatDate(priority.dueDate) }}
+            onAction={onAction}
+            note={notesByPriority[priority.id]}
+          />
         ))}
       </div>
     </section>
@@ -342,13 +325,13 @@ function MyClientPortfolio({ clients, filter, setFilter }) {
               <strong>{client.name}</strong>
               <small>{client.relationshipStatus}</small>
             </div>
-            <span>{client.clientHealthScore} / {getClientHealthCategory(client.clientHealthScore)}</span>
+            <ClientHealthBadge score={client.clientHealthScore} />
             <span>{formatDate(client.renewalDate)}</span>
             <span>{client.documentCompleteness}%</span>
             <span>{client.openTasksCount}</span>
             <span>{client.openClaimsCount}</span>
             <span>{client.complianceScore}%</span>
-            <span>{compactCurrency(client.estimatedRevenue)}</span>
+            <RevenueImpactLabel value={compactCurrency(client.estimatedRevenue)} label="Revenue" />
           </Link>
         ))}
       </div>
@@ -365,8 +348,9 @@ function RenewalReadiness({ renewals }) {
           <article className="am-renewal-item" key={renewal.id}>
             <div>
               <strong>{clientName(renewal.clientId)}</strong>
-              <span>{renewal.currentStage} / {renewal.daysToExpiry} days to expiry</span>
+              <span>{renewal.daysToExpiry} days to expiry</span>
             </div>
+            <RenewalStatusBadge status={renewal.currentStage} />
             <div className="am-readiness-meter">
               <i><b style={{ width: `${renewal.readinessScore}%` }} /></i>
               <em>{renewal.readinessScore}%</em>
@@ -391,7 +375,7 @@ function DocumentFollowUp({ documents, requestedDocumentIds, onRequest }) {
               <strong>{document.documentType}</strong>
               <span>{clientName(document.clientId)} / {document.requiredFor}</span>
             </div>
-            <span className={`am-status am-status--${document.status.toLowerCase().replaceAll(' ', '-')}`}>{document.status}</span>
+            <DocumentStatusBadge status={document.status} />
             <p>{document.businessImpact}</p>
             <button type="button" onClick={() => onRequest(document.id)}>
               {requestedDocumentIds.has(document.id) ? 'Requested' : 'Request upload'}
@@ -427,19 +411,11 @@ function RecentClientActivity({ activities }) {
   return (
     <section className="am-card">
       <SectionHeader title="Client Activity" />
-      <div className="am-activity-list">
-        {activities.map((activity) => (
-          <article key={activity.id}>
-            <span className={`event-dot event-dot--${activity.importanceLevel.toLowerCase()}`} />
-            <time>{timeFormatter.format(new Date(activity.timestamp))}</time>
-            <div>
-              <strong>{activity.activityType}</strong>
-              <p>{activity.summary}</p>
-            </div>
-            <em>{clientName(activity.clientId)}</em>
-          </article>
-        ))}
-      </div>
+      <BusinessActivityTimeline
+        activities={activities}
+        getClientName={clientName}
+        formatTime={(timestamp) => timeFormatter.format(new Date(timestamp))}
+      />
     </section>
   );
 }

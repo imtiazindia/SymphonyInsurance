@@ -1,16 +1,18 @@
 import {
   AlertTriangle,
-  ArrowRight,
   BriefcaseBusiness,
   CheckCircle2,
   CircleDollarSign,
-  ClipboardCheck,
   FileWarning,
-  LineChart,
-  ShieldAlert,
-  TrendingUp,
   UsersRound,
 } from 'lucide-react';
+import {
+  BusinessActivityTimeline,
+  BusinessKpiCard,
+  ClientHealthBadge,
+  PriorityItemCard,
+  WorkloadIndicator,
+} from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
 import {
   calculateRevenueAtRisk,
@@ -60,27 +62,6 @@ function userName(userId) {
   return userById.get(userId)?.name ?? 'Unassigned';
 }
 
-function priorityTone(priority) {
-  if (priority === 'Critical' || priority === 'High') return 'high';
-  if (priority === 'Medium') return 'medium';
-  return 'low';
-}
-
-function Metric({ label, value, helper, icon: Icon, tone = 'blue' }) {
-  return (
-    <article className={`owner-kpi owner-kpi--${tone}`}>
-      <span className="owner-kpi__icon">
-        <Icon size={22} />
-      </span>
-      <div>
-        <p>{label}</p>
-        <strong>{value}</strong>
-        <small>{helper}</small>
-      </div>
-    </article>
-  );
-}
-
 function SectionHeader({ title, text }) {
   return (
     <div className="overview-section-header">
@@ -126,33 +107,46 @@ function buildAttentionItems(metrics) {
   return [
     ownerRenewal && {
       id: 'renewal-risk',
+      clientId: ownerRenewal.clientId,
       clientName: clientName(ownerRenewal.clientId),
       issue: `${ownerRenewal.currentStage} renewal has ${ownerRenewal.missingItems.length} open item${ownerRenewal.missingItems.length === 1 ? '' : 's'}.`,
       impact: compactCurrency(ownerRenewal.revenueAtRisk),
       owner: userName(ownerRenewal.assignedUserId),
-      action: 'Schedule owner review and clear blockers before market follow-up.',
+      nextStep: 'Schedule owner review and clear blockers before market follow-up.',
       priority: 'Critical',
+      workflow: 'Renewals',
+      detailHref: `/renewals/${ownerRenewal.id}`,
+      detailLabel: 'Open renewal',
     },
     majorClaim && {
       id: 'claim-review',
+      clientId: majorClaim.clientId,
       clientName: clientName(majorClaim.clientId),
       issue: `${majorClaim.claimType} claim requires executive review.`,
       impact: `${compactCurrency(majorClaim.reserveAmount)} reserve`,
       owner: 'Elena Brooks',
-      action: majorClaim.nextAction,
+      nextStep: majorClaim.nextAction,
       priority: majorClaim.severity,
+      workflow: 'Claims',
+      detailHref: `/claims/${majorClaim.id}`,
+      detailLabel: 'Open claim',
     },
     decision && {
       id: 'placement-decision',
+      clientId: decision.clientId,
       clientName: clientName(decision.clientId),
       issue: `${decision.recommendedInsurer} terms require an owner decision.`,
       impact: `${compactCurrency(decision.estimatedSavings)} savings opportunity`,
       owner: userName(clientById.get(decision.clientId)?.assignedPlacementLeadId),
-      action: decision.pendingQuestions[0] ?? 'Review quote strategy and approve market direction.',
+      nextStep: decision.pendingQuestions[0] ?? 'Review quote strategy and approve market direction.',
       priority: 'High',
+      workflow: 'Market Placement',
+      detailHref: `/market-placement/${decision.id}`,
+      detailLabel: 'Open placement',
     },
     overloadedManager && overloadedClient && {
       id: 'manager-load',
+      clientId: overloadedClient.id,
       clientName: overloadedClient.name,
       issue: `${overloadedManager.name} is carrying ${overloadedManager.workloadScore}% workload across key accounts.`,
       impact: compactCurrency(
@@ -161,26 +155,37 @@ function buildAttentionItems(metrics) {
           .reduce((total, client) => total + client.estimatedRevenue, 0),
       ),
       owner: overloadedManager.name,
-      action: 'Reassign two lower-complexity accounts before renewal deadlines tighten.',
+      nextStep: 'Reassign two lower-complexity accounts before renewal deadlines tighten.',
       priority: 'High',
+      workflow: 'Team Workload',
+      detailHref: '/account-manager',
+      detailLabel: 'Open workspace',
     },
     retentionConcern && {
       id: 'retention-concern',
+      clientId: retentionConcern.id,
       clientName: retentionConcern.name,
       issue: `${retentionConcern.retentionRisk} retention risk with ${retentionConcern.openTasksCount} open tasks.`,
       impact: compactCurrency(retentionConcern.estimatedRevenue),
       owner: userName(retentionConcern.assignedAccountManagerId),
-      action: 'Hold relationship review and confirm client communication plan.',
+      nextStep: 'Hold relationship review and confirm client communication plan.',
       priority: retentionConcern.priorityLevel,
+      workflow: 'Client Health',
+      detailHref: `/clients?clientId=${retentionConcern.id}`,
+      detailLabel: 'Open client',
     },
     complianceIssue && {
       id: 'compliance-issue',
+      clientId: complianceIssue.clientId,
       clientName: clientName(complianceIssue.clientId),
       issue: `${complianceIssue.findingType} is ${complianceIssue.status.toLowerCase()} with ${complianceIssue.severity.toLowerCase()} severity.`,
       impact: complianceIssue.businessImpact,
       owner: userName(complianceIssue.assignedUserId),
-      action: complianceIssue.correctiveAction,
+      nextStep: complianceIssue.correctiveAction,
       priority: complianceIssue.severity,
+      workflow: 'Compliance',
+      detailHref: `/compliance/${complianceIssue.id}`,
+      detailLabel: 'Open compliance item',
     },
   ]
     .filter(Boolean)
@@ -190,39 +195,39 @@ function buildAttentionItems(metrics) {
 function TopSummary({ metrics }) {
   return (
     <section className="owner-summary-grid" aria-label="Executive business summary">
-      <Metric
+      <BusinessKpiCard
         label="Estimated Annual Revenue"
         value={compactCurrency(metrics.estimatedAnnualRevenue)}
         helper="Projected brokerage revenue"
         icon={CircleDollarSign}
       />
-      <Metric
+      <BusinessKpiCard
         label="Renewal Revenue Pipeline"
         value={compactCurrency(metrics.renewalRevenuePipeline)}
         helper="Premium tied to active renewals"
         icon={BriefcaseBusiness}
       />
-      <Metric
+      <BusinessKpiCard
         label="Revenue at Risk"
         value={compactCurrency(metrics.revenueAtRisk)}
         helper="Needs owner or team action"
         icon={AlertTriangle}
         tone="red"
       />
-      <Metric
+      <BusinessKpiCard
         label="Active Clients"
         value={metrics.activeClients}
         helper={`${metrics.averageClientHealth}% average client health`}
         icon={UsersRound}
       />
-      <Metric
+      <BusinessKpiCard
         label="Retention Rate"
         value={`${metrics.retentionRate}%`}
         helper="Trailing 12 months"
         icon={CheckCircle2}
         tone="green"
       />
-      <Metric
+      <BusinessKpiCard
         label="Open Executive Priorities"
         value={metrics.openExecutivePriorities}
         helper="Requires owner attention"
@@ -242,29 +247,7 @@ function AttentionRequired({ items }) {
       />
       <div className="attention-list">
         {items.map((item) => (
-          <article className="attention-item" key={item.id}>
-            <div className="attention-item__main">
-              <span className={`priority-chip priority-chip--${priorityTone(item.priority)}`}>{item.priority}</span>
-              <div>
-                <h3>{item.clientName}</h3>
-                <p>{item.issue}</p>
-              </div>
-            </div>
-            <dl>
-              <div>
-                <dt>Financial Impact</dt>
-                <dd>{item.impact}</dd>
-              </div>
-              <div>
-                <dt>Responsible Person</dt>
-                <dd>{item.owner}</dd>
-              </div>
-              <div>
-                <dt>Recommended Action</dt>
-                <dd>{item.action}</dd>
-              </div>
-            </dl>
-          </article>
+          <PriorityItemCard key={item.id} item={item} />
         ))}
       </div>
     </section>
@@ -383,7 +366,7 @@ function ClientHealthSnapshot() {
               <strong>{client.name}</strong>
               <span>{client.relationshipStatus} / {client.retentionRisk} retention risk</span>
             </div>
-            <em>{client.clientHealthScore}</em>
+            <ClientHealthBadge score={client.clientHealthScore} />
           </article>
         ))}
       </div>
@@ -402,7 +385,7 @@ function RenewalPlacementSnapshot({ metrics }) {
         <SnapshotMetric label="Renewals due in 30 days" value={getRenewalsDueSoon(simulationData.renewals, 30).length} />
         <SnapshotMetric label="Renewals at risk" value={metrics.renewalsAtRisk} tone="red" />
         <SnapshotMetric label="Submissions not ready" value={submissionsNotReady} tone="amber" />
-        <SnapshotMetric label="Negotiations awaiting decision" value={negotiationsAwaitingDecision} tone="blue" />
+        <SnapshotMetric label="Placement decisions pending" value={negotiationsAwaitingDecision} tone="blue" />
         <SnapshotMetric label="Estimated savings opportunity" value={compactCurrency(metrics.negotiationSavingsOpportunity)} tone="green" />
       </div>
     </section>
@@ -464,8 +447,7 @@ function TeamWorkload({ metrics }) {
               <strong>{member.name}</strong>
               <span>{member.role}</span>
             </div>
-            <i><b style={{ width: `${member.workloadScore}%` }} /></i>
-            <em>{member.workloadScore}%</em>
+            <WorkloadIndicator score={member.workloadScore} />
           </article>
         ))}
       </div>
@@ -482,19 +464,11 @@ function RecentBusinessActivity() {
   return (
     <section className="overview-card recent-business-card">
       <SectionHeader title="Recent Business Activity" />
-      <div className="business-event-list">
-        {events.map((event) => (
-          <article className="business-event" key={event.id}>
-            <span className={`event-dot event-dot--${event.importanceLevel.toLowerCase()}`} />
-            <time>{timeFormatter.format(new Date(event.timestamp))}</time>
-            <div>
-              <strong>{event.activityType}</strong>
-              <p>{event.summary}</p>
-            </div>
-            <em>{clientName(event.clientId)}</em>
-          </article>
-        ))}
-      </div>
+      <BusinessActivityTimeline
+        activities={events}
+        getClientName={clientName}
+        formatTime={(timestamp) => timeFormatter.format(new Date(timestamp))}
+      />
     </section>
   );
 }
