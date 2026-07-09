@@ -7,8 +7,8 @@
   --panel-line: rgba(132, 188, 255, 0.14);
   --panel-line-strong: rgba(132, 188, 255, 0.28);
   --text: #ffffff;
-  --text-soft: #dceaf5;
-  --muted: #b7cadd;
+  --text-soft: #f3f9ff;
+  --muted: #dce9f4;
   --cyan: #1dd4ff;
   --blue: #2a78ff;
   --green: #20d3a2;
@@ -309,7 +309,7 @@ svg {
 }
 
 .global-search input::placeholder {
-  color: #aec2d2;
+  color: #d6e5f1;
 }
 
 .global-search span {
@@ -1948,7 +1948,7 @@ td:first-child {
 .section-header p,
 .mission-hero__subtitle,
 .intelligence-card__briefing {
-  color: #e4f0f8;
+  color: #f8fbff;
   font-size: 1.06rem;
 }
 
@@ -1976,12 +1976,12 @@ td {
 }
 
 th {
-  color: #e5f1fa;
+  color: #ffffff;
   font-weight: 950;
 }
 
 td {
-  color: #dceaf5;
+  color: #f3f9ff;
 }
 
 td:first-child {
@@ -2005,12 +2005,12 @@ td:first-child {
 
 .activity-feed-item span,
 .activity-feed-item time {
-  color: #cfe0ed;
+  color: #edf6ff;
   font-size: 0.84rem;
 }
 
 .activity-feed-item__type {
-  color: #bfd2e1 !important;
+  color: #e5f0fa !important;
   font-size: 0.76rem !important;
 }
 
@@ -2400,13 +2400,13 @@ td:first-child {
     gap: 10px;
     padding: 0;
     border: 0;
-    color: #dceaf5;
+    color: #f3f9ff;
     font-size: 0.9rem;
   }
 
   td::before {
     content: attr(data-label);
-    color: #e5f1fa;
+    color: #ffffff;
     font-weight: 950;
   }
 
