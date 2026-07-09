@@ -3231,12 +3231,622 @@ svg {
   color: var(--muted);
 }
 
+.renewal-workspace,
+.renewal-detail-workspace {
+  display: grid;
+  gap: 18px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.renewal-hero,
+.renewal-detail-hero {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 255, 0.96)),
+    radial-gradient(circle at 92% 12%, rgba(33, 110, 230, 0.12), transparent 20rem);
+  box-shadow: var(--shadow-soft);
+}
+
+.renewal-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 22px;
+  margin-top: -68px;
+  padding: 26px;
+}
+
+.renewal-hero > div > span,
+.renewal-detail-hero__body span {
+  display: block;
+  color: var(--blue);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.renewal-hero h1,
+.renewal-detail-hero h1 {
+  margin: 5px 0 7px;
+  color: var(--text);
+  font-size: clamp(2rem, 3vw, 3.15rem);
+  line-height: 1;
+}
+
+.renewal-hero p,
+.renewal-detail-hero p {
+  max-width: 680px;
+  margin: 0;
+  color: #315174;
+  font-size: 1rem;
+}
+
+.renewal-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.renewal-card,
+.renewal-detail-card,
+.renewal-filter-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--shadow-soft);
+}
+
+.renewal-card,
+.renewal-detail-card {
+  padding: 22px;
+}
+
+.renewal-filter-card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.renewal-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.renewal-section-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.12rem;
+  font-weight: 850;
+}
+
+.renewal-section-header p {
+  max-width: 620px;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.renewal-saved-views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.renewal-chip {
+  min-height: 34px;
+  padding: 0 13px;
+  color: #315174;
+  border: 1px solid #cbd8e8;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.renewal-chip:hover {
+  border-color: #b6cbe4;
+  transform: translateY(-1px);
+}
+
+.renewal-chip--active {
+  color: #fff;
+  border-color: var(--blue);
+  background: var(--blue);
+}
+
+.renewal-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.renewal-filter-grid label {
+  display: grid;
+  gap: 6px;
+  color: #173254;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.renewal-filter-grid select,
+.renewal-search-input {
+  width: 100%;
+  height: 42px;
+  color: #173254;
+  border: 1px solid #ccd9e9;
+  border-radius: 9px;
+  background: #fff;
+  outline: none;
+}
+
+.renewal-filter-grid select {
+  padding: 0 11px;
+}
+
+.renewal-search-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 11px;
+  color: var(--muted);
+}
+
+.renewal-search-input input {
+  width: 100%;
+  min-width: 0;
+  color: #173254;
+  border: 0;
+  background: transparent;
+  outline: none;
+}
+
+.renewal-priority-list {
+  display: grid;
+  gap: 12px;
+}
+
+.renewal-workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(124px, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.renewal-stage-card {
+  position: relative;
+  min-height: 164px;
+  padding: 15px;
+  overflow: hidden;
+  border: 1px solid #d5e2f0;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #f9fcff, #eef6ff);
+}
+
+.renewal-stage-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 12px 12px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+}
+
+.renewal-stage-card h3 {
+  min-height: 38px;
+  margin: 0;
+  color: #173254;
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
+.renewal-stage-card > strong {
+  display: block;
+  margin: 10px 0 12px;
+  color: var(--text);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.renewal-stage-card dl {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.renewal-stage-card div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.renewal-stage-card dt,
+.renewal-stage-card dd {
+  margin: 0;
+  font-size: 0.74rem;
+}
+
+.renewal-stage-card dt {
+  color: var(--muted);
+  font-weight: 750;
+}
+
+.renewal-stage-card dd {
+  color: #173254;
+  font-weight: 850;
+}
+
+.renewal-detail-hero {
+  display: grid;
+  gap: 20px;
+  margin-top: -68px;
+  padding: 24px 26px 22px;
+}
+
+.renewal-detail-hero > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  color: var(--blue);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.renewal-detail-hero__body {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.renewal-detail-meta {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.renewal-detail-meta div {
+  display: grid;
+  gap: 4px;
+}
+
+.renewal-detail-meta span {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.renewal-detail-meta strong {
+  color: #173254;
+  font-size: 0.92rem;
+}
+
+.renewal-detail-two-column {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 18px;
+}
+
+.renewal-detail-two-column--wide-right {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.renewal-health-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.renewal-progress {
+  display: grid;
+  gap: 8px;
+}
+
+.renewal-progress > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #173254;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.renewal-progress i,
+.renewal-info-category > i {
+  display: block;
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e8eef7;
+}
+
+.renewal-progress b,
+.renewal-info-category b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+}
+
+.renewal-risk-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  margin-top: 18px;
+  padding: 10px 13px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.renewal-risk-summary--red {
+  color: #c7322b;
+  background: var(--red-soft);
+}
+
+.renewal-risk-summary--amber {
+  color: #9d6400;
+  background: var(--amber-soft);
+}
+
+.renewal-risk-summary--green {
+  color: #16654f;
+  background: var(--green-soft);
+}
+
+.renewal-info-category-list,
+.renewal-task-list,
+.renewal-recommendation-list {
+  display: grid;
+  gap: 11px;
+}
+
+.renewal-info-category,
+.renewal-task,
+.renewal-recommendation-list article {
+  border: 1px solid #dbe5f1;
+  border-radius: 10px;
+  background: #fbfdff;
+}
+
+.renewal-info-category {
+  padding: 13px;
+}
+
+.renewal-info-category button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  color: #173254;
+  border: 0;
+  background: transparent;
+  font-weight: 850;
+  text-align: left;
+}
+
+.renewal-info-category > i {
+  margin: 9px 0;
+}
+
+.renewal-info-category p {
+  margin: 0 0 10px;
+  color: #315174;
+  font-size: 0.88rem;
+}
+
+.renewal-info-category dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.renewal-info-category dt,
+.renewal-info-category dd {
+  margin: 0;
+}
+
+.renewal-info-category dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.renewal-info-category dd {
+  color: #173254;
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
+.renewal-task {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto minmax(150px, 0.45fr) minmax(100px, 0.3fr) minmax(100px, 0.3fr);
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+}
+
+.renewal-task--complete {
+  background: #f3fbf8;
+}
+
+.renewal-task strong,
+.renewal-task span {
+  display: block;
+}
+
+.renewal-task strong {
+  color: #173254;
+  font-size: 0.92rem;
+}
+
+.renewal-task span,
+.renewal-task p,
+.renewal-task small,
+.renewal-task em {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.renewal-task p,
+.renewal-task em {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.renewal-task em {
+  color: var(--green);
+  font-style: normal;
+  font-weight: 850;
+}
+
+.renewal-task small {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.renewal-task select {
+  width: 100%;
+  height: 36px;
+  color: #173254;
+  border: 1px solid #ccd9e9;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.renewal-task-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.renewal-task-actions button {
+  min-height: 34px;
+  padding: 0 11px;
+  color: var(--blue);
+  border: 1px solid #cbdaf0;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.8rem;
+  font-weight: 850;
+}
+
+.renewal-financial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.renewal-financial-grid .revenue-impact-label {
+  min-height: 76px;
+  padding: 14px;
+  border: 1px solid #dbe5f1;
+  border-radius: 10px;
+  background: #fbfdff;
+}
+
+.renewal-financial-grid .revenue-impact-label strong {
+  font-size: 1.08rem;
+}
+
+.renewal-recommendation-list article {
+  padding: 15px;
+}
+
+.renewal-recommendation-list strong,
+.renewal-recommendation-list span {
+  display: block;
+  color: var(--blue);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.renewal-recommendation-list p {
+  margin: 5px 0 12px;
+  color: #173254;
+  font-size: 0.94rem;
+  font-weight: 850;
+}
+
+.renewal-recommendation-list em {
+  display: block;
+  color: #315174;
+  font-size: 0.88rem;
+  font-style: normal;
+}
+
+.renewal-related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.renewal-related-grid a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 10px;
+  min-height: 78px;
+  padding: 14px;
+  border: 1px solid #dbe5f1;
+  border-radius: 10px;
+  background: #fbfdff;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease;
+}
+
+.renewal-related-grid a:hover {
+  border-color: #bcd0e7;
+  transform: translateY(-1px);
+}
+
+.renewal-related-grid strong {
+  color: #173254;
+  font-size: 1.35rem;
+}
+
+.renewal-related-grid span {
+  grid-column: 1 / 2;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.renewal-related-grid svg {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  color: var(--blue);
+}
+
 .bottom-nav {
   display: none;
 }
 
 @media (max-width: 1280px) {
-  .am-summary-grid {
+  .am-summary-grid,
+  .renewal-summary-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -3250,6 +3860,12 @@ svg {
   }
 
   .priority-item-card dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .renewal-filter-grid,
+  .renewal-detail-meta,
+  .renewal-health-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -3277,7 +3893,9 @@ svg {
 
   .overview-two-column,
   .overview-two-column--wide-left,
-  .client-workspace-layout {
+  .client-workspace-layout,
+  .renewal-detail-two-column,
+  .renewal-detail-two-column--wide-right {
     grid-template-columns: 1fr;
   }
 
@@ -3340,8 +3958,24 @@ svg {
   }
 
   .client-workspace-hero,
-  .module-placeholder-card {
+  .module-placeholder-card,
+  .renewal-hero,
+  .renewal-detail-hero {
     margin-top: 0;
+  }
+
+  .renewal-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .renewal-task {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .renewal-task > div,
+  .renewal-task > p,
+  .renewal-task-actions {
+    grid-column: 1 / -1;
   }
 
   .section-header {
@@ -3407,7 +4041,9 @@ svg {
     grid-template-columns: 1fr;
   }
 
-  .overview-hero {
+  .overview-hero,
+  .renewal-hero,
+  .renewal-detail-hero__body {
     align-items: stretch;
     flex-direction: column;
   }
@@ -3445,6 +4081,11 @@ svg {
     padding: 0;
   }
 
+  .renewal-hero,
+  .renewal-detail-hero {
+    padding: 20px;
+  }
+
   .am-hero label {
     min-width: 0;
   }
@@ -3462,14 +4103,16 @@ svg {
   }
 
   .overview-section-header,
-  .am-section-header {
+  .am-section-header,
+  .renewal-section-header {
     align-items: flex-start;
     flex-direction: column;
     gap: 6px;
   }
 
   .overview-section-header p,
-  .am-section-header p {
+  .am-section-header p,
+  .renewal-section-header p {
     text-align: left;
   }
 
@@ -3551,7 +4194,14 @@ svg {
   }
 
   .client-profile-grid,
-  .client-detail-grid {
+  .client-detail-grid,
+  .renewal-summary-grid,
+  .renewal-filter-grid,
+  .renewal-detail-meta,
+  .renewal-health-grid,
+  .renewal-financial-grid,
+  .renewal-related-grid,
+  .renewal-info-category dl {
     grid-template-columns: 1fr;
   }
 
@@ -3590,6 +4240,7 @@ svg {
 
   .owner-summary-grid,
   .am-summary-grid,
+  .renewal-summary-grid,
   .health-count-grid,
   .snapshot-metric-grid,
   .team-summary-row {
@@ -3599,7 +4250,10 @@ svg {
   .overview-card,
   .owner-kpi,
   .am-card,
-  .am-summary-card {
+  .am-summary-card,
+  .renewal-card,
+  .renewal-detail-card,
+  .renewal-filter-card {
     padding: 16px;
   }
 
@@ -3638,5 +4292,10 @@ svg {
 
   .bottom-nav span {
     display: none;
+  }
+
+  .renewal-chip {
+    width: 100%;
+    justify-content: center;
   }
 }
