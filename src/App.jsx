@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { AccountManagerWorkspace } from './pages/AccountManagerWorkspace.jsx';
 import { Shell } from './layout/Shell.jsx';
 import { ExecutiveOverview } from './pages/ExecutiveOverview.jsx';
 import { WorkspacePage } from './pages/WorkspacePage.jsx';
@@ -9,8 +10,9 @@ export default function App() {
     <Shell>
       <Routes>
         <Route path="/" element={<ExecutiveOverview />} />
+        <Route path="/account-manager" element={<AccountManagerWorkspace />} />
         {navItems
-          .filter((item) => item.path !== '/')
+          .filter((item) => !['/', '/account-manager'].includes(item.path))
           .map((item) => (
             <Route
               key={item.path}

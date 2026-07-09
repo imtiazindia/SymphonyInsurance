@@ -2,6 +2,7 @@ import {
   BadgeCheck,
   BarChart3,
   Bell,
+  BriefcaseBusiness,
   Building2,
   FileStack,
   Home,
@@ -74,6 +75,7 @@ export const simulationData = {
 
 export const navItems = [
   { label: 'Executive Overview', mobileLabel: 'Overview', path: '/', icon: Home, tone: 'blue' },
+  { label: 'Account Manager', mobileLabel: 'Manager', path: '/account-manager', icon: BriefcaseBusiness, tone: 'cyan' },
   { label: 'Clients', path: '/clients', icon: Building2, tone: 'blue' },
   { label: 'Renewals', path: '/renewals', icon: RefreshCw, tone: 'green' },
   { label: 'Placements', path: '/negotiations', icon: Plane, tone: 'teal' },
