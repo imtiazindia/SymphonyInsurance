@@ -1,10 +1,156 @@
 [
-  { "id": "COMP-001", "clientId": "COMM-001", "auditFinding": "Winter operations manual not aligned to latest deicing vendor contract", "correctiveAction": "Upload executed deicing SLA and procedure update", "dueDate": "2026-07-12", "severity": "Medium", "owner": "TM-006", "status": "Open" },
-  { "id": "COMP-002", "clientId": "COMM-003", "auditFinding": "Large loss narrative missing for reserve increase", "correctiveAction": "Claims advocate to attach executive loss note", "dueDate": "2026-07-09", "severity": "High", "owner": "TM-005", "status": "Overdue" },
-  { "id": "COMP-003", "clientId": "APT-003", "auditFinding": "Fuel farm inspection certificate expired", "correctiveAction": "Obtain July inspection certificate", "dueDate": "2026-07-10", "severity": "High", "owner": "TM-006", "status": "Open" },
-  { "id": "COMP-004", "clientId": "FS-006", "auditFinding": "Instructor medical certificate tracking incomplete", "correctiveAction": "Reconcile roster against FAA medical dates", "dueDate": "2026-07-11", "severity": "Medium", "owner": "TM-006", "status": "Open" },
-  { "id": "COMP-005", "clientId": "HELI-001", "auditFinding": "External load procedures require broker review", "correctiveAction": "Upload lift plan approval workflow", "dueDate": "2026-07-15", "severity": "High", "owner": "TM-009", "status": "Open" },
-  { "id": "COMP-006", "clientId": "FBO-002", "auditFinding": "Storm surge mitigation evidence not current", "correctiveAction": "Attach updated hurricane plan", "dueDate": "2026-07-18", "severity": "Medium", "owner": "TM-006", "status": "In Progress" },
-  { "id": "COMP-007", "clientId": "CH-001", "auditFinding": "Owner contract indemnity clause awaiting review", "correctiveAction": "Legal review of charter management agreement", "dueDate": "2026-07-19", "severity": "Medium", "owner": "TM-003", "status": "In Progress" },
-  { "id": "COMP-008", "clientId": "MRO-002", "auditFinding": "Cyber MFA attestation missing for maintenance tooling", "correctiveAction": "Upload IT control attestation", "dueDate": "2026-07-22", "severity": "Medium", "owner": "TM-010", "status": "Open" }
+  {
+    "id": "CMP-001",
+    "clientId": "CLI-002",
+    "findingType": "Operational compliance",
+    "severity": "Low",
+    "dueDate": "2026-07-07",
+    "status": "Overdue",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Upload evidence and mark control ready for review"
+  },
+  {
+    "id": "CMP-002",
+    "clientId": "CLI-003",
+    "findingType": "Document completeness",
+    "severity": "Medium",
+    "dueDate": "2026-07-08",
+    "status": "Overdue",
+    "assignedUserId": "USR-008",
+    "businessImpact": "Could delay renewal decision and increase revenue at risk",
+    "correctiveAction": "Collect missing renewal support documents"
+  },
+  {
+    "id": "CMP-003",
+    "clientId": "CLI-005",
+    "findingType": "Quality control evidence",
+    "severity": "Low",
+    "dueDate": "2026-07-09",
+    "status": "Open",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Upload evidence and mark control ready for review"
+  },
+  {
+    "id": "CMP-004",
+    "clientId": "CLI-006",
+    "findingType": "Document completeness",
+    "severity": "High",
+    "dueDate": "2026-07-10",
+    "status": "Open",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May weaken retention position during renewal",
+    "correctiveAction": "Collect missing renewal support documents"
+  },
+  {
+    "id": "CMP-005",
+    "clientId": "CLI-007",
+    "findingType": "Facility certificate",
+    "severity": "Medium",
+    "dueDate": "2026-07-11",
+    "status": "Open",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Upload evidence and mark control ready for review"
+  },
+  {
+    "id": "CMP-006",
+    "clientId": "CLI-008",
+    "findingType": "Document completeness",
+    "severity": "Medium",
+    "dueDate": "2026-07-12",
+    "status": "Open",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May weaken retention position during renewal",
+    "correctiveAction": "Collect missing renewal support documents"
+  },
+  {
+    "id": "CMP-007",
+    "clientId": "CLI-009",
+    "findingType": "Document completeness",
+    "severity": "High",
+    "dueDate": "2026-07-13",
+    "status": "Open",
+    "assignedUserId": "USR-008",
+    "businessImpact": "Could delay renewal decision and increase revenue at risk",
+    "correctiveAction": "Collect missing renewal support documents"
+  },
+  {
+    "id": "CMP-008",
+    "clientId": "CLI-012",
+    "findingType": "Operational compliance",
+    "severity": "Medium",
+    "dueDate": "2026-07-14",
+    "status": "Open",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Upload evidence and mark control ready for review"
+  },
+  {
+    "id": "CMP-009",
+    "clientId": "CLI-013",
+    "findingType": "Operational compliance",
+    "severity": "Low",
+    "dueDate": "2026-07-15",
+    "status": "In Progress",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Upload evidence and mark control ready for review"
+  },
+  {
+    "id": "CMP-010",
+    "clientId": "CLI-014",
+    "findingType": "Document completeness",
+    "severity": "Medium",
+    "dueDate": "2026-07-16",
+    "status": "In Progress",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Collect missing renewal support documents"
+  },
+  {
+    "id": "CMP-011",
+    "clientId": "CLI-015",
+    "findingType": "Operational compliance",
+    "severity": "Low",
+    "dueDate": "2026-07-17",
+    "status": "In Progress",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Upload evidence and mark control ready for review"
+  },
+  {
+    "id": "CMP-012",
+    "clientId": "CLI-016",
+    "findingType": "Document completeness",
+    "severity": "High",
+    "dueDate": "2026-07-18",
+    "status": "In Progress",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May weaken retention position during renewal",
+    "correctiveAction": "Collect missing renewal support documents"
+  },
+  {
+    "id": "CMP-013",
+    "clientId": "CLI-017",
+    "findingType": "Facility certificate",
+    "severity": "Medium",
+    "dueDate": "2026-07-19",
+    "status": "In Progress",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Upload evidence and mark control ready for review"
+  },
+  {
+    "id": "CMP-014",
+    "clientId": "CLI-020",
+    "findingType": "Quality control evidence",
+    "severity": "Medium",
+    "dueDate": "2026-07-20",
+    "status": "In Progress",
+    "assignedUserId": "USR-008",
+    "businessImpact": "May create underwriting follow-up if unresolved",
+    "correctiveAction": "Upload evidence and mark control ready for review"
+  }
 ]

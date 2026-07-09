@@ -1,12 +1,82 @@
 [
-  { "id": "ACT-001", "timestamp": "2026-07-08T13:41:00Z", "clientId": "COMM-001", "userId": "TM-002", "eventType": "Carrier Update", "action": "Carrier accepted revised deductible", "status": "Success" },
-  { "id": "ACT-002", "timestamp": "2026-07-08T13:18:00Z", "clientId": "COMM-002", "userId": "TM-001", "eventType": "Fleet Data", "action": "Pilot roster uploaded", "status": "Complete" },
-  { "id": "ACT-003", "timestamp": "2026-07-08T12:51:00Z", "clientId": "COMM-003", "userId": "TM-005", "eventType": "Claims", "action": "Claim reserve updated", "status": "Attention" },
-  { "id": "ACT-004", "timestamp": "2026-07-08T12:34:00Z", "clientId": "COMM-005", "userId": "TM-006", "eventType": "Compliance", "action": "Certificate wording cleared", "status": "Ready" },
-  { "id": "ACT-005", "timestamp": "2026-07-08T11:58:00Z", "clientId": "COMM-004", "userId": "TM-003", "eventType": "Renewal", "action": "Binding checklist moved to legal", "status": "In Flight" },
-  { "id": "ACT-006", "timestamp": "2026-07-08T11:22:00Z", "clientId": "HELI-001", "userId": "TM-009", "eventType": "Submission", "action": "External load procedure request sent", "status": "Attention" },
-  { "id": "ACT-007", "timestamp": "2026-07-08T10:47:00Z", "clientId": "APT-003", "userId": "TM-006", "eventType": "Compliance", "action": "Fuel farm certificate marked overdue", "status": "Attention" },
-  { "id": "ACT-008", "timestamp": "2026-07-08T09:55:00Z", "clientId": "CH-001", "userId": "TM-004", "eventType": "Negotiation", "action": "Counteroffer sent to Starr Aviation", "status": "Complete" },
-  { "id": "ACT-009", "timestamp": "2026-07-07T16:40:00Z", "clientId": "FS-006", "userId": "TM-007", "eventType": "Submission", "action": "Safety manual revision requested", "status": "Attention" },
-  { "id": "ACT-010", "timestamp": "2026-07-07T14:12:00Z", "clientId": "MRO-002", "userId": "TM-010", "eventType": "Cyber", "action": "MFA attestation requested", "status": "Pending" }
+  {
+    "id": "ACT-001",
+    "clientId": "CLI-003",
+    "userId": "USR-003",
+    "timestamp": "2026-07-09T14:25:00Z",
+    "activityType": "Placement Update",
+    "summary": "Underwriter feedback received on executive jet program",
+    "relatedModule": "Market Placement",
+    "importanceLevel": "High"
+  },
+  {
+    "id": "ACT-002",
+    "clientId": "CLI-001",
+    "userId": "USR-002",
+    "timestamp": "2026-07-09T13:50:00Z",
+    "activityType": "Renewal Update",
+    "summary": "Renewal submitted to market with complete exposure schedule",
+    "relatedModule": "Renewals",
+    "importanceLevel": "High"
+  },
+  {
+    "id": "ACT-003",
+    "clientId": "CLI-006",
+    "userId": "USR-006",
+    "timestamp": "2026-07-09T12:40:00Z",
+    "activityType": "Submission Request",
+    "summary": "Additional instructor records requested from client",
+    "relatedModule": "Submissions",
+    "importanceLevel": "Medium"
+  },
+  {
+    "id": "ACT-004",
+    "clientId": "CLI-009",
+    "userId": "USR-007",
+    "timestamp": "2026-07-09T11:15:00Z",
+    "activityType": "Claim Update",
+    "summary": "Reserve movement flagged for review",
+    "relatedModule": "Claims",
+    "importanceLevel": "High"
+  },
+  {
+    "id": "ACT-005",
+    "clientId": "CLI-008",
+    "userId": "USR-008",
+    "timestamp": "2026-07-09T10:30:00Z",
+    "activityType": "Compliance Update",
+    "summary": "Fuel farm inspection certificate remains outstanding",
+    "relatedModule": "Compliance",
+    "importanceLevel": "High"
+  },
+  {
+    "id": "ACT-006",
+    "clientId": "CLI-004",
+    "userId": "USR-003",
+    "timestamp": "2026-07-08T16:10:00Z",
+    "activityType": "Placement Update",
+    "summary": "Preferred quote received below target premium",
+    "relatedModule": "Market Placement",
+    "importanceLevel": "Medium"
+  },
+  {
+    "id": "ACT-007",
+    "clientId": "CLI-017",
+    "userId": "USR-010",
+    "timestamp": "2026-07-08T15:35:00Z",
+    "activityType": "Document Update",
+    "summary": "Statement of values approved for property placement",
+    "relatedModule": "Documents",
+    "importanceLevel": "Medium"
+  },
+  {
+    "id": "ACT-008",
+    "clientId": "CLI-022",
+    "userId": "USR-010",
+    "timestamp": "2026-07-08T13:05:00Z",
+    "activityType": "Client Update",
+    "summary": "Client health review completed with strong retention outlook",
+    "relatedModule": "Clients",
+    "importanceLevel": "Low"
+  }
 ]

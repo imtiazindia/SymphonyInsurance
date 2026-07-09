@@ -38,9 +38,9 @@ function MissionHero() {
           <StatusBadge status="Stable" tone="green" />
         </div>
         <p className="eyebrow">Aviation Insurance Operations</p>
-        <h1>MISSION CONTROL</h1>
+        <h1>Executive Dashboard</h1>
         <p className="mission-hero__subtitle">
-          Executive command surface for fleet renewals, market negotiations, claims escalation and compliance readiness.
+          Portfolio overview across clients, renewals, submissions, market placements, claims and compliance.
         </p>
 
         <div className="mission-statements">
@@ -125,7 +125,7 @@ function SymphonyIntelligence() {
 
 function RenewalWorkflow() {
   return (
-    <DataCard title="Renewal Mission Pipeline" className="span-4 workflow-card">
+    <DataCard title="Renewal Pipeline" className="span-4 workflow-card">
       <div className="workflow-stages">
         {renewalStages.map((stage) => (
           <article key={stage.label} className={`workflow-stage workflow-stage--${stage.tone}`}>
@@ -205,7 +205,7 @@ export function CommandCenter() {
     <div className="command-center page-transition">
       <MissionHero />
 
-      <section className="metric-grid metric-grid--mission" aria-label="Executive mission metrics">
+      <section className="metric-grid metric-grid--mission" aria-label="Executive portfolio metrics">
         {metrics.map((metric) => (
           <MetricCard key={metric.label} metric={metric} />
         ))}
@@ -239,7 +239,7 @@ export function CommandCenter() {
           </button>
         </DataCard>
 
-        <DataCard title="Mission Timeline" className="span-4">
+        <DataCard title="Upcoming Milestones" className="span-4">
           <div className="card-context">
             <Route size={16} />
             Operational sequence for the next executive review cycle
@@ -251,7 +251,7 @@ export function CommandCenter() {
           </ol>
         </DataCard>
 
-        <DataCard title="Command Actions" className="span-4 command-actions-card">
+        <DataCard title="Priority Actions" className="span-4 command-actions-card">
           <button className="primary-button" type="button">
             <PlaneTakeoff size={17} />
             Launch renewal review

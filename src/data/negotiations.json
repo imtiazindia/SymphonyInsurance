@@ -1,67 +1,179 @@
 [
   {
     "id": "NEG-001",
-    "clientId": "COMM-001",
+    "clientId": "CLI-001",
     "renewalId": "REN-001",
-    "insurerName": "Lloyd's Syndicate 4412",
-    "status": "Deductible Accepted",
-    "premiumQuoted": 18420000,
-    "deductible": 250000,
-    "limit": 750000000,
-    "subjectivities": ["Signed pilot warranty", "Updated winter ops procedures"],
-    "underwriterQuestions": ["Confirm deicing contractor indemnity wording"],
-    "recommendationFlag": "Recommended"
+    "insurersApproached": [
+      "Lloyd's of London",
+      "AIG Aviation",
+      "Allianz Aerospace",
+      "Chubb Aviation"
+    ],
+    "quotesReceived": 2,
+    "bestQuote": 41962200,
+    "targetPremium": 43260000,
+    "estimatedSavings": 1297800,
+    "currentStatus": "Negotiation",
+    "pendingQuestions": [
+      "Can the client provide a current loss narrative?"
+    ],
+    "recommendedInsurer": "Allianz Aerospace",
+    "decisionRequired": true
   },
   {
     "id": "NEG-002",
-    "clientId": "COMM-002",
+    "clientId": "CLI-002",
     "renewalId": "REN-002",
-    "insurerName": "AXA Aviation",
-    "status": "Awaiting Executive Approval",
-    "premiumQuoted": 22100000,
-    "deductible": 300000,
-    "limit": 1000000000,
-    "subjectivities": ["Airport list", "Updated utilization by tail"],
-    "underwriterQuestions": ["Will new western routes include high-density airports?"],
-    "recommendationFlag": "Review"
+    "insurersApproached": [
+      "AIG Aviation",
+      "Allianz Aerospace",
+      "Chubb Aviation",
+      "Zurich Aviation"
+    ],
+    "quotesReceived": 3,
+    "bestQuote": 19154784,
+    "targetPremium": 19747200,
+    "estimatedSavings": 592416,
+    "currentStatus": "Marketed",
+    "pendingQuestions": [
+      "Can the client provide a current loss narrative?",
+      "When will the final exposure schedule be uploaded?"
+    ],
+    "recommendedInsurer": "Chubb Aviation",
+    "decisionRequired": false
   },
   {
     "id": "NEG-003",
-    "clientId": "COMM-003",
+    "clientId": "CLI-003",
     "renewalId": "REN-003",
-    "insurerName": "Swiss Re Corporate",
-    "status": "Claims Review Required",
-    "premiumQuoted": 17390000,
-    "deductible": 600000,
-    "limit": 650000000,
-    "subjectivities": ["Reserve update", "Independent maintenance audit"],
-    "underwriterQuestions": ["Explain engine incident reserve increase and cargo mix controls"],
-    "recommendationFlag": "Do Not Bind Yet"
+    "insurersApproached": [
+      "Allianz Aerospace",
+      "Chubb Aviation",
+      "Zurich Aviation",
+      "Global Aerospace"
+    ],
+    "quotesReceived": 4,
+    "bestQuote": 35674704,
+    "targetPremium": 34302600,
+    "estimatedSavings": 0,
+    "currentStatus": "Submission Ready",
+    "pendingQuestions": [
+      "Can the client provide a current loss narrative?",
+      "When will the final exposure schedule be uploaded?",
+      "Has the corrective action plan been approved?"
+    ],
+    "recommendedInsurer": "Zurich Aviation",
+    "decisionRequired": true
   },
   {
     "id": "NEG-004",
-    "clientId": "CH-001",
-    "renewalId": "REN-005",
-    "insurerName": "Starr Aviation",
-    "status": "Counteroffer Sent",
-    "premiumQuoted": 3050000,
-    "deductible": 150000,
-    "limit": 300000000,
-    "subjectivities": ["Named pilot schedule", "Owner contract review"],
-    "underwriterQuestions": ["Confirm international trip frequency"],
-    "recommendationFlag": "Recommended"
+    "clientId": "CLI-004",
+    "renewalId": "REN-004",
+    "insurersApproached": [
+      "Lloyd's of London",
+      "AIG Aviation",
+      "Allianz Aerospace",
+      "Chubb Aviation"
+    ],
+    "quotesReceived": 2,
+    "bestQuote": 9738024,
+    "targetPremium": 10039200,
+    "estimatedSavings": 301176,
+    "currentStatus": "Negotiation",
+    "pendingQuestions": [
+      "Confirm final premium indication acceptance."
+    ],
+    "recommendedInsurer": "Global Aerospace",
+    "decisionRequired": false
   },
   {
     "id": "NEG-005",
-    "clientId": "HELI-001",
-    "renewalId": "REN-009",
-    "insurerName": "USAIG",
-    "status": "Capacity Restricted",
-    "premiumQuoted": 2860000,
-    "deductible": 175000,
-    "limit": 150000000,
-    "subjectivities": ["External load endorsement", "Fire contract review"],
-    "underwriterQuestions": ["Provide lift plan approval process"],
-    "recommendationFlag": "Escalate"
+    "clientId": "CLI-005",
+    "renewalId": "REN-005",
+    "insurersApproached": [
+      "AIG Aviation",
+      "Allianz Aerospace",
+      "Chubb Aviation",
+      "Zurich Aviation"
+    ],
+    "quotesReceived": 3,
+    "bestQuote": 7084104,
+    "targetPremium": 7303200,
+    "estimatedSavings": 219096,
+    "currentStatus": "Marketed",
+    "pendingQuestions": [
+      "Can the client provide a current loss narrative?"
+    ],
+    "recommendedInsurer": "Starr Aviation",
+    "decisionRequired": true
+  },
+  {
+    "id": "NEG-006",
+    "clientId": "CLI-006",
+    "renewalId": "REN-006",
+    "insurersApproached": [
+      "Allianz Aerospace",
+      "Chubb Aviation",
+      "Zurich Aviation",
+      "Global Aerospace"
+    ],
+    "quotesReceived": 4,
+    "bestQuote": 3481920,
+    "targetPremium": 3348000,
+    "estimatedSavings": 0,
+    "currentStatus": "Submission Ready",
+    "pendingQuestions": [
+      "Can the client provide a current loss narrative?",
+      "When will the final exposure schedule be uploaded?",
+      "Has the corrective action plan been approved?"
+    ],
+    "recommendedInsurer": "Old Republic Aerospace",
+    "decisionRequired": false
+  },
+  {
+    "id": "NEG-007",
+    "clientId": "CLI-007",
+    "renewalId": "REN-007",
+    "insurersApproached": [
+      "Lloyd's of London",
+      "AIG Aviation",
+      "Allianz Aerospace",
+      "Chubb Aviation"
+    ],
+    "quotesReceived": 2,
+    "bestQuote": 2422866,
+    "targetPremium": 2497800,
+    "estimatedSavings": 74934,
+    "currentStatus": "Negotiation",
+    "pendingQuestions": [
+      "Can the client provide a current loss narrative?",
+      "When will the final exposure schedule be uploaded?",
+      "Has the corrective action plan been approved?"
+    ],
+    "recommendedInsurer": "Lloyd's of London",
+    "decisionRequired": false
+  },
+  {
+    "id": "NEG-008",
+    "clientId": "CLI-008",
+    "renewalId": "REN-008",
+    "insurersApproached": [
+      "AIG Aviation",
+      "Allianz Aerospace",
+      "Chubb Aviation",
+      "Zurich Aviation"
+    ],
+    "quotesReceived": 3,
+    "bestQuote": 4656288,
+    "targetPremium": 4477200,
+    "estimatedSavings": 0,
+    "currentStatus": "Marketed",
+    "pendingQuestions": [
+      "Can the client provide a current loss narrative?",
+      "When will the final exposure schedule be uploaded?",
+      "Has the corrective action plan been approved?"
+    ],
+    "recommendedInsurer": "AIG Aviation",
+    "decisionRequired": false
   }
 ]

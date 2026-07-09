@@ -17,9 +17,9 @@ export function WorkspacePage({ title, tone = 'cyan' }) {
   return (
     <div className="workspace-page">
       <SectionHeader
-        eyebrow="Mission Workspace"
+        eyebrow="Business Workspace"
         title={title}
-        text="A polished placeholder workspace for Phase 2 static JSON data, keeping the executive command-center shell intact."
+        text="A polished placeholder workspace for the local JSON business model, ready for role-based brokerage workflows."
         action={
           <button className="primary-button" type="button">
             <Plus size={17} />
@@ -36,7 +36,7 @@ export function WorkspacePage({ title, tone = 'cyan' }) {
 
       <section className="workspace-grid">
         <DataCard
-          title={`${title} Control Board`}
+          title={`${title} Portfolio Board`}
           className="workspace-grid__main"
           action={
             <button className="ghost-button" type="button" aria-label="Open board">

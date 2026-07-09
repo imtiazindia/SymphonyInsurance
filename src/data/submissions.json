@@ -1,80 +1,201 @@
 [
   {
     "id": "SUB-001",
-    "clientId": "COMM-002",
-    "renewalId": "REN-002",
-    "status": "In Progress",
-    "completionPercentage": 72,
-    "missingDocuments": ["Updated pilot roster", "2026 utilization forecast"],
-    "aircraftScheduleStatus": "Pending lease endorsement",
-    "pilotRosterStatus": "Uploaded, awaiting validation",
-    "claimsHistoryStatus": "Complete",
-    "safetyManualStatus": "Current",
-    "aiUnderwritingConcerns": ["High aircraft utilization may trigger deductible scrutiny", "Two new routes need airport list confirmation"]
+    "clientId": "CLI-001",
+    "completionPercent": 86,
+    "status": "In Review",
+    "aircraftScheduleStatus": "Complete",
+    "pilotRosterStatus": "Needs Review",
+    "claimsHistoryStatus": "Needs Narrative",
+    "safetyControlsStatus": "Complete",
+    "maintenanceRecordsStatus": "Complete",
+    "documentGaps": [
+      "Current loss run"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative"
+    ],
+    "nextAction": "Attach updated claims narrative"
   },
   {
     "id": "SUB-002",
-    "clientId": "COMM-003",
-    "renewalId": "REN-003",
-    "status": "Attention Required",
-    "completionPercentage": 58,
-    "missingDocuments": ["Large loss narrative", "Maintenance vendor contracts", "Updated cargo commodities list"],
-    "aircraftScheduleStatus": "Needs valuation update",
-    "pilotRosterStatus": "Complete",
-    "claimsHistoryStatus": "Reserve movement unresolved",
-    "safetyManualStatus": "Current",
-    "aiUnderwritingConcerns": ["Aging freighter fleet and reserve movement will pressure hull deductible", "Night cargo frequency elevated versus peers"]
+    "clientId": "CLI-002",
+    "completionPercent": 86,
+    "status": "In Review",
+    "aircraftScheduleStatus": "Needs Review",
+    "pilotRosterStatus": "Needs Review",
+    "claimsHistoryStatus": "Complete",
+    "safetyControlsStatus": "Complete",
+    "maintenanceRecordsStatus": "Needs Review",
+    "documentGaps": [
+      "Updated exposure documents",
+      "Current loss run"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative"
+    ],
+    "nextAction": "Attach updated claims narrative"
   },
   {
     "id": "SUB-003",
-    "clientId": "CH-002",
-    "renewalId": null,
-    "status": "In Progress",
-    "completionPercentage": 64,
-    "missingDocuments": ["Owner approval letters", "Simulator training records"],
-    "aircraftScheduleStatus": "Owner approval pending",
-    "pilotRosterStatus": "Simulator record requested",
-    "claimsHistoryStatus": "Complete",
-    "safetyManualStatus": "Current",
-    "aiUnderwritingConcerns": ["Owner-managed aircraft may create contractual liability questions"]
+    "clientId": "CLI-003",
+    "completionPercent": 75,
+    "status": "In Review",
+    "aircraftScheduleStatus": "Needs Review",
+    "pilotRosterStatus": "Missing Information",
+    "claimsHistoryStatus": "Needs Narrative",
+    "safetyControlsStatus": "Complete",
+    "maintenanceRecordsStatus": "Needs Review",
+    "documentGaps": [
+      "Updated exposure documents",
+      "Current loss run",
+      "Compliance corrective action"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative",
+      "Document gaps may slow quote release",
+      "Compliance findings may create subjectivities"
+    ],
+    "nextAction": "Attach updated claims narrative"
   },
   {
     "id": "SUB-004",
-    "clientId": "FS-006",
-    "renewalId": "REN-011",
-    "status": "Attention Required",
-    "completionPercentage": 49,
-    "missingDocuments": ["Student nationality summary", "Instructor medical renewals", "Ramp safety corrective action"],
-    "aircraftScheduleStatus": "Needs engine hours",
-    "pilotRosterStatus": "Medical renewal pending",
-    "claimsHistoryStatus": "Complete with two open notices",
-    "safetyManualStatus": "Revision overdue",
-    "aiUnderwritingConcerns": ["International student volume and ramp congestion may restrict market appetite"]
+    "clientId": "CLI-004",
+    "completionPercent": 92,
+    "status": "Ready for Market",
+    "aircraftScheduleStatus": "Complete",
+    "pilotRosterStatus": "Needs Review",
+    "claimsHistoryStatus": "Complete",
+    "safetyControlsStatus": "Complete",
+    "maintenanceRecordsStatus": "Complete",
+    "documentGaps": [],
+    "underwriterConcerns": [
+      "Submission quality is aligned with market expectations"
+    ],
+    "nextAction": "Release submission to selected markets"
   },
   {
     "id": "SUB-005",
-    "clientId": "HELI-001",
-    "renewalId": "REN-009",
-    "status": "Underwriting Review",
-    "completionPercentage": 68,
-    "missingDocuments": ["External load procedures", "Fire season contracts"],
-    "aircraftScheduleStatus": "External load kit pending",
-    "pilotRosterStatus": "Complete",
-    "claimsHistoryStatus": "Open loss summary pending",
-    "safetyManualStatus": "Current",
-    "aiUnderwritingConcerns": ["Utility operations and wildfire contracts require elevated liability attachment review"]
+    "clientId": "CLI-005",
+    "completionPercent": 88,
+    "status": "Ready for Market",
+    "aircraftScheduleStatus": "Not Applicable",
+    "pilotRosterStatus": "Not Applicable",
+    "claimsHistoryStatus": "Complete",
+    "safetyControlsStatus": "Complete",
+    "maintenanceRecordsStatus": "Detailed Review",
+    "documentGaps": [
+      "Current loss run"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative"
+    ],
+    "nextAction": "Attach updated claims narrative"
   },
   {
     "id": "SUB-006",
-    "clientId": "APT-003",
-    "renewalId": "REN-008",
-    "status": "Attention Required",
-    "completionPercentage": 61,
-    "missingDocuments": ["Fuel farm inspection", "Storm surge mitigation plan"],
-    "aircraftScheduleStatus": "Not applicable",
-    "pilotRosterStatus": "Not applicable",
+    "clientId": "CLI-006",
+    "completionPercent": 68,
+    "status": "Data Request Pending",
+    "aircraftScheduleStatus": "Missing Information",
+    "pilotRosterStatus": "Missing Information",
+    "claimsHistoryStatus": "Needs Narrative",
+    "safetyControlsStatus": "Needs Review",
+    "maintenanceRecordsStatus": "Missing Information",
+    "documentGaps": [
+      "Updated exposure documents",
+      "Current loss run",
+      "Compliance corrective action"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative",
+      "Document gaps may slow quote release",
+      "Compliance findings may create subjectivities"
+    ],
+    "nextAction": "Request missing client documents"
+  },
+  {
+    "id": "SUB-007",
+    "clientId": "CLI-007",
+    "completionPercent": 84,
+    "status": "In Review",
+    "aircraftScheduleStatus": "Needs Review",
+    "pilotRosterStatus": "Not Applicable",
     "claimsHistoryStatus": "Complete",
-    "safetyManualStatus": "Emergency plan revision pending",
-    "aiUnderwritingConcerns": ["Coastal property and fuel farm exposure may require higher retention"]
+    "safetyControlsStatus": "Complete",
+    "maintenanceRecordsStatus": "Needs Review",
+    "documentGaps": [
+      "Updated exposure documents",
+      "Current loss run",
+      "Compliance corrective action"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative",
+      "Compliance findings may create subjectivities"
+    ],
+    "nextAction": "Attach updated claims narrative"
+  },
+  {
+    "id": "SUB-008",
+    "clientId": "CLI-008",
+    "completionPercent": 73,
+    "status": "In Review",
+    "aircraftScheduleStatus": "Not Applicable",
+    "pilotRosterStatus": "Not Applicable",
+    "claimsHistoryStatus": "Complete",
+    "safetyControlsStatus": "Needs Review",
+    "maintenanceRecordsStatus": "Missing Information",
+    "documentGaps": [
+      "Updated exposure documents",
+      "Current loss run",
+      "Compliance corrective action"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative",
+      "Document gaps may slow quote release",
+      "Compliance findings may create subjectivities"
+    ],
+    "nextAction": "Attach updated claims narrative"
+  },
+  {
+    "id": "SUB-009",
+    "clientId": "CLI-009",
+    "completionPercent": 70,
+    "status": "In Review",
+    "aircraftScheduleStatus": "Missing Information",
+    "pilotRosterStatus": "Missing Information",
+    "claimsHistoryStatus": "Needs Narrative",
+    "safetyControlsStatus": "Needs Review",
+    "maintenanceRecordsStatus": "Missing Information",
+    "documentGaps": [
+      "Updated exposure documents",
+      "Current loss run",
+      "Compliance corrective action"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative",
+      "Document gaps may slow quote release",
+      "Compliance findings may create subjectivities"
+    ],
+    "nextAction": "Attach updated claims narrative"
+  },
+  {
+    "id": "SUB-010",
+    "clientId": "CLI-010",
+    "completionPercent": 92,
+    "status": "Ready for Market",
+    "aircraftScheduleStatus": "Complete",
+    "pilotRosterStatus": "Needs Review",
+    "claimsHistoryStatus": "Complete",
+    "safetyControlsStatus": "Complete",
+    "maintenanceRecordsStatus": "Complete",
+    "documentGaps": [
+      "Current loss run",
+      "Operations manual supplement"
+    ],
+    "underwriterConcerns": [
+      "Open claims require concise loss narrative"
+    ],
+    "nextAction": "Attach updated claims narrative"
   }
 ]

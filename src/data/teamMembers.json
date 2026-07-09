@@ -1,82 +1,173 @@
 [
   {
-    "id": "TM-001",
-    "name": "Maya Srinivasan",
-    "role": "Senior Account Manager",
-    "email": "maya.srinivasan@symphony.example",
-    "region": "North America",
-    "specialty": "Commercial airline programs"
+    "id": "USR-001",
+    "name": "Alexandra Morgan",
+    "role": "Owner",
+    "workloadScore": 68,
+    "openTasks": 18,
+    "overdueTasks": 2,
+    "assignedClients": [
+      "CLI-001",
+      "CLI-002",
+      "CLI-003",
+      "CLI-004",
+      "CLI-005",
+      "CLI-006"
+    ],
+    "avatarInitials": "AM"
   },
   {
-    "id": "TM-002",
+    "id": "USR-002",
+    "name": "Maya Srinivasan",
+    "role": "Account Manager",
+    "workloadScore": 82,
+    "openTasks": 24,
+    "overdueTasks": 4,
+    "assignedClients": [
+      "CLI-001",
+      "CLI-002",
+      "CLI-003",
+      "CLI-009",
+      "CLI-010",
+      "CLI-011",
+      "CLI-012"
+    ],
+    "avatarInitials": "MS"
+  },
+  {
+    "id": "USR-003",
     "name": "Julian Mercer",
     "role": "Placement Lead",
-    "email": "julian.mercer@symphony.example",
-    "region": "London Market",
-    "specialty": "Hull and liability"
+    "workloadScore": 76,
+    "openTasks": 19,
+    "overdueTasks": 3,
+    "assignedClients": [
+      "CLI-001",
+      "CLI-002",
+      "CLI-003",
+      "CLI-004",
+      "CLI-007",
+      "CLI-008"
+    ],
+    "avatarInitials": "JM"
   },
   {
-    "id": "TM-003",
+    "id": "USR-004",
     "name": "Arielle Chen",
     "role": "Account Manager",
-    "email": "arielle.chen@symphony.example",
-    "region": "West Coast",
-    "specialty": "Charter and corporate aviation"
+    "workloadScore": 71,
+    "openTasks": 21,
+    "overdueTasks": 2,
+    "assignedClients": [
+      "CLI-004",
+      "CLI-005",
+      "CLI-006",
+      "CLI-013",
+      "CLI-014",
+      "CLI-015"
+    ],
+    "avatarInitials": "AC"
   },
   {
-    "id": "TM-004",
+    "id": "USR-005",
     "name": "Owen Patel",
     "role": "Placement Lead",
-    "email": "owen.patel@symphony.example",
-    "region": "North America",
-    "specialty": "Excess liability and war risk"
+    "workloadScore": 79,
+    "openTasks": 22,
+    "overdueTasks": 4,
+    "assignedClients": [
+      "CLI-009",
+      "CLI-010",
+      "CLI-011",
+      "CLI-016",
+      "CLI-017",
+      "CLI-018"
+    ],
+    "avatarInitials": "OP"
   },
   {
-    "id": "TM-005",
-    "name": "Elena Brooks",
-    "role": "Claims Advocate",
-    "email": "elena.brooks@symphony.example",
-    "region": "Central",
-    "specialty": "Major loss and bodily injury"
-  },
-  {
-    "id": "TM-006",
-    "name": "Nikhil Rao",
-    "role": "Compliance Lead",
-    "email": "nikhil.rao@symphony.example",
-    "region": "Global",
-    "specialty": "KYC, sanctions and certificates"
-  },
-  {
-    "id": "TM-007",
+    "id": "USR-006",
     "name": "Sofia Almeida",
-    "role": "Account Manager",
-    "email": "sofia.almeida@symphony.example",
-    "region": "Southeast",
-    "specialty": "Flight schools and FBOs"
+    "role": "Submission Specialist",
+    "workloadScore": 73,
+    "openTasks": 20,
+    "overdueTasks": 3,
+    "assignedClients": [
+      "CLI-001",
+      "CLI-002",
+      "CLI-006",
+      "CLI-019",
+      "CLI-020",
+      "CLI-021"
+    ],
+    "avatarInitials": "SA"
   },
   {
-    "id": "TM-008",
-    "name": "Graham Holt",
-    "role": "Placement Lead",
-    "email": "graham.holt@symphony.example",
-    "region": "London Market",
-    "specialty": "Airport liability and property"
+    "id": "USR-007",
+    "name": "Elena Brooks",
+    "role": "Claims Coordinator",
+    "workloadScore": 64,
+    "openTasks": 15,
+    "overdueTasks": 1,
+    "assignedClients": [
+      "CLI-003",
+      "CLI-010",
+      "CLI-017",
+      "CLI-023",
+      "CLI-026"
+    ],
+    "avatarInitials": "EB"
   },
   {
-    "id": "TM-009",
+    "id": "USR-008",
+    "name": "Nikhil Rao",
+    "role": "Compliance Coordinator",
+    "workloadScore": 69,
+    "openTasks": 17,
+    "overdueTasks": 3,
+    "assignedClients": [
+      "CLI-003",
+      "CLI-006",
+      "CLI-022",
+      "CLI-027",
+      "CLI-028"
+    ],
+    "avatarInitials": "NR"
+  },
+  {
+    "id": "USR-009",
     "name": "Priya Menon",
-    "role": "Account Manager",
-    "email": "priya.menon@symphony.example",
-    "region": "Mountain West",
-    "specialty": "Helicopter and utility operations"
+    "role": "Document Specialist",
+    "workloadScore": 61,
+    "openTasks": 14,
+    "overdueTasks": 2,
+    "assignedClients": [
+      "CLI-002",
+      "CLI-006",
+      "CLI-014",
+      "CLI-019",
+      "CLI-029"
+    ],
+    "avatarInitials": "PM"
   },
   {
-    "id": "TM-010",
-    "name": "Marcus Reed",
-    "role": "Placement Lead",
-    "email": "marcus.reed@symphony.example",
-    "region": "Specialty Markets",
-    "specialty": "Cyber, MRO and hangarkeepers"
+    "id": "USR-010",
+    "name": "Graham Holt",
+    "role": "Account Manager",
+    "workloadScore": 58,
+    "openTasks": 13,
+    "overdueTasks": 1,
+    "assignedClients": [
+      "CLI-022",
+      "CLI-023",
+      "CLI-024",
+      "CLI-025",
+      "CLI-026",
+      "CLI-027",
+      "CLI-028",
+      "CLI-029",
+      "CLI-030"
+    ],
+    "avatarInitials": "GH"
   }
 ]

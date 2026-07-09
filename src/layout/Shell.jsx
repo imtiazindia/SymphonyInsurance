@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Bell, Command, Menu, Search, Shield, Sparkles } from 'lucide-react';
+import { Bell, Building2, Menu, Search, Shield, Sparkles } from 'lucide-react';
 import { Drawer } from '../components/Drawer.jsx';
 import { Modal } from '../components/Modal.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
@@ -10,11 +10,11 @@ function Brand() {
   return (
     <div className="brand">
       <span className="brand__mark">
-        <Command size={21} />
+        <Building2 size={21} />
       </span>
       <div>
         <strong>Symphony</strong>
-        <span>Mission Control</span>
+        <span>Aerospace Services</span>
       </div>
     </div>
   );
@@ -69,10 +69,10 @@ function TopCommandBar({ activeRole, setActiveRole, onMenu, onNotify }) {
       </div>
 
       <div className="command-actions">
-        <div className="mission-status-pill" aria-label="Mission status stable">
+        <div className="mission-status-pill" aria-label="Portfolio status stable">
           <span>
             <i />
-            Mission Status: <strong>Stable</strong>
+            Portfolio Status: <strong>Stable</strong>
           </span>
           <small>{missionStatusSummary.join(' | ')}</small>
         </div>
@@ -139,7 +139,7 @@ export function Shell({ children }) {
 
       <BottomNavigation />
 
-      <Drawer open={menuOpen} title="Mission Navigation" onClose={() => setMenuOpen(false)}>
+      <Drawer open={menuOpen} title="Navigation" onClose={() => setMenuOpen(false)}>
         <Navigation onNavigate={() => setMenuOpen(false)} />
       </Drawer>
 

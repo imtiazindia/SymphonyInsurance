@@ -16,19 +16,29 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import activitiesJson from './activities.json';
-import aircraftJson from './aircraft.json';
-import aiInsightsJson from './aiInsights.json';
+import businessMetricsJson from './businessMetrics.json';
 import claimsJson from './claims.json';
 import clientsJson from './clients.json';
 import complianceJson from './compliance.json';
 import documentsJson from './documents.json';
-import marketConditionsJson from './marketConditions.json';
 import negotiationsJson from './negotiations.json';
-import pilotsJson from './pilots.json';
 import policiesJson from './policies.json';
 import renewalsJson from './renewals.json';
 import submissionsJson from './submissions.json';
+import tasksJson from './tasks.json';
 import teamMembersJson from './teamMembers.json';
+import {
+  calculateRevenueAtRisk,
+  getAverage,
+  getClaimsExposure,
+  getComplianceRiskLevel,
+  getDocumentGapCount,
+  getHighPriorityClients,
+  getOverdueTasks,
+  getRenewalsDueSoon,
+  getSum,
+  getTeamWorkload,
+} from '../utils/businessCalculations.js';
 
 const currencyFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 1,
@@ -38,27 +48,20 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
 });
 
 const numberFormatter = new Intl.NumberFormat('en-US');
-
 const clientById = new Map(clientsJson.map((client) => [client.id, client]));
 
-const totalPremium = clientsJson.reduce((sum, client) => sum + client.totalPremium, 0);
-const openClaims = claimsJson.filter((claim) => claim.status !== 'Closed').length;
-const incurredClaims = claimsJson.reduce((sum, claim) => sum + claim.incurredAmount, 0);
-const overdueCompliance = complianceJson.filter((item) => item.status === 'Overdue').length;
-const openCompliance = complianceJson.filter((item) => item.status !== 'Closed').length;
-const averageCompliance = Math.round(
-  clientsJson.reduce((sum, client) => sum + client.complianceScore, 0) / clientsJson.length,
-);
-const renewalActions = renewalsJson.filter((renewal) => renewal.actionRequiredToday).length;
-const awaitingApproval = negotiationsJson.filter((item) => item.status.toLowerCase().includes('approval')).length;
-const executiveClaims = claimsJson.filter((claim) => claim.status.toLowerCase().includes('executive')).length;
-const recommendedNegotiations = negotiationsJson.filter((item) => item.recommendationFlag === 'Recommended').length;
-const premiumOpportunity = negotiationsJson
-  .filter((item) => item.recommendationFlag === 'Recommended')
-  .reduce((sum, item) => {
-    const renewal = renewalsJson.find((candidate) => candidate.id === item.renewalId);
-    return sum + Math.max(0, (renewal?.targetPremium ?? item.premiumQuoted) - item.premiumQuoted);
-  }, 0);
+const totalPremium = getSum(clientsJson, 'annualPremium');
+const estimatedRevenue = getSum(clientsJson, 'estimatedRevenue');
+const revenueAtRisk = calculateRevenueAtRisk(renewalsJson, clientsJson);
+const renewalsDue30 = getRenewalsDueSoon(renewalsJson, 30);
+const highPriorityClients = getHighPriorityClients(clientsJson);
+const overdueTasks = getOverdueTasks(tasksJson);
+const claimsExposure = getClaimsExposure(claimsJson);
+const averageCompliance = getAverage(clientsJson, 'complianceScore');
+const averageClientHealth = getAverage(clientsJson, 'clientHealthScore');
+const documentCompletionRate = getAverage(clientsJson, 'documentCompleteness');
+const teamWorkload = getTeamWorkload(teamMembersJson, tasksJson);
+const savingsOpportunity = getSum(negotiationsJson, 'estimatedSavings');
 
 function compactCurrency(value) {
   return currencyFormatter.format(value).replace('.0', '');
@@ -70,47 +73,35 @@ function clientName(clientId) {
 
 function shortClientName(clientId) {
   return clientName(clientId)
-    .replace(' Airways', '')
     .replace(' Airlines', '')
-    .replace(' Express', '')
-    .replace(' Group', '');
+    .replace(' Transport', '')
+    .replace(' Services', '')
+    .replace(' Solutions', '');
 }
 
 function toneForStatus(status) {
   const normalized = status.toLowerCase();
-  if (normalized.includes('attention') || normalized.includes('overdue') || normalized.includes('risk') || normalized.includes('executive')) {
+  if (normalized.includes('risk') || normalized.includes('critical') || normalized.includes('overdue') || normalized.includes('attention')) {
     return 'red';
   }
-  if (normalized.includes('awaiting') || normalized.includes('pending') || normalized.includes('review') || normalized.includes('flight')) {
+  if (normalized.includes('review') || normalized.includes('pending') || normalized.includes('open') || normalized.includes('negotiation')) {
     return 'amber';
   }
-  if (normalized.includes('success') || normalized.includes('complete') || normalized.includes('ready') || normalized.includes('recommended')) {
+  if (normalized.includes('ready') || normalized.includes('complete') || normalized.includes('approved') || normalized.includes('strong')) {
     return 'green';
   }
   return 'cyan';
 }
 
 function toneForSeverity(severity) {
-  if (severity === 'High') return 'red';
-  if (severity === 'Medium') return 'amber';
+  if (severity === 'High' || severity === 'Critical') return 'red';
+  if (severity === 'Medium' || severity === 'Elevated') return 'amber';
   return 'green';
-}
-
-function renewalProgress(stage) {
-  return {
-    'Data Collection': 24,
-    'Submission Prep': 42,
-    Marketed: 58,
-    Quoted: 70,
-    Negotiating: 78,
-    Binding: 92,
-    'At Risk': 18,
-  }[stage] ?? 35;
 }
 
 function dateLabel(date) {
   const due = new Date(`${date}T00:00:00Z`);
-  const now = new Date('2026-07-08T00:00:00Z');
+  const now = new Date('2026-07-09T00:00:00Z');
   const days = Math.ceil((due - now) / 86400000);
   if (days < 0) return `${Math.abs(days)}d overdue`;
   if (days === 0) return 'Today';
@@ -129,144 +120,137 @@ function timeLabel(timestamp) {
 
 export const simulationData = {
   activities: activitiesJson,
-  aircraft: aircraftJson,
-  aiInsights: aiInsightsJson,
+  businessMetrics: businessMetricsJson,
   claims: claimsJson,
   clients: clientsJson,
   compliance: complianceJson,
   documents: documentsJson,
-  marketConditions: marketConditionsJson,
   negotiations: negotiationsJson,
-  pilots: pilotsJson,
   policies: policiesJson,
   renewals: renewalsJson,
   submissions: submissionsJson,
+  tasks: tasksJson,
   teamMembers: teamMembersJson,
 };
 
 export const navItems = [
-  { label: 'Command Center', path: '/', icon: RadioTower, tone: 'cyan' },
+  { label: 'Dashboard', path: '/', icon: RadioTower, tone: 'cyan' },
   { label: 'Clients', path: '/clients', icon: Building2, tone: 'blue' },
   { label: 'Renewals', path: '/renewals', icon: Gauge, tone: 'green' },
   { label: 'Submissions', path: '/submissions', icon: ClipboardCheck, tone: 'amber' },
-  { label: 'Negotiations', path: '/negotiations', icon: MessagesSquare, tone: 'teal' },
+  { label: 'Placements', path: '/negotiations', icon: MessagesSquare, tone: 'teal' },
   { label: 'Claims', path: '/claims', icon: Headphones, tone: 'red' },
   { label: 'Compliance', path: '/compliance', icon: ShieldCheck, tone: 'green' },
   { label: 'Documents', path: '/documents', icon: FileStack, tone: 'violet' },
-  { label: 'AI Insights', path: '/ai-insights', icon: Bot, tone: 'cyan' },
+  { label: 'Insights', path: '/ai-insights', icon: Bot, tone: 'cyan' },
   { label: 'Reports', path: '/reports', icon: BarChart3, tone: 'blue' },
   { label: 'Settings', path: '/settings', icon: Settings, tone: 'slate' },
 ];
 
-export const roles = ['Executive', 'Broker Lead', 'Claims Ops', 'Compliance'];
+export const roles = ['Executive', 'Account Manager', 'Placement Lead', 'Claims', 'Compliance'];
 
 export const metrics = [
   {
-    label: 'Fleet Pipeline',
+    label: 'Premium Managed',
     value: compactCurrency(totalPremium),
-    delta: `${clientsJson.length} active aviation accounts`,
-    status: 'live',
+    delta: `${clientsJson.length} active clients`,
+    status: 'portfolio',
     icon: Plane,
     accent: 'cyan',
-    spark: [18, 24, 21, 28, 31, 38, 35, 44, 51, 55, 63, 71],
+    spark: [44, 48, 52, 57, 55, 60, 64, 67, 70, 74, 77, 82],
   },
   {
     label: 'Open Claims',
-    value: numberFormatter.format(openClaims),
-    delta: `Incurred ${compactCurrency(incurredClaims)}`,
-    status: 'monitored',
+    value: numberFormatter.format(claimsExposure.count),
+    delta: `${compactCurrency(claimsExposure.incurredAmount)} incurred`,
+    status: 'active',
     icon: Bell,
     accent: 'blue',
-    spark: [32, 35, 40, 37, 46, 44, 52, 49, 56, 61, 58, 64],
+    spark: [24, 28, 26, 32, 35, 31, 38, 42, 40, 44, 46, 48],
   },
   {
     label: 'Compliance',
     value: `${averageCompliance}%`,
-    delta: `${openCompliance} controls pending`,
-    status: overdueCompliance ? 'attention' : 'on track',
+    delta: `${getComplianceRiskLevel(complianceJson)} risk level`,
+    status: averageCompliance >= 92 ? 'compliant' : 'review',
     icon: BadgeCheck,
-    accent: overdueCompliance ? 'amber' : 'green',
-    spark: [73, 76, 78, 82, 80, 84, 86, 88, 89, 90, averageCompliance, averageCompliance],
+    accent: averageCompliance >= 92 ? 'green' : 'amber',
+    spark: [82, 84, 85, 87, 88, 89, 90, 91, 91, 92, averageCompliance, averageCompliance],
   },
   {
-    label: 'Market Capacity',
-    value: compactCurrency(marketConditionsJson.capacity.hullAndLiability),
-    delta: marketConditionsJson.overallMarketStatus,
-    status: 'market',
+    label: 'Annual Revenue',
+    value: compactCurrency(estimatedRevenue),
+    delta: `${compactCurrency(revenueAtRisk)} at risk`,
+    status: 'forecast',
     icon: Landmark,
     accent: 'amber',
-    spark: [38, 42, 46, 45, 51, 57, 62, 60, 68, 72, 77, 82],
+    spark: [36, 41, 45, 48, 50, 56, 61, 63, 66, 70, 74, 79],
   },
 ];
 
 export const missionStatements = [
-  { label: 'Renewals requiring action today', value: String(renewalActions), tone: 'amber' },
-  {
-    label: `Negotiations may reduce premium by ${compactCurrency(premiumOpportunity || 482000)}`,
-    value: String(recommendedNegotiations),
-    tone: 'green',
-  },
-  { label: 'Claims require executive review', value: String(executiveClaims), tone: executiveClaims ? 'red' : 'green' },
-  { label: 'Portfolio compliance health', value: `${averageCompliance}%`, tone: 'cyan' },
+  { label: 'Renewals due in 30 days', value: String(renewalsDue30.length), tone: 'amber' },
+  { label: `Negotiation savings opportunity ${compactCurrency(savingsOpportunity)}`, value: String(negotiationsJson.length), tone: 'green' },
+  { label: 'Claims requiring review', value: String(claimsExposure.requiringReview), tone: claimsExposure.requiringReview ? 'red' : 'green' },
+  { label: 'Average client health', value: `${averageClientHealth}%`, tone: 'cyan' },
 ];
 
 export const missionStatusSummary = [
-  `${renewalActions} renewals need action`,
-  `${awaitingApproval} negotiation awaiting approval`,
-  `${overdueCompliance} compliance item overdue`,
+  `${highPriorityClients.length} priority clients`,
+  `${overdueTasks.length} overdue tasks`,
+  `${documentCompletionRate}% document completion`,
 ];
 
 export const intelligenceBriefing = {
-  summary: aiInsightsJson.executiveBriefing,
+  summary:
+    'Portfolio performance is stable, with near-term attention needed on renewal readiness, documentation gaps and a small set of high-value placements.',
   priorities: [
-    aiInsightsJson.policyOptimizationSuggestions[0].suggestion,
-    aiInsightsJson.submissionGaps[0].nextBestAction,
-    aiInsightsJson.claimsWarnings[0].warning,
+    `Review ${compactCurrency(revenueAtRisk)} of revenue at risk across priority renewals.`,
+    `Resolve ${overdueTasks.length} overdue client tasks before the next renewal meeting.`,
+    `Improve document completeness for ${documentsJson.filter((document) => document.status === 'Missing').length} missing files.`,
   ],
-  alerts: aiInsightsJson.renewalRisks.slice(0, 2).map((risk) => ({
-    label: `${shortClientName(risk.clientId)}: ${risk.summary}`,
-    tone: toneForSeverity(risk.severity),
+  alerts: highPriorityClients.slice(0, 2).map((client) => ({
+    label: `${client.name}: ${client.retentionRisk} retention risk, ${client.openTasksCount} open tasks`,
+    tone: toneForSeverity(client.priorityLevel),
   })),
-  actions: aiInsightsJson.submissionGaps.slice(0, 3).map((gap) => gap.nextBestAction),
+  actions: tasksJson
+    .filter((task) => task.status !== 'Completed')
+    .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+    .slice(0, 3)
+    .map((task) => task.title),
 };
 
-export const renewalStages = ['Data Collection', 'Submission Prep', 'Marketed', 'Quoted', 'Negotiating', 'Binding', 'At Risk'].map(
-  (stage) => ({
-    label: stage,
-    count: renewalsJson.filter((renewal) => renewal.stage === stage).length,
-    progress: renewalProgress(stage),
-    tone: stage === 'At Risk' ? 'red' : stage === 'Binding' ? 'green' : stage === 'Negotiating' || stage === 'Quoted' ? 'amber' : 'cyan',
-  }),
-);
+export const renewalStages = ['Data Collection', 'Submission Ready', 'Marketed', 'Negotiation', 'Binding', 'At Risk'].map((stage) => ({
+  label: stage,
+  count: renewalsJson.filter((renewal) => renewal.currentStage === stage).length,
+  progress: stage === 'At Risk' ? 22 : stage === 'Binding' ? 92 : stage === 'Negotiation' ? 74 : stage === 'Marketed' ? 62 : stage === 'Submission Ready' ? 48 : 30,
+  tone: stage === 'At Risk' ? 'red' : stage === 'Binding' ? 'green' : stage === 'Negotiation' ? 'amber' : 'cyan',
+}));
 
-export const insurerStatusCards = negotiationsJson.slice(0, 3).map((negotiation) => {
-  const renewal = renewalsJson.find((item) => item.id === negotiation.renewalId);
-  const premiumDelta = renewal ? renewal.targetPremium - negotiation.premiumQuoted : 0;
-  return {
-    market: negotiation.insurerName,
-    account: shortClientName(negotiation.clientId),
-    status: negotiation.status,
-    premium: premiumDelta < 0 ? `+${compactCurrency(Math.abs(premiumDelta))}` : `-${compactCurrency(Math.abs(premiumDelta))}`,
-    appetite: negotiation.underwriterQuestions[0] ?? negotiation.subjectivities[0],
-    tone: toneForStatus(negotiation.recommendationFlag),
-  };
-});
+export const insurerStatusCards = negotiationsJson.slice(0, 3).map((negotiation) => ({
+  market: negotiation.recommendedInsurer,
+  account: shortClientName(negotiation.clientId),
+  status: negotiation.currentStatus,
+  premium: compactCurrency(negotiation.estimatedSavings),
+  appetite: negotiation.pendingQuestions[0],
+  tone: negotiation.decisionRequired ? 'amber' : 'green',
+}));
 
 export const claimsReviewItems = claimsJson
   .slice()
-  .sort((a, b) => b.reserve - a.reserve)
+  .sort((a, b) => b.reserveAmount - a.reserveAmount)
   .slice(0, 3)
   .map((claim) => ({
     claim: claim.claimType,
     account: shortClientName(claim.clientId),
     severity: claim.severity,
-    reserve: compactCurrency(claim.reserve),
+    reserve: compactCurrency(claim.reserveAmount),
     review: claim.status,
     tone: toneForSeverity(claim.severity),
   }));
 
 export const complianceMissions = complianceJson.slice(0, 4).map((item) => ({
-  label: item.auditFinding.split(' ').slice(0, 4).join(' '),
+  label: item.findingType,
   due: dateLabel(item.dueDate),
   status: item.status,
   progress: item.status === 'Overdue' ? 28 : item.status === 'Open' ? 58 : 78,
@@ -275,27 +259,27 @@ export const complianceMissions = complianceJson.slice(0, 4).map((item) => ({
 
 export const activities = activitiesJson.slice(0, 5).map((activity) => ({
   time: timeLabel(activity.timestamp),
-  eventType: activity.eventType,
+  eventType: activity.activityType,
   account: shortClientName(activity.clientId),
-  action: activity.action,
-  status: activity.status,
-  tone: toneForStatus(activity.status),
+  action: activity.summary,
+  status: activity.importanceLevel,
+  tone: toneForStatus(activity.importanceLevel),
 }));
 
 export const timeline = activitiesJson.slice(5, 8).map((activity) => ({
-  label: activity.eventType,
-  detail: `${clientName(activity.clientId)} - ${activity.action}`,
+  label: activity.activityType,
+  detail: `${clientName(activity.clientId)} - ${activity.summary}`,
   time: timeLabel(activity.timestamp),
 }));
 
 export const workspaceRows = clientsJson
   .slice()
-  .sort((a, b) => b.riskScore - a.riskScore)
+  .sort((a, b) => b.clientHealthScore - a.clientHealthScore)
   .slice(0, 6)
   .map((client) => [
     client.name,
-    client.type,
-    client.riskScore >= 75 ? 'High' : client.riskScore >= 62 ? 'Medium' : 'Low',
-    client.renewalStatus,
-    compactCurrency(client.totalPremium),
+    client.clientType,
+    client.retentionRisk,
+    client.relationshipStatus,
+    compactCurrency(client.annualPremium),
   ]);

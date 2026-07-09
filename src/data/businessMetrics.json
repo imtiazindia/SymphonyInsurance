@@ -1,0 +1,20 @@
+{
+  "totalManagedPremium": 215010000,
+  "estimatedAnnualRevenue": 24444000,
+  "renewalRevenuePipeline": 190550000,
+  "revenueAtRisk": 5575800,
+  "retentionRate": 94,
+  "activeClients": 30,
+  "openHighPriorityTasks": 7,
+  "renewalsDue30Days": 1,
+  "renewalsAtRisk": 5,
+  "openClaims": 12,
+  "claimsRequiringReview": 5,
+  "averageClientHealth": 79,
+  "averageComplianceScore": 92,
+  "documentCompletionRate": 83,
+  "teamUtilization": 70,
+  "projectedMonthlyRevenue": 2037000,
+  "policyOptimizationOpportunities": 31,
+  "negotiationSavingsOpportunity": 2485422
+}
