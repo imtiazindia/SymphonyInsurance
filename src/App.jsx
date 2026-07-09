@@ -5,6 +5,7 @@ import { Shell } from './layout/Shell.jsx';
 import { ExecutiveOverview } from './pages/ExecutiveOverview.jsx';
 import { ModulePlaceholderPage } from './pages/ModulePlaceholderPage.jsx';
 import { RenewalDetailWorkspace, RenewalWorkspace } from './pages/RenewalWorkspace.jsx';
+import { SubmissionWorkspace } from './pages/SubmissionWorkspace.jsx';
 import { WorkspacePage } from './pages/WorkspacePage.jsx';
 import { navItems } from './data/demoData.js';
 
@@ -17,13 +18,14 @@ export default function App() {
         <Route path="/clients" element={<ClientWorkspacePage />} />
         <Route path="/renewals" element={<RenewalWorkspace />} />
         <Route path="/renewals/:renewalId" element={<RenewalDetailWorkspace />} />
+        <Route path="/submissions" element={<SubmissionWorkspace />} />
+        <Route path="/submissions/:submissionId" element={<SubmissionWorkspace />} />
         <Route path="/claims/:claimId" element={<ModulePlaceholderPage title="Claims" idParam="claimId" />} />
         <Route path="/documents/:documentId" element={<ModulePlaceholderPage title="Documents" idParam="documentId" />} />
         <Route path="/market-placement/:negotiationId" element={<ModulePlaceholderPage title="Market Placement" idParam="negotiationId" />} />
-        <Route path="/submissions/:submissionId" element={<ModulePlaceholderPage title="Submissions" idParam="submissionId" />} />
         <Route path="/compliance/:complianceId" element={<ModulePlaceholderPage title="Compliance" idParam="complianceId" />} />
         {navItems
-          .filter((item) => !['/', '/account-manager', '/clients', '/renewals'].includes(item.path))
+          .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions'].includes(item.path))
           .map((item) => (
             <Route
               key={item.path}

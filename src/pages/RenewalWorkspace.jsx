@@ -721,8 +721,10 @@ function RecommendedActions({ item }) {
 }
 
 function RelatedRecords({ item }) {
+  const submission = simulationData.submissions.find((submissionItem) => submissionItem.clientId === item.client.id);
   const records = [
     ['Policies', item.policies.length, `/clients?clientId=${item.client.id}`],
+    ['Submission', submission ? 1 : 0, submission ? `/submissions/${submission.id}` : '/submissions'],
     ['Claims', item.claims.length, item.claims[0] ? `/claims/${item.claims[0].id}` : '/claims'],
     ['Compliance', item.compliance ? 1 : 0, item.compliance ? `/compliance/${item.compliance.id}` : '/compliance'],
     ['Documents', item.documents.length, item.document ? `/documents/${item.document.id}` : '/documents'],
