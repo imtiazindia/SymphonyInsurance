@@ -453,7 +453,7 @@ svg {
 
 .main-content {
   min-width: 0;
-  padding: 0 34px 40px 16px;
+  padding: 26px 34px 40px 16px;
 }
 
 .page-transition {
@@ -484,7 +484,7 @@ svg {
   justify-content: space-between;
   align-items: flex-end;
   gap: 24px;
-  margin: -68px 0 2px;
+  margin: 0 0 2px;
   padding: 0 4px 0 12px;
 }
 
@@ -567,11 +567,12 @@ svg {
 .business-kpi-card,
 .owner-kpi {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   align-items: start;
-  gap: 12px;
+  gap: 10px;
   min-height: 142px;
   padding: 18px;
+  overflow: hidden;
 }
 
 .business-kpi-card__icon,
@@ -613,7 +614,6 @@ svg {
 
 .business-kpi-card p,
 .owner-kpi p {
-  min-height: 39px;
   color: #173254;
   font-size: 0.88rem;
   font-weight: 800;
@@ -623,9 +623,13 @@ svg {
 .owner-kpi strong {
   display: block;
   margin: 5px 0;
+  max-width: 100%;
   color: var(--text);
-  font-size: clamp(1.65rem, 2.05vw, 2.3rem);
-  line-height: 1.05;
+  font-size: clamp(1.35rem, 1.55vw, 1.85rem);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
 }
 
 .business-kpi-card small,
@@ -1400,7 +1404,7 @@ svg {
   justify-content: space-between;
   align-items: flex-end;
   gap: 24px;
-  margin: -68px 0 2px;
+  margin: 0 0 2px;
   padding: 0 4px 0 12px;
 }
 
@@ -2010,7 +2014,7 @@ svg {
   justify-content: space-between;
   align-items: flex-end;
   gap: 24px;
-  margin: -68px 0 2px;
+  margin: 0 0 2px;
   padding: 0 4px 0 12px;
 }
 
@@ -2333,9 +2337,10 @@ svg {
 
 .kpi-item strong {
   color: var(--text);
-  font-size: clamp(1.65rem, 2vw, 2.35rem);
-  line-height: 1.05;
+  font-size: clamp(1.35rem, 1.55vw, 1.85rem);
+  line-height: 1.12;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .kpi-item small {
@@ -3254,7 +3259,7 @@ svg {
   justify-content: space-between;
   align-items: flex-end;
   gap: 22px;
-  margin-top: -68px;
+  margin-top: 0;
   padding: 26px;
 }
 
@@ -3489,7 +3494,7 @@ svg {
 .renewal-detail-hero {
   display: grid;
   gap: 20px;
-  margin-top: -68px;
+  margin-top: 0;
   padding: 24px 26px 22px;
 }
 
@@ -3852,7 +3857,7 @@ svg {
   justify-content: space-between;
   align-items: flex-end;
   gap: 22px;
-  margin-top: -68px;
+  margin-top: 0;
   padding: 26px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
