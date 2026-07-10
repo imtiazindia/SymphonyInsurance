@@ -37,6 +37,10 @@ export function classifyIntent(query, entities) {
     return { intent: 'ari_impact', confidence: 0.86, filters: entities.filters };
   }
 
+  if (/document|missing|upload|certificate|evidence|loss run|roster|awaiting review|pending review|blocking/.test(q)) {
+    return { intent: 'document_search', confidence: 0.82, filters: entities.filters };
+  }
+
   if (/renewal|expir|revenue at risk/.test(q)) {
     return { intent: 'renewal_search', confidence: 0.84, filters: { days: 60, ...entities.filters } };
   }
@@ -55,10 +59,6 @@ export function classifyIntent(query, entities) {
 
   if (/compliance|overdue|finding|corrective/.test(q)) {
     return { intent: 'compliance_search', confidence: 0.8, filters: entities.filters };
-  }
-
-  if (/document|missing|upload|certificate/.test(q)) {
-    return { intent: 'document_search', confidence: 0.78, filters: entities.filters };
   }
 
   if (/workload|overloaded|capacity|team/.test(q)) {

@@ -3,6 +3,7 @@ import { AccountManagerWorkspace } from './pages/AccountManagerWorkspace.jsx';
 import { ClaimsWorkspace } from './pages/ClaimsWorkspace.jsx';
 import { ClientWorkspacePage } from './pages/ClientWorkspacePage.jsx';
 import { ComplianceRiskWorkspace } from './pages/ComplianceRiskWorkspace.jsx';
+import { DocumentIntelligenceHub } from './pages/DocumentIntelligenceHub.jsx';
 import { Shell } from './layout/Shell.jsx';
 import { ExecutiveOverview } from './pages/ExecutiveOverview.jsx';
 import { IBarResultsPage } from './pages/IBarResultsPage.jsx';
@@ -31,10 +32,11 @@ export default function App() {
         <Route path="/claims" element={<ClaimsWorkspace />} />
         <Route path="/claims/:claimId" element={<ClaimsWorkspace />} />
         <Route path="/compliance" element={<ComplianceRiskWorkspace />} />
-        <Route path="/documents/:documentId" element={<ModulePlaceholderPage title="Documents" idParam="documentId" />} />
+        <Route path="/documents" element={<DocumentIntelligenceHub />} />
+        <Route path="/documents/:documentId" element={<DocumentIntelligenceHub />} />
         <Route path="/compliance/:complianceId" element={<ModulePlaceholderPage title="Compliance" idParam="complianceId" />} />
         {navItems
-          .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions', '/market-placement', '/claims', '/compliance'].includes(item.path))
+          .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions', '/market-placement', '/claims', '/compliance', '/documents'].includes(item.path))
           .map((item) => (
             <Route
               key={item.path}
