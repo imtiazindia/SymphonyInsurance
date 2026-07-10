@@ -8,6 +8,7 @@ const NAVIGATION_TARGETS = [
   { route: '/claims', label: 'Claims', patterns: [/claims?/] },
   { route: '/compliance', label: 'Compliance', patterns: [/compliance/] },
   { route: '/documents', label: 'Documents', patterns: [/documents?/] },
+  { route: '/reports', label: 'Reports', patterns: [/reports?/, /analytics/, /business intelligence/, /executive intelligence/] },
 ];
 
 export function classifyIntent(query, entities) {
@@ -27,6 +28,10 @@ export function classifyIntent(query, entities) {
 
   if (/meeting brief|brief me|client summary|summary for|overview for|summarize .*client|summarise .*client/.test(q) && entities.client) {
     return { intent: 'client_summary', confidence: 0.87, filters: entities.filters };
+  }
+
+  if (/business performance|business health|business analytics|reports?|executive brief|executive briefing|executive intelligence|what changed|trend analysis|forecast|strategic outlook|insurer performance|portfolio intelligence|market intelligence/.test(q)) {
+    return { intent: 'business_analytics', confidence: 0.85, filters: entities.filters };
   }
 
   if (/owner|ceo|priority|attention|required|focus today|next best/.test(q)) {

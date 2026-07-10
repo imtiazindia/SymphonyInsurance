@@ -3966,6 +3966,545 @@ svg {
   font-size: 0.78rem;
 }
 
+.reports-workspace {
+  display: grid;
+  gap: 18px;
+  max-width: 1540px;
+  margin: 0 auto;
+}
+
+.reports-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 0 4px 0 12px;
+}
+
+.reports-hero span {
+  display: block;
+  color: var(--blue);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.reports-hero h1 {
+  margin: 5px 0 7px;
+  color: var(--text);
+  font-size: clamp(1.9rem, 2.45vw, 2.65rem);
+  line-height: 1.05;
+}
+
+.reports-hero p,
+.reports-section-header p,
+.reports-card p,
+.reports-forecast-card p,
+.reports-market-outlook p,
+.reports-brief-grid p {
+  margin: 0;
+  color: #405b78;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.reports-filter-card {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.reports-filter-card label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.reports-filter-card span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.reports-filter-card select {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  padding: 0 9px;
+  color: var(--text);
+  border: 1px solid #d9e3ef;
+  border-radius: 8px;
+  background: #f9fbff;
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.reports-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reports-export-actions button,
+.reports-health-card button,
+.reports-decision-grid a,
+.reports-brief-panel button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 35px;
+  padding: 0 11px;
+  color: #244363;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.reports-executive-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.reports-card,
+.reports-health-card,
+.reports-action-log {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.reports-health-card {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-top: 14px;
+}
+
+.reports-health-card div span,
+.reports-forecast-card span,
+.reports-change-card span,
+.reports-decision-grid span {
+  display: block;
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.reports-health-card div strong {
+  display: block;
+  color: var(--text);
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.reports-health-card div em {
+  color: #1f6a50;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.reports-health-card ul {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reports-health-card li {
+  padding: 9px;
+  color: #385675;
+  border-radius: 8px;
+  background: #f8fbff;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.reports-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 0 0 14px;
+}
+
+.reports-section-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.08rem;
+}
+
+.reports-insight-grid,
+.reports-decision-grid,
+.reports-segment-grid,
+.reports-performance-grid,
+.reports-team-grid,
+.reports-forecast-grid,
+.reports-trend-grid,
+.reports-change-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.reports-insight-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reports-insight-grid article,
+.reports-decision-grid article,
+.reports-segment-grid article,
+.reports-performance-grid article,
+.reports-team-grid article,
+.reports-forecast-card,
+.reports-trend-grid article,
+.reports-change-card,
+.reports-market-outlook,
+.reports-table-card,
+.reports-brief-grid article {
+  padding: 14px;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+  background: #f8fbff;
+}
+
+.reports-insight-grid article {
+  display: flex;
+  gap: 9px;
+}
+
+.reports-insight-grid svg {
+  flex: 0 0 auto;
+  color: var(--blue);
+}
+
+.reports-decision-grid,
+.reports-forecast-grid,
+.reports-trend-grid,
+.reports-change-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reports-decision-grid h3,
+.reports-table-card h3,
+.reports-market-outlook h3,
+.reports-brief-grid h3 {
+  margin: 6px 0;
+  color: var(--text);
+  font-size: 0.98rem;
+}
+
+.reports-decision-grid strong,
+.reports-forecast-card strong,
+.reports-change-card strong {
+  display: block;
+  margin: 9px 0;
+  color: var(--text);
+  font-size: 1.35rem;
+}
+
+.reports-two-column,
+.reports-market-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.reports-table-card {
+  display: grid;
+  gap: 8px;
+}
+
+.reports-table-card a,
+.reports-insurer-table article,
+.reports-insurer-table > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) repeat(2, minmax(0, 0.75fr));
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  color: #385675;
+  border-bottom: 1px solid #e6edf6;
+  font-size: 0.8rem;
+}
+
+.reports-table-card a strong,
+.reports-insurer-table strong {
+  color: var(--text);
+}
+
+.reports-table-card a em,
+.reports-insurer-table em {
+  color: var(--blue);
+  font-style: normal;
+  font-weight: 850;
+}
+
+.reports-segment-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.reports-segment-grid strong,
+.reports-team-grid strong {
+  color: var(--text);
+}
+
+.reports-segment-grid > article > span,
+.reports-team-grid article > div span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.reports-segment-grid dl,
+.reports-team-grid dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.reports-segment-grid dt,
+.reports-segment-grid dd,
+.reports-team-grid dt,
+.reports-team-grid dd {
+  margin: 0;
+}
+
+.reports-segment-grid dt,
+.reports-team-grid dt {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.reports-segment-grid dd,
+.reports-team-grid dd {
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.reports-performance-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.reports-performance-grid article > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #385675;
+  font-weight: 850;
+}
+
+.reports-performance-grid i {
+  display: block;
+  height: 8px;
+  margin: 10px 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e4ecf5;
+}
+
+.reports-performance-grid b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+}
+
+.reports-market-layout {
+  align-items: start;
+}
+
+.reports-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.reports-chip-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 29px;
+  padding: 0 9px;
+  color: #385675;
+  border: 1px solid #d8e2ee;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.74rem;
+  font-weight: 850;
+}
+
+.reports-insurer-table {
+  overflow-x: auto;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+}
+
+.reports-insurer-table > div,
+.reports-insurer-table article {
+  grid-template-columns: minmax(160px, 1.35fr) repeat(6, minmax(88px, 0.8fr));
+  min-width: 820px;
+  padding: 10px;
+  border-bottom: 1px solid #edf2f8;
+  background: #fff;
+}
+
+.reports-insurer-table > div {
+  color: var(--muted);
+  background: #f7faff;
+  font-size: 0.66rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.reports-team-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reports-team-grid article {
+  display: grid;
+  gap: 11px;
+}
+
+.reports-team-grid em {
+  color: #315174;
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.reports-forecast-card--green strong {
+  color: #1f7a5f;
+}
+
+.reports-forecast-card--red strong {
+  color: #b53e36;
+}
+
+.reports-forecast-card--amber strong {
+  color: #8b5d15;
+}
+
+.reports-trend-grid article div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--text);
+  font-weight: 850;
+}
+
+.reports-trend-grid svg {
+  width: 100%;
+  height: 56px;
+  margin-top: 8px;
+}
+
+.reports-trend-grid polyline {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.reports-change-card {
+  min-height: 96px;
+}
+
+.reports-change-card--good strong {
+  color: #1f7a5f;
+}
+
+.reports-change-card--watch strong {
+  color: #8b5d15;
+}
+
+.reports-action-log {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reports-action-log span {
+  padding: 8px 10px;
+  color: #385675;
+  border-radius: 8px;
+  background: #f8fbff;
+  font-size: 0.78rem;
+}
+
+.reports-brief-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(11, 23, 48, 0.32);
+}
+
+.reports-brief-panel {
+  width: min(980px, 100%);
+  max-height: min(860px, calc(100vh - 40px));
+  overflow: auto;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.reports-brief-panel header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.reports-brief-panel header span {
+  color: var(--blue);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.reports-brief-panel h2 {
+  margin: 4px 0 0;
+  color: var(--text);
+}
+
+.reports-brief-panel header div:last-child {
+  display: flex;
+  gap: 8px;
+}
+
+.reports-brief-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .card,
 .data-card,
 .metric-card {
@@ -9089,6 +9628,27 @@ svg {
   .document-detail-side {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .reports-executive-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .reports-segment-grid,
+  .reports-performance-grid,
+  .reports-team-grid,
+  .reports-forecast-grid,
+  .reports-trend-grid,
+  .reports-change-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reports-health-card {
+    grid-template-columns: 1fr;
+  }
+
+  .reports-health-card ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 1020px) {
@@ -9254,6 +9814,22 @@ svg {
   }
 
   .document-detail-side {
+    grid-template-columns: 1fr;
+  }
+
+  .reports-hero,
+  .reports-section-header,
+  .reports-brief-panel header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .reports-filter-card,
+  .reports-insight-grid,
+  .reports-decision-grid,
+  .reports-two-column,
+  .reports-market-layout,
+  .reports-brief-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -9649,6 +10225,34 @@ svg {
   .document-workflow-list svg {
     transform: rotate(90deg);
   }
+
+  .reports-executive-grid,
+  .reports-segment-grid,
+  .reports-performance-grid,
+  .reports-team-grid,
+  .reports-forecast-grid,
+  .reports-trend-grid,
+  .reports-change-grid,
+  .reports-health-card ul {
+    grid-template-columns: 1fr;
+  }
+
+  .reports-insurer-table {
+    overflow: visible;
+    border: 0;
+  }
+
+  .reports-insurer-table > div {
+    display: none;
+  }
+
+  .reports-insurer-table article {
+    grid-template-columns: 1fr;
+    min-width: 0;
+    margin-bottom: 8px;
+    border: 1px solid #e2ebf5;
+    border-radius: 9px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -9822,5 +10426,23 @@ svg {
   .client360-brief-backdrop {
     align-items: start;
     padding: 10px;
+  }
+
+  .reports-export-actions,
+  .reports-brief-panel header div:last-child {
+    flex-direction: column;
+  }
+
+  .reports-export-actions button,
+  .reports-health-card button,
+  .reports-brief-panel button {
+    width: 100%;
+  }
+
+  .reports-card,
+  .reports-health-card,
+  .reports-action-log,
+  .reports-brief-panel {
+    padding: 14px;
   }
 }

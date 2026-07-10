@@ -48,6 +48,61 @@ function clientRecord(client, extras = {}) {
   };
 }
 
+function sum(records, field) {
+  return records.reduce((total, item) => total + (Number(item[field]) || 0), 0);
+}
+
+function average(records, field) {
+  return records.length ? sum(records, field) / records.length : 0;
+}
+
+function calculateRevenueAtRisk(data) {
+  return data.renewals.reduce((total, renewal) => total + (Number(renewal.revenueAtRisk) || 0), 0);
+}
+
+function businessAnalyticsResults(data) {
+  const totalPremium = sum(data.clients, 'annualPremium');
+  const annualRevenue = sum(data.clients, 'estimatedRevenue');
+  const revenueAtRisk = calculateRevenueAtRisk(data);
+  const highRiskClients = data.clients.filter((client) => client.retentionRisk === 'High');
+  const renewalReadiness = Math.round(average(data.renewals, 'readinessScore'));
+  const submissionReadiness = Math.round(average(data.submissions, 'completionPercent'));
+  const overloadedTeam = data.teamMembers.filter((member) => member.workloadScore >= 80);
+  const overloadedPhrase = overloadedTeam.length === 1
+    ? '1 team member is'
+    : `${overloadedTeam.length} team members are`;
+  const decisionRenewals = data.renewals.filter((renewal) => renewal.ownerAttentionRequired);
+  const decisionClaims = data.claims.filter((claim) => claim.executiveReviewRequired);
+  const topClients = data.clients
+    .slice()
+    .sort((a, b) => b.estimatedRevenue - a.estimatedRevenue)
+    .slice(0, 6)
+    .map((client) => clientRecord(client, {
+      status: client.retentionRisk === 'High' ? 'Retention watch' : 'Top revenue',
+      recommendedAction: client.retentionRisk === 'High'
+        ? 'Use Reports to review renewal, claims, document and relationship signals.'
+        : 'Use Reports to compare portfolio contribution and service momentum.',
+    }));
+
+  return {
+    title: 'Reports & Business Analytics summary',
+    summary: `${money(totalPremium)} managed premium, ${money(annualRevenue)} estimated annual revenue, and ${money(revenueAtRisk)} revenue at risk are visible in the executive analytics view.`,
+    results: topClients,
+    insights: [
+      `${highRiskClients.length} clients are high retention risk and ${decisionRenewals.length} renewals need CEO attention.`,
+      `Renewal readiness is ${renewalReadiness}% and submission readiness is ${submissionReadiness}%.`,
+      `${decisionClaims.length} claims require executive review and ${overloadedPhrase} over capacity.`,
+    ],
+    actions: [
+      { label: 'Open reports workspace', route: '/reports' },
+      { label: 'Open executive overview', route: '/' },
+      { label: 'Open client portfolio', route: '/clients' },
+    ],
+    warnings: [],
+    dataScope: ['clients', 'renewals', 'submissions', 'claims', 'teamMembers', 'policies', 'negotiations'],
+  };
+}
+
 function renewalRecord(renewal, data) {
   const client = getClient(data, renewal.clientId);
   return {
@@ -368,6 +423,18 @@ export function runBusinessTool({ route, entities, data, request }) {
         ...ariResults(data, entities),
         appliedFilters: filters,
       };
+    }
+
+    case 'business_analytics': {
+      const analytics = businessAnalyticsResults(data);
+      title = analytics.title;
+      summary = analytics.summary;
+      results = analytics.results;
+      insights = analytics.insights;
+      actions = analytics.actions;
+      warnings = analytics.warnings;
+      dataScope = analytics.dataScope;
+      break;
     }
 
     case 'entity_search': {

@@ -54,6 +54,11 @@ function buildSuggestedQueries(_query, intent, entities) {
       'Explain global aviation risk drivers',
       'What actions should we take for weather risk?',
     ],
+    business_analytics: [
+      'Open the reports workspace',
+      'What changed since yesterday?',
+      'Which clients drive the most revenue?',
+    ],
   };
 
   return byIntent[intent] ?? [
