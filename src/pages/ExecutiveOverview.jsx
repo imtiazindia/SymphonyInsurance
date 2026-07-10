@@ -14,7 +14,6 @@ import {
   WorkloadIndicator,
 } from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
-import { getAriTopFactors, getAriView } from '../utils/aviationRiskIndex.js';
 import {
   calculateRevenueAtRisk,
   getAverage,
@@ -251,36 +250,6 @@ function AttentionRequired({ items }) {
           <PriorityItemCard key={item.id} item={item} />
         ))}
       </div>
-    </section>
-  );
-}
-
-function AviationRiskSnapshot() {
-  const ari = getAriView();
-  const factors = getAriTopFactors(ari, 3);
-  const signal = ari.workspaceSignals.executive;
-
-  return (
-    <section className="ari-workspace-card">
-      <h2>Aviation Risk Index</h2>
-      <p>{ari.summary}</p>
-      <div className="ari-workspace-metrics">
-        <div>
-          <strong>{ari.score} / 100</strong>
-          <span>{ari.category}</span>
-        </div>
-        <div>
-          <strong>{signal.affectedClients}</strong>
-          <span>clients affected by elevated aviation risk conditions</span>
-        </div>
-        <div>
-          <strong>{signal.renewalsForReview}</strong>
-          <span>renewals may require additional review</span>
-        </div>
-      </div>
-      <ul className="ari-workspace-list">
-        {factors.map((factor) => <li key={factor.id}>{factor.label}: {factor.reason}</li>)}
-      </ul>
     </section>
   );
 }
@@ -536,7 +505,6 @@ export function ExecutiveOverview() {
       </section>
 
       <TopSummary metrics={calculatedMetrics} />
-      <AviationRiskSnapshot />
       <BusinessPerformance metrics={calculatedMetrics} />
       <AttentionRequired items={attentionItems} />
       <RecentBusinessActivity />
