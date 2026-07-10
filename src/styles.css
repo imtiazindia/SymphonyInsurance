@@ -535,6 +535,35 @@ svg {
   font-weight: 850;
 }
 
+.external-risk-card__text {
+  display: grid;
+  gap: 5px;
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f7faff;
+}
+
+.external-risk-card__text strong {
+  color: var(--text);
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.external-risk-card__text ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-left: 15px;
+}
+
+.external-risk-card__text li {
+  color: #315174;
+  font-size: 0.68rem;
+  line-height: 1.28;
+}
+
 .external-risk-card__impact {
   display: grid;
   grid-template-columns: 1fr 1fr;

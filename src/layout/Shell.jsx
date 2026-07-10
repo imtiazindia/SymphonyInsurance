@@ -213,6 +213,12 @@ function ExternalRiskImpactCard({ onViewAnalysis }) {
           <span key={factor.id}>{factor.label}</span>
         ))}
       </div>
+      <div className="external-risk-card__text">
+        <strong>Recommended Actions</strong>
+        <ul>
+          {activeView.recommendedActions.slice(0, 3).map((item) => <li key={item}>{item}</li>)}
+        </ul>
+      </div>
       <dl className="external-risk-card__impact">
         <div>
           <dt>Affected Clients</dt>
