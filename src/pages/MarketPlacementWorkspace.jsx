@@ -21,7 +21,6 @@ import {
   TaskPriorityBadge,
 } from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
-import { getAriView } from '../utils/aviationRiskIndex.js';
 import { getSum } from '../utils/businessCalculations.js';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -315,20 +314,6 @@ function MarketActivity({ items }) {
   );
 }
 
-function MarketExternalRiskSignal() {
-  const ari = getAriView();
-
-  return (
-    <section className="ari-workspace-card">
-      <h2>External Market Signal</h2>
-      <p>{ari.workspaceSignals.marketPlacement}</p>
-      <ul className="ari-workspace-list">
-        {ari.businessImpact.slice(0, 3).map((item) => <li key={item}>{item}</li>)}
-      </ul>
-    </section>
-  );
-}
-
 export function MarketPlacementWorkspace() {
   const { negotiationId } = useParams();
   const [filters, setFilters] = useState({
@@ -376,7 +361,6 @@ export function MarketPlacementWorkspace() {
         setFilters={setFilters}
         statuses={statuses}
       />
-      <MarketExternalRiskSignal />
       <PriorityPlacements items={filtered} />
       <MarketActivity items={filtered} />
       <PlacementDetail item={activeItem} actionLog={actionLog} onAction={addAction} />
