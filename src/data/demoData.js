@@ -2,7 +2,6 @@ import {
   BadgeCheck,
   BarChart3,
   Bell,
-  BriefcaseBusiness,
   Building2,
   ClipboardCheck,
   FileStack,
@@ -13,6 +12,7 @@ import {
   Plane,
   Settings,
   ShieldCheck,
+  UsersRound,
 } from 'lucide-react';
 import activitiesJson from './activities.json';
 import businessMetricsJson from './businessMetrics.json';
@@ -75,7 +75,7 @@ export const simulationData = {
 
 export const navItems = [
   { label: 'Executive Overview', mobileLabel: 'Overview', path: '/', icon: Home, tone: 'blue' },
-  { label: 'Account Manager Workspace', mobileLabel: 'Manager', path: '/account-manager', icon: BriefcaseBusiness, tone: 'cyan' },
+  { label: 'Account Manager', mobileLabel: 'Manager', path: '/account-manager', icon: UsersRound, tone: 'cyan' },
   { label: 'Clients', path: '/clients', icon: Building2, tone: 'blue' },
   { label: 'Renewals', path: '/renewals', icon: RefreshCw, tone: 'green' },
   { label: 'Submissions', path: '/submissions', icon: ClipboardCheck, tone: 'amber' },

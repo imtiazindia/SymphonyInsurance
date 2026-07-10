@@ -622,8 +622,8 @@ export function AccountManagerWorkspace() {
     <div className="account-manager-workspace page-transition">
       <section className="am-hero">
         <div>
-          <span>Relationship Workspace</span>
-          <h1>Account Manager Workspace</h1>
+          <span>Client Relationships</span>
+          <h1>Account Manager</h1>
           <p>Which clients and tasks need my attention today?</p>
         </div>
         <label>
