@@ -356,7 +356,8 @@ export function runBusinessTool({ route, entities, data, request }) {
   }
 
   switch (route.intent) {
-    case 'client_summary': {
+    case 'client_summary':
+    case 'client_brief': {
       const client = entities.client;
       title = client ? `${client.name} client brief` : 'Client brief';
       summary = client ? client.shortBusinessSummary : 'No exact client was identified.';
@@ -373,7 +374,8 @@ export function runBusinessTool({ route, entities, data, request }) {
       break;
     }
 
-    case 'renewal_search': {
+    case 'renewal_search':
+    case 'renewal_brief': {
       const days = filters.days ?? 60;
       results = filterByClient(data.renewals, entities)
         .filter((item) => item.daysToExpiry <= days || item.ownerAttentionRequired || item.revenueAtRisk >= (filters.amount ?? Infinity))
@@ -390,7 +392,8 @@ export function runBusinessTool({ route, entities, data, request }) {
       break;
     }
 
-    case 'claim_search': {
+    case 'claim_search':
+    case 'claim_brief': {
       const threshold = filters.amount ?? 100000;
       results = filterByClient(data.claims, entities)
         .filter((item) => item.severity === 'High' || item.incurredAmount >= threshold || item.executiveReviewRequired)
@@ -424,7 +427,8 @@ export function runBusinessTool({ route, entities, data, request }) {
       break;
     }
 
-    case 'placement_search': {
+    case 'placement_search':
+    case 'placement_brief': {
       results = filterByClient(data.negotiations, entities)
         .filter((item) => item.currentStatus !== 'Bound' || item.decisionRequired || item.pendingQuestions.length)
         .sort((a, b) => Number(b.decisionRequired) - Number(a.decisionRequired) || b.estimatedSavings - a.estimatedSavings)
@@ -440,7 +444,8 @@ export function runBusinessTool({ route, entities, data, request }) {
       break;
     }
 
-    case 'compliance_search': {
+    case 'compliance_search':
+    case 'compliance_brief': {
       results = filterByClient(data.compliance, entities)
         .filter((item) => item.status === 'Overdue' || item.severity === 'High')
         .map((item) => complianceRecord(item, data));
@@ -498,7 +503,9 @@ export function runBusinessTool({ route, entities, data, request }) {
       };
     }
 
-    case 'business_analytics': {
+    case 'business_analytics':
+    case 'executive_brief':
+    case 'portfolio_brief': {
       const analytics = businessAnalyticsResults(data);
       title = analytics.title;
       summary = analytics.summary;
@@ -532,6 +539,9 @@ export function runBusinessTool({ route, entities, data, request }) {
       break;
     }
 
+    case 'smart_priorities':
+    case 'decision_support':
+    case 'workflow_orchestration':
     case 'ceo_priorities':
     default: {
       const priorityRenewals = data.renewals.filter((item) => item.ownerAttentionRequired).map((item) => renewalRecord(item, data));
@@ -553,8 +563,8 @@ export function runBusinessTool({ route, entities, data, request }) {
           navigation: { label: 'Open Account Manager', route: '/account-manager' },
         }));
       results = [...priorityRenewals, ...priorityClaims, ...overloaded].slice(0, 12);
-      title = 'CEO attention required';
-      summary = `${results.length} cross-workspace items are most likely to need CEO attention.`;
+      title = route.intent === 'smart_priorities' ? 'My Priorities' : 'CEO attention required';
+      summary = `${results.length} cross-workspace items are most likely to need action.`;
       insights = [
         `${priorityRenewals.length} renewals are flagged for CEO attention.`,
         `${priorityClaims.length} claims require executive review.`,

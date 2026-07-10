@@ -4,6 +4,7 @@ import { classifyIntent } from './lib/intentRouter.mjs';
 import { runBusinessTool } from './lib/businessTools.mjs';
 import { generateStructuredResponse } from './lib/microLmAdapter.mjs';
 import { buildIBarResponse } from './lib/responseBuilder.mjs';
+import { renderOperatingResponse } from './lib/responseRenderer.mjs';
 import { enforceRateLimit } from './lib/rateLimit.mjs';
 import { IBarError, jsonResponse, parseIBarRequest, safeErrorPayload } from './lib/validation.mjs';
 
@@ -31,7 +32,8 @@ export async function handler(event) {
     const route = classifyIntent(request.query, entities);
     const toolResults = runBusinessTool({ route, entities, data, request });
     const modelResult = await generateStructuredResponse({ query: request.query, route, entities, toolResults });
-    const response = buildIBarResponse({ request, route, entities, toolResults, modelResult, startedAt });
+    const operatingLayer = renderOperatingResponse({ request, route, entities, data, toolResults });
+    const response = buildIBarResponse({ request, route, entities, toolResults, modelResult, operatingLayer, startedAt });
 
     console.info('ibar_request', {
       requestId: request.requestId,

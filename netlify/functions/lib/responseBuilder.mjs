@@ -1,6 +1,6 @@
 import { validateIBarResponse } from './validation.mjs';
 
-export function buildIBarResponse({ request, route, entities, toolResults, modelResult, startedAt }) {
+export function buildIBarResponse({ request, route, entities, toolResults, modelResult, operatingLayer, startedAt }) {
   const durationMs = Date.now() - startedAt;
   const response = {
     requestId: request.requestId,
@@ -19,10 +19,25 @@ export function buildIBarResponse({ request, route, entities, toolResults, model
     actions: toolResults.actions ?? [],
     suggestedQueries: modelResult.suggestedQueries ?? [],
     warnings: toolResults.warnings ?? [],
+    operatingLayer,
+    businessAnswer: operatingLayer?.businessAnswer ?? null,
+    actionCards: operatingLayer?.actionCards ?? [],
+    businessImpact: operatingLayer?.businessImpact ?? null,
+    recommendedActions: operatingLayer?.recommendedActions ?? [],
+    supportingRecords: operatingLayer?.supportingRecords ?? [],
+    relatedWorkspaces: operatingLayer?.relatedWorkspaces ?? [],
+    relatedQuestions: operatingLayer?.relatedQuestions ?? [],
+    reasoningSummary: operatingLayer?.reasoningSummary ?? null,
+    briefing: operatingLayer?.briefing ?? null,
+    workflowPlan: operatingLayer?.workflowPlan ?? null,
+    smartPriorities: operatingLayer?.smartPriorities ?? null,
+    commandPalette: operatingLayer?.commandPalette ?? null,
     meta: {
       model: modelResult.model,
       serverSide: true,
       requestSchemaVersion: '2026-07-ibar-v1',
+      responseVersion: operatingLayer?.version ?? 'iBar-v1',
+      capabilityFamily: operatingLayer?.capabilityFamily ?? route.intent,
       dataScope: toolResults.dataScope ?? [],
       appliedFilters: toolResults.appliedFilters ?? {},
       currentRoute: request.currentRoute,

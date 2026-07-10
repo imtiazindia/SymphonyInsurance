@@ -8,11 +8,22 @@ const CONTEXT_KEY = 'symphony:ibar:context';
 const LAST_RESULT_KEY = 'symphony:ibar:lastResult';
 
 const DEFAULT_SUGGESTIONS = [
-  'Show CEO priorities',
+  'What should I focus on today?',
+  'Prepare today’s executive briefing',
   'Which renewals have the most revenue at risk?',
-  'High severity claims over $100,000',
-  'Which submissions are not ready?',
-  'Which placements are waiting on insurers?',
+  'Which documents are blocking revenue?',
+  'Prepare meeting brief for Global Jet Solutions',
+  'Show clients impacted by current ARI',
+  'Which claims require intervention?',
+  'Prepare board briefing',
+];
+
+const POPULAR_COMMANDS = [
+  'Open Client 360',
+  'Show reports',
+  'Open Compliance',
+  'Prepare placement recommendation',
+  'Compare current workload across teams',
 ];
 
 function readJsonStorage(key, fallback) {
@@ -441,18 +452,36 @@ export function IBar() {
   const [status, setStatus] = useState({ tone: 'idle', text: 'Ready for business questions' });
   const [history, setHistory] = useState(() => readJsonStorage(HISTORY_KEY, []));
 
-  const suggestions = useMemo(() => {
-    const routeSuggestions = location.pathname.startsWith('/claims')
-      ? ['Claims affecting upcoming renewals', 'Open executive review claims']
+  const suggestionGroups = useMemo(() => {
+    const contextCommands = location.pathname.startsWith('/claims')
+      ? ['What concerns me?', 'Claims affecting upcoming renewals', 'Prepare claim summary']
       : location.pathname.startsWith('/renewals')
-        ? ['Renewals due in the next 45 days', 'Renewals with revenue at risk over $1M']
+        ? ['What should happen next?', 'Renewals due in the next 45 days', 'Renewals with revenue at risk over $1M']
         : location.pathname.startsWith('/market-placement')
-          ? ['Compare quotes for SkyHigh Airlines', 'Which placements need a decision?']
-          : [];
-    return [...history, ...routeSuggestions, ...DEFAULT_SUGGESTIONS]
-      .filter(Boolean)
-      .filter((item, index, all) => all.indexOf(item) === index)
-      .slice(0, 7);
+          ? ['Which quotes arrived today?', 'Compare quotes for SkyHigh Airlines', 'Which placements need a decision?']
+          : location.pathname.startsWith('/documents')
+            ? ['Which documents are blocking revenue?', 'Show missing renewal documents', 'Open highest priority renewal']
+            : location.pathname.startsWith('/clients')
+              ? ['What should happen next?', 'Prepare client relationship summary', 'Show open claims for this client']
+              : ['Show today’s priorities', 'Prepare executive briefing', 'Open Global Jet Solutions'];
+
+    const groups = [
+      { label: 'Recent Commands', items: history.slice(0, 4) },
+      { label: 'Context Commands', items: contextCommands },
+      { label: 'Suggested Commands', items: DEFAULT_SUGGESTIONS },
+      { label: 'Popular Commands', items: POPULAR_COMMANDS },
+      { label: 'Keyboard Shortcuts', items: ['Ctrl/Cmd + K focuses iBar', '/ focuses search', '? shows shortcuts'], passive: true },
+    ];
+
+    return groups
+      .map((group) => ({
+        ...group,
+        items: group.items
+          .filter(Boolean)
+          .filter((item, index, all) => all.indexOf(item) === index)
+          .slice(0, group.label === 'Suggested Commands' ? 5 : 4),
+      }))
+      .filter((group) => group.items.length);
   }, [history, location.pathname]);
 
   useEffect(() => {
@@ -617,12 +646,19 @@ export function IBar() {
         <span>{status.text}</span>
       </div>
 
-      {focused && suggestions.length > 0 && (
+      {focused && suggestionGroups.length > 0 && (
         <div className="ibar-suggestions" onMouseDown={(event) => event.preventDefault()}>
-          {suggestions.map((item) => (
-            <button key={item} type="button" onClick={() => submit(item)}>
-              {item}
-            </button>
+          {suggestionGroups.map((group) => (
+            <section key={group.label}>
+              <strong>{group.label}</strong>
+              {group.items.map((item) => (
+                group.passive ? <span key={item}>{item}</span> : (
+                  <button key={item} type="button" onClick={() => submit(item)}>
+                    {item}
+                  </button>
+                )
+              ))}
+            </section>
           ))}
         </div>
       )}

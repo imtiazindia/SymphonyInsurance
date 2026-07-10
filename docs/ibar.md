@@ -24,6 +24,9 @@ npm run dev:netlify
 - `lib/intentRouter.mjs` classifies navigation, search, analysis, summary, and cross-workspace questions.
 - `lib/entityResolver.mjs` resolves clients, records, filters, money thresholds, days, and ARI view.
 - `lib/businessTools.mjs` answers with deterministic business records from the authoritative JSON data.
+- `lib/priorityEngine.mjs` ranks "My Priorities" across revenue risk, blocked documents, claims, compliance, and team capacity.
+- `lib/briefingGenerator.mjs` creates reusable executive, client, renewal, and claim-style briefing sections.
+- `lib/responseRenderer.mjs` converts deterministic tool output into the iBar v2 operating-layer contract: Action Cards, business answer, impact, related workspaces, workflow steps, and command palette metadata.
 - `lib/microLmAdapter.mjs` is the server-only model adapter boundary.
 - `lib/responseBuilder.mjs` validates the final structured response contract.
 
@@ -33,4 +36,21 @@ The current implementation returns `meta.model = "deterministic-fallback"` unles
 
 ## Response Contract
 
-The function returns structured fields: `requestId`, `status`, `intent`, `confidence`, `title`, `summary`, `statusLine`, `results`, `insights`, `actions`, `suggestedQueries`, `warnings`, and `meta`.
+The function returns the original structured fields: `requestId`, `status`, `intent`, `confidence`, `title`, `summary`, `statusLine`, `results`, `insights`, `actions`, `suggestedQueries`, `warnings`, and `meta`.
+
+iBar v2 adds operating-layer fields while preserving backward compatibility:
+
+- `businessAnswer`
+- `actionCards`
+- `businessImpact`
+- `recommendedActions`
+- `supportingRecords`
+- `relatedWorkspaces`
+- `relatedQuestions`
+- `reasoningSummary`
+- `briefing`
+- `workflowPlan`
+- `smartPriorities`
+- `commandPalette`
+
+These fields must stay grounded in deterministic business tools and the shared JSON model. The UI should render them as operating actions, not chat bubbles.

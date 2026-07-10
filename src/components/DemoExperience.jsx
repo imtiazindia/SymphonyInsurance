@@ -257,10 +257,18 @@ const journeyData = [
 ];
 
 const demoQueries = [
+  'What should I focus on today?',
+  'Prepare today’s executive briefing',
+  'Prepare board briefing',
+  'Show strategic priorities',
   'Open Global Jet Solutions',
   'Show renewals due this month',
   'Prepare client meeting brief for Global Jet Solutions',
   'What needs my attention today?',
+  'Which documents are blocking revenue?',
+  'Which clients need immediate attention?',
+  'What should the placement team do next?',
+  'Show clients impacted by current ARI',
   'Show missing renewal documents',
   'Which claims affect renewals?',
   'Show overloaded account managers',

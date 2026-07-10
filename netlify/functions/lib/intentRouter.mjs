@@ -17,6 +17,16 @@ export function classifyIntent(query, entities) {
   const navTarget = NAVIGATION_TARGETS.find((target) => target.patterns.some((pattern) => pattern.test(q)));
   const startsAsNavigation = /^(open|go to|take me to|navigate to|show me)\b/.test(q);
 
+  if (startsAsNavigation && entities.client) {
+    return {
+      intent: 'navigation',
+      confidence: 0.94,
+      target: { route: `/clients/${encodeURIComponent(entities.client.id)}`, label: entities.client.name },
+      direct: true,
+      filters: entities.filters,
+    };
+  }
+
   if (startsAsNavigation && navTarget) {
     return {
       intent: 'navigation',
@@ -25,6 +35,29 @@ export function classifyIntent(query, entities) {
       direct: true,
       filters: entities.filters,
     };
+  }
+
+  if (/my priorities|today'?s priorities|smart priorities|what should i focus on today|focus today|strategic priorities/.test(q)) {
+    return { intent: 'smart_priorities', confidence: 0.9, filters: entities.filters };
+  }
+
+  if (/then|after that|followed by|orchestrate|workflow|multi-step|multi step/.test(q)) {
+    return { intent: 'workflow_orchestration', confidence: 0.84, filters: entities.filters };
+  }
+
+  if (/prepare|brief|briefing|board briefing|meeting brief|summary/.test(q)) {
+    if (/board|executive/.test(q)) return { intent: 'executive_brief', confidence: 0.9, filters: entities.filters };
+    if (/portfolio/.test(q)) return { intent: 'portfolio_brief', confidence: 0.86, filters: entities.filters };
+    if (entities.client) return { intent: 'client_brief', confidence: 0.9, filters: entities.filters };
+    if (/renewal/.test(q)) return { intent: 'renewal_brief', confidence: 0.86, filters: entities.filters };
+    if (/claim/.test(q)) return { intent: 'claim_brief', confidence: 0.86, filters: entities.filters };
+    if (/placement|quote|market/.test(q)) return { intent: 'placement_brief', confidence: 0.84, filters: entities.filters };
+    if (/compliance/.test(q)) return { intent: 'compliance_brief', confidence: 0.84, filters: entities.filters };
+    return { intent: 'executive_brief', confidence: 0.88, filters: entities.filters };
+  }
+
+  if (/what should|what requires|should be escalated|requires executive approval|requires intervention|need immediate attention|do next|next action|next best/.test(q)) {
+    return { intent: 'decision_support', confidence: 0.86, filters: entities.filters };
   }
 
   if (/meeting brief|brief me|client summary|summary for|overview for|summarize .*client|summarise .*client/.test(q) && entities.client) {
