@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { AccountManagerWorkspace } from './pages/AccountManagerWorkspace.jsx';
+import { ClaimsWorkspace } from './pages/ClaimsWorkspace.jsx';
 import { ClientWorkspacePage } from './pages/ClientWorkspacePage.jsx';
 import { Shell } from './layout/Shell.jsx';
 import { ExecutiveOverview } from './pages/ExecutiveOverview.jsx';
@@ -23,11 +24,12 @@ export default function App() {
         <Route path="/submissions/:submissionId" element={<SubmissionWorkspace />} />
         <Route path="/market-placement" element={<MarketPlacementWorkspace />} />
         <Route path="/market-placement/:negotiationId" element={<MarketPlacementWorkspace />} />
-        <Route path="/claims/:claimId" element={<ModulePlaceholderPage title="Claims" idParam="claimId" />} />
+        <Route path="/claims" element={<ClaimsWorkspace />} />
+        <Route path="/claims/:claimId" element={<ClaimsWorkspace />} />
         <Route path="/documents/:documentId" element={<ModulePlaceholderPage title="Documents" idParam="documentId" />} />
         <Route path="/compliance/:complianceId" element={<ModulePlaceholderPage title="Compliance" idParam="complianceId" />} />
         {navItems
-          .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions', '/market-placement'].includes(item.path))
+          .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions', '/market-placement', '/claims'].includes(item.path))
           .map((item) => (
             <Route
               key={item.path}
