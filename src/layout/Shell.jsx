@@ -45,6 +45,79 @@ function Navigation({ onNavigate }) {
   );
 }
 
+const threatRiskViews = {
+  global: {
+    label: 'Global',
+    score: 72,
+    delta: '+4 pts',
+    status: 'Elevated',
+    drivers: [
+      ['Weather', 68],
+      ['Geopolitical', 78],
+      ['Energy', 64],
+      ['Economic', 58],
+    ],
+  },
+  domestic: {
+    label: 'Domestic',
+    score: 54,
+    delta: '+1 pt',
+    status: 'Guarded',
+    drivers: [
+      ['Weather', 61],
+      ['Social', 46],
+      ['Economic', 52],
+      ['Energy', 49],
+    ],
+  },
+};
+
+function ThreatRiskIndex() {
+  const [view, setView] = useState('global');
+  const activeView = threatRiskViews[view];
+
+  return (
+    <aside className="market-card threat-card" aria-label="Civil aviation threat and risk assessment index">
+      <div className="threat-card__header">
+        <h2>TRA Index</h2>
+        <span>AI</span>
+      </div>
+      <div className="market-card__rule" />
+      <div className="threat-toggle" aria-label="Threat risk view">
+        {Object.entries(threatRiskViews).map(([key, item]) => (
+          <button
+            key={key}
+            type="button"
+            className={view === key ? 'threat-toggle__button threat-toggle__button--active' : 'threat-toggle__button'}
+            onClick={() => setView(key)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+      <div className="market-card__metric threat-card__metric">
+        <strong>{activeView.score}</strong>
+        <span>{activeView.delta}</span>
+        <small>/ 100</small>
+      </div>
+      <div className="threat-driver-list" aria-label={`${activeView.label} risk drivers`}>
+        {activeView.drivers.map(([driver, value]) => (
+          <div className="threat-driver" key={driver}>
+            <span>{driver}</span>
+            <i><b style={{ width: `${value}%` }} /></i>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
+      <div className="market-card__status threat-card__status">
+        <span />
+        {activeView.status}
+        <small>Jul 10, 2026</small>
+      </div>
+    </aside>
+  );
+}
+
 function MarketConditions() {
   return (
     <aside className="market-card" aria-label="Market conditions">
@@ -127,6 +200,7 @@ export function Shell({ children }) {
       <aside className="sidebar">
         <Brand />
         <Navigation />
+        <ThreatRiskIndex />
         <MarketConditions />
       </aside>
 

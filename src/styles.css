@@ -184,6 +184,10 @@ svg {
   flex: 1;
   flex-direction: column;
   gap: 8px;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 2px;
+  scrollbar-width: thin;
 }
 
 .nav-item {
@@ -228,7 +232,7 @@ svg {
 }
 
 .market-card {
-  padding: 20px 19px;
+  padding: 16px 17px;
   color: #1f3859;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -246,7 +250,7 @@ svg {
 .market-card__rule,
 .card-rule {
   height: 1px;
-  margin: 14px 0;
+  margin: 10px 0;
   background: var(--line);
 }
 
@@ -278,8 +282,8 @@ svg {
 
 .market-card__chart {
   width: 100%;
-  height: 72px;
-  margin: 12px 0 10px;
+  height: 54px;
+  margin: 9px 0 8px;
 }
 
 .market-card__chart path {
@@ -306,7 +310,127 @@ svg {
 
 .market-card time {
   display: block;
-  margin-top: 28px;
+  margin-top: 14px;
+}
+
+.threat-card {
+  padding: 15px 16px 16px;
+}
+
+.threat-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.threat-card__header span {
+  display: inline-grid;
+  min-width: 32px;
+  height: 24px;
+  place-items: center;
+  color: #0f766e;
+  border: 1px solid #bfe7df;
+  border-radius: 999px;
+  background: #ecfdf8;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.threat-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  min-height: 34px;
+  padding: 3px;
+  margin: 0 0 9px;
+  border: 1px solid #d8e4f2;
+  border-radius: 10px;
+  background: #f3f7fc;
+}
+
+.threat-toggle__button {
+  min-width: 0;
+  padding: 0 6px;
+  color: #4b6381;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.threat-toggle__button--active {
+  color: var(--blue);
+  background: #fff;
+  box-shadow: 0 5px 13px rgba(31, 72, 124, 0.1);
+}
+
+.threat-card__metric {
+  margin-top: 0;
+}
+
+.threat-card__metric strong {
+  font-size: 2.15rem;
+}
+
+.threat-card__metric span {
+  color: #c06a1f;
+}
+
+.threat-driver-list {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 10px;
+}
+
+.threat-driver {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 7px;
+}
+
+.threat-driver span,
+.threat-driver strong {
+  color: #315174;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.threat-driver strong {
+  text-align: right;
+}
+
+.threat-driver i {
+  display: block;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e8eef6;
+}
+
+.threat-driver b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0f766e, #f0b35a);
+}
+
+.threat-card__status {
+  justify-content: flex-start;
+}
+
+.threat-card__status span {
+  background: #f0b35a;
+}
+
+.threat-card__status small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 .app-stage {
@@ -4419,7 +4543,7 @@ svg {
 }
 
 .market-filter-card,
-.market-card,
+.market-workspace .market-card,
 .market-recommendation-card {
   padding: 22px;
 }
