@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { Bell, ChevronDown, Menu, ShieldCheck, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Bell, CheckCircle2, ChevronDown, Menu, ShieldCheck, Sparkles, X } from 'lucide-react';
 import { DemoExperience } from '../components/DemoExperience.jsx';
 import { Drawer } from '../components/Drawer.jsx';
 import { IBar } from '../components/IBar.jsx';
@@ -316,17 +316,185 @@ function BottomNavigation() {
   );
 }
 
+function AppFooter({ demoMode }) {
+  return (
+    <footer className="app-footer" aria-label="Application status">
+      <span>Version 14.0-demo</span>
+      <span>Demo Dataset: Loaded</span>
+      <span>Build Date: Jul 10, 2026</span>
+      <span>Current Role: CEO</span>
+      <span>Demo Mode: {demoMode ? 'On' : 'Off'}</span>
+    </footer>
+  );
+}
+
+function ToastCenter({ toasts, onDismiss }) {
+  return (
+    <div className="toast-stack" aria-live="polite" aria-label="System notifications">
+      {toasts.map((toast) => (
+        <article className={`toast toast--${toast.tone ?? 'info'}`} key={toast.id}>
+          <CheckCircle2 size={16} />
+          <div>
+            <strong>{toast.title}</strong>
+            {toast.message ? <p>{toast.message}</p> : null}
+          </div>
+          <button type="button" onClick={() => onDismiss(toast.id)} aria-label="Dismiss notification">
+            <X size={14} />
+          </button>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function ShortcutOverlay({ open, onClose }) {
+  if (!open) return null;
+  const shortcuts = [
+    ['Ctrl/Cmd + K', 'Focus iBar'],
+    ['/', 'Focus iBar search'],
+    ['Esc', 'Close panels'],
+    ['G then D', 'Dashboard'],
+    ['G then C', 'Clients'],
+    ['G then R', 'Renewals'],
+    ['G then K', 'Claims'],
+    ['G then O', 'Documents'],
+    ['G then P', 'Reports'],
+    ['G then A', 'Administration'],
+    ['?', 'Show shortcuts'],
+  ];
+  return (
+    <div className="shortcut-overlay" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+      <button className="shortcut-overlay__backdrop" type="button" onClick={onClose} aria-label="Close keyboard shortcuts" />
+      <section className="shortcut-overlay__panel">
+        <header>
+          <div>
+            <span>Keyboard Productivity</span>
+            <h2>Shortcuts</h2>
+          </div>
+          <button type="button" onClick={onClose} aria-label="Close shortcuts"><X size={16} /></button>
+        </header>
+        <div>
+          {shortcuts.map(([keys, action]) => (
+            <article key={keys}>
+              <kbd>{keys}</kbd>
+              <span>{action}</span>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export function Shell({ children }) {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [ariAnalysisOpen, setAriAnalysisOpen] = useState(false);
   const [ariAnalysisView, setAriAnalysisView] = useState('global');
   const [demoMode, setDemoMode] = useState(false);
+  const [toasts, setToasts] = useState([]);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+
+  function pushToast(title, message, tone = 'info') {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    setToasts((current) => [{ id, title, message, tone }, ...current].slice(0, 4));
+    window.setTimeout(() => {
+      setToasts((current) => current.filter((toast) => toast.id !== id));
+    }, 4200);
+  }
 
   function openAriAnalysis(view) {
     setAriAnalysisView(view);
     setAriAnalysisOpen(true);
   }
+
+  function dismissToast(id) {
+    setToasts((current) => current.filter((toast) => toast.id !== id));
+  }
+
+  function toggleDemoMode() {
+    setDemoMode((value) => {
+      const next = !value;
+      pushToast(next ? 'Demo Mode enabled' : 'Demo Mode disabled', next ? 'Presenter tools are available.' : 'Standard application view restored.');
+      return next;
+    });
+  }
+
+  useEffect(() => {
+    function onToast(event) {
+      pushToast(event.detail?.title ?? 'Action completed', event.detail?.message ?? '', event.detail?.tone ?? 'info');
+    }
+
+    window.addEventListener('symphony:toast', onToast);
+    return () => window.removeEventListener('symphony:toast', onToast);
+  }, []);
+
+  useEffect(() => {
+    let awaitingGo = false;
+    let timer;
+    const routes = {
+      d: ['/', 'Dashboard'],
+      c: ['/clients', 'Clients'],
+      r: ['/renewals', 'Renewals'],
+      k: ['/claims', 'Claims'],
+      o: ['/documents', 'Documents'],
+      p: ['/reports', 'Reports'],
+      a: ['/administration', 'Administration'],
+    };
+
+    function isEditable(target) {
+      return target instanceof HTMLElement && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName);
+    }
+
+    function onKeyDown(event) {
+      if (isEditable(event.target)) return;
+      const key = event.key.toLowerCase();
+
+      if (event.key === '?') {
+        event.preventDefault();
+        setShortcutsOpen(true);
+        return;
+      }
+
+      if (event.key === '/') {
+        event.preventDefault();
+        window.dispatchEvent(new CustomEvent('symphony:ibar:focus'));
+        pushToast('iBar focused', 'Ask a business question or navigate by intent.');
+        return;
+      }
+
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        setModalOpen(false);
+        setAriAnalysisOpen(false);
+        setShortcutsOpen(false);
+        return;
+      }
+
+      if (awaitingGo && routes[key]) {
+        event.preventDefault();
+        const [route, label] = routes[key];
+        awaitingGo = false;
+        window.clearTimeout(timer);
+        navigate(route);
+        pushToast('Navigation completed', `Opened ${label}.`);
+        return;
+      }
+
+      if (key === 'g') {
+        awaitingGo = true;
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => { awaitingGo = false; }, 1400);
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.clearTimeout(timer);
+    };
+  }, [navigate]);
 
   return (
     <div className="app-shell">
@@ -339,8 +507,9 @@ export function Shell({ children }) {
       </aside>
 
       <div className="app-stage">
-        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} demoMode={demoMode} onDemoMode={() => setDemoMode((value) => !value)} />
+        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} demoMode={demoMode} onDemoMode={toggleDemoMode} />
         <main className="main-content">{children}</main>
+        <AppFooter demoMode={demoMode} />
       </div>
 
       <DemoExperience enabled={demoMode} onEnabledChange={setDemoMode} />
@@ -373,6 +542,9 @@ export function Shell({ children }) {
       <Modal open={ariAnalysisOpen} title="Aviation Risk Index Analysis" className="modal__panel--wide" onClose={() => setAriAnalysisOpen(false)}>
         <AviationRiskAnalysis viewKey={ariAnalysisView} />
       </Modal>
+
+      <ShortcutOverlay open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <ToastCenter toasts={toasts} onDismiss={dismissToast} />
     </div>
   );
 }

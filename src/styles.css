@@ -74,6 +74,15 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid rgba(33, 110, 230, 0.28);
+  outline-offset: 2px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -690,6 +699,30 @@ svg {
   color: #788ba5;
 }
 
+.ibar-clear {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  color: #58708f;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #fff;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.ibar-clear:hover {
+  color: var(--blue);
+  border-color: #bdd1e9;
+  background: #f4f8ff;
+  transform: translateY(-1px);
+}
+
 .ibar-shortcut {
   display: inline-flex;
   align-items: center;
@@ -792,6 +825,7 @@ svg {
   border-radius: 10px;
   background: #fff;
   box-shadow: 0 22px 48px rgba(36, 58, 91, 0.16);
+  animation: panel-rise 180ms ease both;
 }
 
 .ibar-suggestions button {
@@ -911,8 +945,31 @@ svg {
   padding: 26px 34px 40px 16px;
 }
 
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  max-width: 1540px;
+  margin: auto auto 0;
+  padding: 0 34px 22px 16px;
+  color: #6b7f98;
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.app-footer span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border: 1px solid #dbe6f3;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
 .page-transition {
-  animation: page-in 420ms ease both;
+  animation: page-in 220ms ease both;
 }
 
 @keyframes page-in {
@@ -2589,6 +2646,197 @@ svg {
   color: var(--blue);
   font-size: 0.85rem;
   font-weight: 800;
+}
+
+.toast-stack {
+  position: fixed;
+  top: 98px;
+  right: 26px;
+  z-index: 120;
+  display: grid;
+  gap: 10px;
+  width: min(360px, calc(100vw - 36px));
+  pointer-events: none;
+}
+
+.toast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  min-height: 58px;
+  padding: 12px;
+  border: 1px solid #d8e4f2;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 22px 58px rgba(25, 48, 78, 0.18);
+  pointer-events: auto;
+  animation: toast-in 180ms ease both;
+}
+
+.toast > svg {
+  margin-top: 2px;
+  color: var(--blue);
+}
+
+.toast strong {
+  display: block;
+  color: var(--text);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.toast p {
+  margin: 2px 0 0;
+  color: #49617f;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.toast button {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  color: #5b708d;
+  border: 1px solid #d8e4f2;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.toast--success > svg {
+  color: var(--green);
+}
+
+.toast--warning > svg {
+  color: var(--amber);
+}
+
+.shortcut-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.shortcut-overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(9, 22, 42, 0.32);
+  backdrop-filter: blur(3px);
+}
+
+.shortcut-overlay__panel {
+  position: relative;
+  z-index: 1;
+  width: min(520px, 100%);
+  max-height: min(640px, calc(100vh - 48px));
+  overflow: auto;
+  padding: 18px;
+  border: 1px solid #d8e4f2;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 34px 92px rgba(10, 31, 62, 0.28);
+  animation: panel-rise 180ms ease both;
+}
+
+.shortcut-overlay__panel header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.shortcut-overlay__panel header span {
+  display: block;
+  color: var(--blue);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.shortcut-overlay__panel h2 {
+  margin: 2px 0 0;
+  color: var(--text);
+  font-size: 1.28rem;
+  line-height: 1.15;
+}
+
+.shortcut-overlay__panel header button {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #244363;
+  border: 1px solid #d8e4f2;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.shortcut-overlay__panel > div {
+  display: grid;
+  gap: 8px;
+}
+
+.shortcut-overlay__panel article {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.7fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid #e0e9f5;
+  border-radius: 9px;
+  background: #f8fbff;
+}
+
+.shortcut-overlay__panel kbd {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 92px;
+  padding: 5px 8px;
+  color: #173254;
+  border: 1px solid #cbd9ea;
+  border-bottom-width: 2px;
+  border-radius: 8px;
+  background: #fff;
+  font-family: inherit;
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.shortcut-overlay__panel article span {
+  color: #315174;
+  font-size: 0.84rem;
+  font-weight: 760;
+}
+
+@keyframes panel-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .client360-page {
@@ -11513,6 +11761,18 @@ svg {
     inset: 84px 14px auto 14px;
     width: auto;
   }
+
+  .toast-stack {
+    top: 86px;
+    right: 14px;
+    left: 14px;
+    width: auto;
+  }
+
+  .app-footer {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -11536,6 +11796,11 @@ svg {
 
   .ibar-shortcut {
     display: none;
+  }
+
+  .ibar-clear {
+    width: 25px;
+    height: 25px;
   }
 
   .ibar-status {
@@ -11749,5 +12014,35 @@ svg {
     box-shadow: var(--shadow-soft);
     font-size: 0.72rem;
     font-weight: 850;
+  }
+
+  .shortcut-overlay {
+    padding: 12px;
+  }
+
+  .shortcut-overlay__panel {
+    max-height: calc(100vh - 24px);
+    padding: 14px;
+  }
+
+  .shortcut-overlay__panel article {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .shortcut-overlay__panel kbd {
+    justify-content: flex-start;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
   }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, CheckCircle2, Command, Loader2, Search, Sparkles, TriangleAlert } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Command, Loader2, Search, Sparkles, TriangleAlert, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { simulationData } from '../data/demoData.js';
 
@@ -457,13 +457,11 @@ export function IBar() {
 
   useEffect(() => {
     function onKeyDown(event) {
-      const editable = event.target instanceof HTMLElement
-        && ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName);
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
         inputRef.current?.focus();
       }
-      if (event.key === 'Escape' && focused && !editable) {
+      if (event.key === 'Escape' && focused) {
         setFocused(false);
         inputRef.current?.blur();
       }
@@ -472,6 +470,16 @@ export function IBar() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [focused]);
+
+  useEffect(() => {
+    function onFocusRequest() {
+      inputRef.current?.focus();
+      setFocused(true);
+    }
+
+    window.addEventListener('symphony:ibar:focus', onFocusRequest);
+    return () => window.removeEventListener('symphony:ibar:focus', onFocusRequest);
+  }, []);
 
   useEffect(() => {
     function onDemoSubmit(event) {
@@ -537,6 +545,13 @@ export function IBar() {
         tone: payload.status === 'error' ? 'warning' : 'success',
         text: payload.statusLine?.label ?? 'Answer ready',
       });
+      window.dispatchEvent(new CustomEvent('symphony:toast', {
+        detail: {
+          title: 'iBar answer ready',
+          message: payload.title ?? normalized,
+          tone: payload.status === 'error' ? 'warning' : 'success',
+        },
+      }));
       navigate(`/ibar?requestId=${encodeURIComponent(payload.requestId)}`);
     } catch (error) {
       if (error.name === 'AbortError') return;
@@ -544,6 +559,13 @@ export function IBar() {
       writeJsonStorage(window.sessionStorage, LAST_RESULT_KEY, fallback);
       writeJsonStorage(window.sessionStorage, `symphony:ibar:result:${fallback.requestId}`, fallback);
       setStatus({ tone: 'success', text: fallback.statusLine.label });
+      window.dispatchEvent(new CustomEvent('symphony:toast', {
+        detail: {
+          title: 'iBar demo answer ready',
+          message: fallback.title,
+          tone: 'success',
+        },
+      }));
       navigate(`/ibar?requestId=${encodeURIComponent(fallback.requestId)}`);
     } finally {
       setLoading(false);
@@ -566,6 +588,20 @@ export function IBar() {
             aria-label="iBar business search"
             autoComplete="off"
           />
+          {query ? (
+            <button
+              className="ibar-clear"
+              type="button"
+              onClick={() => {
+                setQuery('');
+                setFocused(true);
+                inputRef.current?.focus();
+              }}
+              aria-label="Clear iBar query"
+            >
+              <X size={14} />
+            </button>
+          ) : null}
           <span className="ibar-shortcut" aria-hidden="true">
             <Command size={12} />
             K
