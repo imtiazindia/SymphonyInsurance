@@ -16,13 +16,26 @@ export function classifyIntent(query, entities) {
   const q = query.toLowerCase();
   const navTarget = NAVIGATION_TARGETS.find((target) => target.patterns.some((pattern) => pattern.test(q)));
   const startsAsNavigation = /^(open|go to|take me to|navigate to|show me)\b/.test(q);
+  const strongClientMatch = entities.client && (
+    (entities.clientMatch?.score ?? 0) >= 0.72
+    || /\b(this|current|active|that)\s+(client|account)\b/.test(q)
+  );
 
-  if (startsAsNavigation && entities.client) {
+  if (startsAsNavigation && strongClientMatch) {
     return {
       intent: 'navigation',
       confidence: 0.94,
       target: { route: `/clients/${encodeURIComponent(entities.client.id)}`, label: entities.client.name },
       direct: true,
+      filters: entities.filters,
+    };
+  }
+
+  if (startsAsNavigation && entities.unresolvedClientQuery) {
+    return {
+      intent: 'unresolved_entity',
+      confidence: 0.44,
+      unresolvedEntity: entities.unresolvedClientQuery,
       filters: entities.filters,
     };
   }

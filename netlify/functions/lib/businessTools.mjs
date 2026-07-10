@@ -356,6 +356,24 @@ export function runBusinessTool({ route, entities, data, request }) {
   }
 
   switch (route.intent) {
+    case 'unresolved_entity': {
+      results = entities.clientMatches.slice(0, 4).map((item) => clientRecord(item, {
+        status: 'Possible match',
+        businessImpact: `iBar did not find an exact client named "${route.unresolvedEntity}". This is a possible nearby client, not an automatic match.`,
+        recommendedAction: 'Open only if this is the intended client; otherwise search the client portfolio.',
+      }));
+      title = `No exact client found`;
+      summary = `iBar could not find a client named "${route.unresolvedEntity}" in the Symphony dataset.`;
+      insights = [
+        'Direct navigation is paused because the client name did not match a known account strongly enough.',
+        results.length ? 'Possible matches are shown for review.' : 'No nearby client matches were found.',
+      ];
+      actions = [{ label: 'Open client portfolio', route: '/clients' }];
+      warnings = ['No direct client navigation was performed.'];
+      dataScope = ['clients'];
+      break;
+    }
+
     case 'client_summary':
     case 'client_brief': {
       const client = entities.client;
