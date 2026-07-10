@@ -9,6 +9,7 @@ import { ExecutiveOverview } from './pages/ExecutiveOverview.jsx';
 import { IBarResultsPage } from './pages/IBarResultsPage.jsx';
 import { MarketPlacementWorkspace } from './pages/MarketPlacementWorkspace.jsx';
 import { ModulePlaceholderPage } from './pages/ModulePlaceholderPage.jsx';
+import { PlatformAdministrationWorkspace } from './pages/PlatformAdministrationWorkspace.jsx';
 import { RenewalDetailWorkspace, RenewalWorkspace } from './pages/RenewalWorkspace.jsx';
 import { ReportsAnalyticsWorkspace } from './pages/ReportsAnalyticsWorkspace.jsx';
 import { SubmissionWorkspace } from './pages/SubmissionWorkspace.jsx';
@@ -36,9 +37,10 @@ export default function App() {
         <Route path="/documents" element={<DocumentIntelligenceHub />} />
         <Route path="/documents/:documentId" element={<DocumentIntelligenceHub />} />
         <Route path="/reports" element={<ReportsAnalyticsWorkspace />} />
+        <Route path="/administration" element={<PlatformAdministrationWorkspace />} />
         <Route path="/compliance/:complianceId" element={<ModulePlaceholderPage title="Compliance" idParam="complianceId" />} />
         {navItems
-          .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions', '/market-placement', '/claims', '/compliance', '/documents', '/reports'].includes(item.path))
+          .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions', '/market-placement', '/claims', '/compliance', '/documents', '/reports', '/administration'].includes(item.path))
           .map((item) => (
             <Route
               key={item.path}

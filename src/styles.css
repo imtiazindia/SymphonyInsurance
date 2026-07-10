@@ -4505,6 +4505,492 @@ svg {
   gap: 12px;
 }
 
+.admin-workspace {
+  display: grid;
+  gap: 18px;
+  max-width: 1540px;
+  margin: 0 auto;
+}
+
+.admin-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 4px 0 12px;
+}
+
+.admin-hero span,
+.admin-section-header span,
+.admin-health-card p,
+.admin-rule-card span,
+.admin-reference-table header span,
+.admin-ibar-grid span,
+.admin-settings-grid span,
+.admin-workflow-detail span {
+  display: block;
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.admin-hero h1 {
+  margin: 5px 0 7px;
+  color: var(--text);
+  font-size: clamp(1.9rem, 2.45vw, 2.65rem);
+  line-height: 1.05;
+}
+
+.admin-hero p,
+.admin-card p,
+.admin-role-matrix p,
+.admin-settings-grid p,
+.admin-ibar-grid p,
+.admin-audit-timeline p {
+  margin: 0;
+  color: #405b78;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.admin-hero-status {
+  display: grid;
+  place-items: center;
+  min-width: 142px;
+  min-height: 92px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-hero-status strong {
+  color: var(--text);
+  font-size: 2.35rem;
+  line-height: 1;
+}
+
+.admin-jump-nav {
+  position: sticky;
+  top: 84px;
+  z-index: 8;
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(14px);
+}
+
+.admin-jump-nav a,
+.admin-card button,
+.admin-reference-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 11px;
+  color: #244363;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.76rem;
+  font-weight: 850;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.admin-jump-nav a:hover,
+.admin-card button:hover,
+.admin-reference-actions button:hover {
+  border-color: #b9cde5;
+  color: var(--blue);
+}
+
+.admin-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-card {
+  scroll-margin-top: 160px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.admin-section-header h2 {
+  margin: 4px 0 0;
+  color: var(--text);
+  font-size: 1.08rem;
+}
+
+.admin-user-table,
+.admin-rule-table,
+.admin-dictionary-table {
+  display: grid;
+  overflow-x: auto;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+}
+
+.admin-user-table > div,
+.admin-user-table article,
+.admin-rule-table > div,
+.admin-rule-table article,
+.admin-dictionary-table > div,
+.admin-dictionary-table article {
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  min-width: 1040px;
+  padding: 10px;
+  border-bottom: 1px solid #edf2f8;
+  background: #fff;
+  color: #385675;
+  font-size: 0.78rem;
+}
+
+.admin-user-table > div,
+.admin-rule-table > div,
+.admin-dictionary-table > div {
+  color: var(--muted);
+  background: #f7faff;
+  font-size: 0.66rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.admin-user-table > div,
+.admin-user-table article {
+  grid-template-columns: minmax(170px, 1.2fr) minmax(120px, 0.8fr) minmax(130px, 0.9fr) 70px minmax(130px, 0.9fr) minmax(118px, 0.8fr) 88px minmax(120px, 0.85fr);
+}
+
+.admin-user-table article footer {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding-top: 5px;
+}
+
+.admin-user-table strong,
+.admin-rule-table strong,
+.admin-dictionary-table strong,
+.admin-settings-grid strong,
+.admin-reference-table strong,
+.admin-ibar-grid strong,
+.admin-health-card strong,
+.admin-role-matrix strong,
+.admin-workflow-detail h3,
+.admin-rule-card strong,
+.admin-audit-timeline strong {
+  color: var(--text);
+}
+
+.admin-health-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 25px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 850;
+}
+
+.admin-health-pill--green {
+  color: #1f6a50;
+  background: #eaf8f1;
+}
+
+.admin-health-pill--amber {
+  color: #8b5d15;
+  background: #fff6df;
+}
+
+.admin-health-pill--red {
+  color: #9b2f2b;
+  background: #fff0ee;
+}
+
+.admin-hierarchy,
+.admin-architecture-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.admin-hierarchy span,
+.admin-architecture-flow span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 11px;
+  color: #244363;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #f8fbff;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.admin-role-matrix,
+.admin-settings-grid,
+.admin-reference-grid,
+.admin-ibar-grid,
+.admin-health-grid,
+.admin-business-rule-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-role-matrix {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.admin-role-matrix article,
+.admin-settings-grid article,
+.admin-reference-table,
+.admin-ibar-grid article,
+.admin-health-card,
+.admin-workflow-detail,
+.admin-rule-card {
+  padding: 14px;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+  background: #f8fbff;
+}
+
+.admin-role-matrix article {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-role-matrix header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-role-matrix header span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.admin-role-matrix dl,
+.admin-workflow-detail dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.admin-role-matrix dt,
+.admin-role-matrix dd,
+.admin-workflow-detail dt,
+.admin-workflow-detail dd {
+  margin: 0;
+}
+
+.admin-role-matrix dt,
+.admin-workflow-detail dt {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.admin-role-matrix dd,
+.admin-workflow-detail dd {
+  margin-top: 3px;
+  color: #385675;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.admin-settings-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.admin-reference-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 260px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #f8fbff;
+  color: var(--muted);
+}
+
+.admin-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.admin-reference-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admin-reference-table {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-reference-table header,
+.admin-reference-table div,
+.admin-health-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-reference-table div {
+  padding: 8px 0 0;
+  border-top: 1px solid #e6edf6;
+}
+
+.admin-reference-table em,
+.admin-dictionary-table em {
+  color: var(--blue);
+  font-size: 0.76rem;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.admin-rule-table > div,
+.admin-rule-table article {
+  grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) minmax(190px, 1.15fr) minmax(180px, 1.1fr) 88px;
+}
+
+.admin-ibar-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 12px;
+}
+
+.admin-health-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admin-workflow-diagram {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 14px;
+}
+
+.admin-workflow-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: start;
+}
+
+.admin-workflow-rail button {
+  gap: 7px;
+  background: #f8fbff;
+}
+
+.admin-workflow-rail button.is-active {
+  color: var(--blue);
+  border-color: #b9cde5;
+  background: var(--blue-soft);
+}
+
+.admin-workflow-rail button span {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: #fff;
+  border-radius: 50%;
+  background: var(--blue);
+  font-size: 0.7rem;
+}
+
+.admin-workflow-detail h3 {
+  margin: 5px 0 12px;
+  font-size: 1.15rem;
+}
+
+.admin-dictionary-table > div,
+.admin-dictionary-table article {
+  grid-template-columns: minmax(120px, 0.8fr) minmax(210px, 1.2fr) minmax(220px, 1.3fr) minmax(180px, 1fr) minmax(130px, 0.8fr);
+}
+
+.admin-business-rule-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admin-rule-card {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-two-column {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.7fr);
+  gap: 18px;
+}
+
+.admin-architecture-flow div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-audit-timeline {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-audit-timeline article {
+  display: grid;
+  grid-template-columns: 18px 62px minmax(0, 1fr);
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6edf6;
+}
+
+.admin-audit-timeline time {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 850;
+}
+
 .card,
 .data-card,
 .metric-card {
@@ -9649,6 +10135,24 @@ svg {
   .reports-health-card ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .admin-metric-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .admin-role-matrix,
+  .admin-settings-grid,
+  .admin-reference-grid,
+  .admin-ibar-grid,
+  .admin-health-grid,
+  .admin-business-rule-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-workflow-diagram,
+  .admin-two-column {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 1020px) {
@@ -9831,6 +10335,26 @@ svg {
   .reports-market-layout,
   .reports-brief-grid {
     grid-template-columns: 1fr;
+  }
+
+  .admin-hero,
+  .admin-section-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-search {
+    width: 100%;
+  }
+
+  .admin-metric-grid,
+  .admin-role-matrix,
+  .admin-settings-grid,
+  .admin-reference-grid,
+  .admin-ibar-grid,
+  .admin-health-grid,
+  .admin-business-rule-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -10253,6 +10777,50 @@ svg {
     border: 1px solid #e2ebf5;
     border-radius: 9px;
   }
+
+  .admin-metric-grid,
+  .admin-role-matrix,
+  .admin-settings-grid,
+  .admin-reference-grid,
+  .admin-ibar-grid,
+  .admin-health-grid,
+  .admin-business-rule-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-user-table,
+  .admin-rule-table,
+  .admin-dictionary-table {
+    overflow: visible;
+    border: 0;
+  }
+
+  .admin-user-table > div,
+  .admin-rule-table > div,
+  .admin-dictionary-table > div {
+    display: none;
+  }
+
+  .admin-user-table article,
+  .admin-rule-table article,
+  .admin-dictionary-table article {
+    grid-template-columns: 1fr;
+    min-width: 0;
+    margin-bottom: 8px;
+    border: 1px solid #e2ebf5;
+    border-radius: 9px;
+  }
+
+  .admin-user-table article footer {
+    grid-column: auto;
+  }
+
+  .admin-health-card,
+  .admin-reference-table header,
+  .admin-reference-table div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 560px) {
@@ -10444,5 +11012,23 @@ svg {
   .reports-action-log,
   .reports-brief-panel {
     padding: 14px;
+  }
+
+  .admin-card {
+    padding: 14px;
+  }
+
+  .admin-card button,
+  .admin-reference-actions button {
+    width: 100%;
+  }
+
+  .admin-reference-actions,
+  .admin-user-table article footer {
+    flex-direction: column;
+  }
+
+  .admin-audit-timeline article {
+    grid-template-columns: 1fr;
   }
 }

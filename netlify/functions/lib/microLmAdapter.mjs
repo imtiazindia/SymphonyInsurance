@@ -59,6 +59,11 @@ function buildSuggestedQueries(_query, intent, entities) {
       'What changed since yesterday?',
       'Which clients drive the most revenue?',
     ],
+    admin_configuration: [
+      'Show workflow architecture',
+      'Who manages claims?',
+      'Explain Business Health Index',
+    ],
   };
 
   return byIntent[intent] ?? [

@@ -9,6 +9,7 @@ const NAVIGATION_TARGETS = [
   { route: '/compliance', label: 'Compliance', patterns: [/compliance/] },
   { route: '/documents', label: 'Documents', patterns: [/documents?/] },
   { route: '/reports', label: 'Reports', patterns: [/reports?/, /analytics/, /business intelligence/, /executive intelligence/] },
+  { route: '/administration', label: 'Administration', patterns: [/administration/, /admin/, /configuration/, /settings/] },
 ];
 
 export function classifyIntent(query, entities) {
@@ -32,6 +33,10 @@ export function classifyIntent(query, entities) {
 
   if (/business performance|business health|business analytics|reports?|executive brief|executive briefing|executive intelligence|what changed|trend analysis|forecast|strategic outlook|insurer performance|portfolio intelligence|market intelligence/.test(q)) {
     return { intent: 'business_analytics', confidence: 0.85, filters: entities.filters };
+  }
+
+  if (/administration|admin|configuration|settings|business rules|workflow architecture|workflow diagram|configured insurers|reference data|ai configuration|ibar configuration|platform health|system health|who manages|roles and responsibilities|data dictionary/.test(q)) {
+    return { intent: 'admin_configuration', confidence: 0.84, filters: entities.filters };
   }
 
   if (/owner|ceo|priority|attention|required|focus today|next best/.test(q)) {

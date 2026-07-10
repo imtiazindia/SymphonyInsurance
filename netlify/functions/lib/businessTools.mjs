@@ -103,6 +103,79 @@ function businessAnalyticsResults(data) {
   };
 }
 
+function adminConfigurationResults(data) {
+  const insurers = [...new Set(data.policies.map((policy) => policy.insurer))].sort();
+  const roles = [...new Set(data.teamMembers.map((member) => member.role))].sort();
+  const claimManagers = data.teamMembers.filter((member) => /claim/i.test(member.role));
+  const results = [
+    {
+      id: 'admin-users',
+      type: 'configuration',
+      title: 'Users and roles',
+      subtitle: `${data.teamMembers.length} users across ${roles.length} active role types`,
+      status: 'Configured',
+      metrics: [
+        { label: 'Users', value: String(data.teamMembers.length) },
+        { label: 'Roles', value: String(roles.length) },
+        { label: 'Claim owners', value: String(claimManagers.length) },
+      ],
+      businessImpact: claimManagers.length
+        ? `Claims are managed by ${claimManagers.map((member) => member.name).join(', ')}.`
+        : 'Claims management role is available for configuration.',
+      recommendedAction: 'Open Administration to review role matrix and workload.',
+      navigation: { label: 'Open Administration', route: '/administration' },
+    },
+    {
+      id: 'admin-reference',
+      type: 'configuration',
+      title: 'Reference data',
+      subtitle: `${insurers.length} configured insurers and ${new Set(data.policies.map((policy) => policy.policyType)).size} policy types`,
+      status: 'Configured',
+      metrics: [
+        { label: 'Insurers', value: String(insurers.length) },
+        { label: 'Policy types', value: String(new Set(data.policies.map((policy) => policy.policyType)).size) },
+        { label: 'Document types', value: String(new Set(data.documents.map((document) => document.documentType)).size) },
+      ],
+      businessImpact: `Configured insurers include ${insurers.slice(0, 4).join(', ')}.`,
+      recommendedAction: 'Use reference data to add, edit, deactivate, search, or filter values.',
+      navigation: { label: 'Open Administration', route: '/administration' },
+    },
+    {
+      id: 'admin-workflow',
+      type: 'configuration',
+      title: 'Workflow architecture',
+      subtitle: 'Client -> Renewal -> Submission -> Market Placement -> Binding -> Claims -> Compliance',
+      status: 'Configured',
+      metrics: [
+        { label: 'Workflow stages', value: '8' },
+        { label: 'Rules', value: '7' },
+        { label: 'Health checks', value: '12' },
+      ],
+      businessImpact: 'The platform exposes responsibility, documents, decision points, and outputs for every major workflow.',
+      recommendedAction: 'Open workflow diagram in Administration.',
+      navigation: { label: 'Open Administration', route: '/administration' },
+    },
+  ];
+
+  return {
+    title: 'Platform administration configuration',
+    summary: `Administration is configured with ${data.teamMembers.length} users, ${roles.length} role types, ${insurers.length} insurers, workflow rules, iBar architecture, and system health checks.`,
+    results,
+    insights: [
+      `Claims responsibility is assigned to ${claimManagers.map((member) => member.name).join(', ') || 'the Claims Coordinator role'}.`,
+      `Configured insurers: ${insurers.slice(0, 5).join(', ')}${insurers.length > 5 ? ', and more' : ''}.`,
+      'Business rules are shown in readable language; no prompts, secrets, or API keys are exposed.',
+    ],
+    actions: [
+      { label: 'Open administration', route: '/administration' },
+      { label: 'Open workflow diagram', route: '/administration#admin-workflow' },
+      { label: 'Open AI configuration', route: '/administration#admin-ibar' },
+    ],
+    warnings: [],
+    dataScope: ['teamMembers', 'policies', 'documents', 'tasks', 'aviationRiskIndex', 'businessRules'],
+  };
+}
+
 function renewalRecord(renewal, data) {
   const client = getClient(data, renewal.clientId);
   return {
@@ -434,6 +507,18 @@ export function runBusinessTool({ route, entities, data, request }) {
       actions = analytics.actions;
       warnings = analytics.warnings;
       dataScope = analytics.dataScope;
+      break;
+    }
+
+    case 'admin_configuration': {
+      const admin = adminConfigurationResults(data);
+      title = admin.title;
+      summary = admin.summary;
+      results = admin.results;
+      insights = admin.insights;
+      actions = admin.actions;
+      warnings = admin.warnings;
+      dataScope = admin.dataScope;
       break;
     }
 
