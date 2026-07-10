@@ -633,8 +633,8 @@ svg {
   z-index: 20;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  gap: 24px;
+  align-items: flex-start;
+  gap: 20px;
   min-height: 88px;
   padding: 18px 34px 14px;
   background: rgba(247, 250, 255, 0.9);
@@ -651,6 +651,7 @@ svg {
   width: min(620px, 48vw);
   max-width: 660px;
   min-width: 280px;
+  height: 44px;
 }
 
 .ibar-form {
@@ -731,11 +732,15 @@ svg {
 }
 
 .ibar-status {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
   display: flex;
   align-items: center;
   gap: 6px;
   height: 18px;
-  margin-top: 4px;
+  margin-top: 0;
   padding: 0 4px;
   color: #6c7e94;
   font-size: 0.72rem;
@@ -810,7 +815,8 @@ svg {
 .top-actions {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 18px;
+  min-height: 44px;
 }
 
 .icon-button,
@@ -833,6 +839,8 @@ svg {
 
 .notification-button {
   position: relative;
+  width: 44px;
+  height: 44px;
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -867,6 +875,7 @@ svg {
   grid-template-columns: auto minmax(120px, auto) auto;
   align-items: center;
   gap: 12px;
+  min-height: 44px;
 }
 
 .user-profile strong,
@@ -4509,14 +4518,15 @@ svg {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 38px;
-  padding: 0 11px;
+  height: 44px;
+  padding: 0 14px;
   color: #244363;
   border: 1px solid #d8e2ee;
-  border-radius: 9px;
+  border-radius: 10px;
   background: #fff;
   font-size: 0.78rem;
   font-weight: 850;
+  white-space: nowrap;
 }
 
 .demo-mode-toggle--active {
@@ -11476,6 +11486,7 @@ svg {
   }
 
   .ibar-shell {
+    height: 42px;
     min-width: 0;
   }
 
