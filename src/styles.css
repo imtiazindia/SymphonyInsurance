@@ -4536,17 +4536,17 @@ svg {
 }
 
 .demo-mode-active {
-  --demo-surface: rgba(255, 255, 255, 0.99);
-  --demo-surface-subtle: #fbfdff;
-  --demo-border: #c7d8ef;
+  --demo-surface: rgba(255, 248, 235, 0.99);
+  --demo-surface-subtle: #fff3df;
+  --demo-border: #e7d2ad;
   --demo-shadow:
-    0 28px 70px rgba(15, 33, 58, 0.22),
-    0 10px 24px rgba(33, 110, 230, 0.1),
-    0 0 0 1px rgba(255, 255, 255, 0.72) inset;
+    0 28px 70px rgba(78, 55, 22, 0.22),
+    0 10px 24px rgba(141, 97, 36, 0.11),
+    0 0 0 1px rgba(255, 255, 255, 0.74) inset;
   --demo-shadow-compact:
-    0 18px 46px rgba(15, 33, 58, 0.18),
-    0 7px 18px rgba(33, 110, 230, 0.09),
-    0 0 0 1px rgba(255, 255, 255, 0.72) inset;
+    0 18px 46px rgba(78, 55, 22, 0.18),
+    0 7px 18px rgba(141, 97, 36, 0.09),
+    0 0 0 1px rgba(255, 255, 255, 0.74) inset;
 }
 
 .demo-toolbar {
@@ -4587,7 +4587,7 @@ svg {
   color: #244363;
   border: 1px solid #d8e2ee;
   border-radius: 8px;
-  background: linear-gradient(180deg, #fff, #f7fbff);
+  background: linear-gradient(180deg, #fffdf8, #fff4df);
   box-shadow: 0 5px 14px rgba(15, 33, 58, 0.08);
   font-size: 0.75rem;
   font-weight: 850;
@@ -4602,7 +4602,7 @@ svg {
 .demo-audience-return:hover {
   color: var(--blue);
   border-color: #b9cde5;
-  background: #fff;
+  background: #fffdf8;
   box-shadow: 0 9px 22px rgba(33, 110, 230, 0.14);
 }
 
@@ -4612,7 +4612,7 @@ svg {
   padding: 4px;
   border: 1px solid #e2ebf5;
   border-radius: 9px;
-  background: #fff;
+  background: #fffdf8;
   box-shadow: 0 8px 20px rgba(15, 33, 58, 0.08);
 }
 
@@ -4786,7 +4786,7 @@ svg {
   color: #385675;
   border: 1px solid #d8e2ee;
   border-radius: 999px;
-  background: #fff;
+  background: #fffdf8;
   box-shadow: 0 4px 12px rgba(15, 33, 58, 0.06);
   font-size: 0.7rem;
   font-style: normal;
@@ -4843,7 +4843,7 @@ svg {
   color: var(--text);
   border: 1px solid #d8e2ee;
   border-radius: 8px;
-  background: #fff;
+  background: #fffdf8;
   font: inherit;
   font-size: 0.8rem;
 }
