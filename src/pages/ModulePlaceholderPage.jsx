@@ -1,7 +1,6 @@
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { simulationData } from '../data/demoData.js';
-import { getAriView } from '../utils/aviationRiskIndex.js';
 
 const moduleCopy = {
   Renewals: 'Renewal workflow placeholder ready for Phase 5.',
@@ -36,7 +35,6 @@ export function ModulePlaceholderPage({ title, idParam }) {
   const recordId = params[idParam] ?? searchParams.get('id') ?? searchParams.get('renewalId') ?? searchParams.get('claimId') ?? searchParams.get('documentId') ?? searchParams.get('negotiationId') ?? searchParams.get('submissionId') ?? searchParams.get('complianceId');
   const record = findRecord(title, recordId);
   const client = findClient(record?.clientId ?? searchParams.get('clientId'));
-  const ari = getAriView();
 
   return (
     <div className="module-placeholder-page page-transition">
@@ -52,15 +50,6 @@ export function ModulePlaceholderPage({ title, idParam }) {
           {recordId ? <strong>Record: {recordId}</strong> : null}
           {client ? <Link to={`/clients?clientId=${client.id}`}>{client.name}</Link> : null}
         </div>
-        {title === 'Claims' ? (
-          <div className="ari-workspace-card">
-            <h2>Claims ARI Signal</h2>
-            <p>{ari.workspaceSignals.claims}</p>
-            <ul className="ari-workspace-list">
-              {ari.businessImpact.filter((item) => item.toLowerCase().includes('claims') || item.toLowerCase().includes('weather')).slice(0, 3).map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </div>
-        ) : null}
         <Link className="module-placeholder-card__action" to={client ? `/clients?clientId=${client.id}` : '/clients'}>
           Open related client workspace
           <ArrowRight size={16} />

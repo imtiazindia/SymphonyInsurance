@@ -492,6 +492,82 @@ svg {
   transform: translateY(-1px);
 }
 
+.external-risk-card {
+  padding-top: 12px;
+}
+
+.external-risk-card__metric {
+  display: grid;
+  gap: 2px;
+  margin: 2px 0 6px;
+}
+
+.external-risk-card__metric strong {
+  color: var(--text);
+  font-size: 1.1rem;
+  line-height: 1.1;
+  font-weight: 900;
+}
+
+.external-risk-card__metric span {
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.external-risk-card__drivers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 8px 0;
+}
+
+.external-risk-card__drivers span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 7px;
+  color: #315174;
+  border: 1px solid #d8e4f2;
+  border-radius: 999px;
+  background: #f7faff;
+  font-size: 0.66rem;
+  font-weight: 850;
+}
+
+.external-risk-card__impact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.external-risk-card__impact div {
+  min-width: 0;
+  padding: 7px;
+  border-radius: 8px;
+  background: #f7faff;
+}
+
+.external-risk-card__impact dt,
+.external-risk-card__impact dd {
+  margin: 0;
+}
+
+.external-risk-card__impact dt {
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.external-risk-card__impact dd {
+  margin-top: 3px;
+  color: var(--text);
+  font-size: 0.94rem;
+  font-weight: 900;
+}
+
 @keyframes ari-score-in {
   from {
     opacity: 0.78;

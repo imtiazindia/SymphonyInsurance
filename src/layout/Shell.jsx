@@ -177,6 +177,64 @@ function AviationRiskAnalysis({ viewKey }) {
   );
 }
 
+function ExternalRiskImpactCard({ onViewAnalysis }) {
+  const [view, setView] = useState('domestic');
+  const activeView = aviationRiskIndex[view];
+  const tone = getAriTone(activeView.category);
+  const topFactors = getAriTopFactors(activeView, 3);
+  const executiveSignals = activeView.workspaceSignals.executive;
+
+  return (
+    <aside className={`market-card ari-card external-risk-card ari-card--${tone}`} aria-label="External Risk Impact">
+      <div className="ari-card__header">
+        <h2>External Risk Impact</h2>
+        <span>AI</span>
+      </div>
+      <div className="market-card__rule" />
+      <div className="ari-toggle" aria-label="External Risk Impact view">
+        {['global', 'domestic'].map((key) => (
+          <button
+            key={key}
+            type="button"
+            className={view === key ? 'ari-toggle__button ari-toggle__button--active' : 'ari-toggle__button'}
+            onClick={() => setView(key)}
+          >
+            {aviationRiskIndex[key].label}
+          </button>
+        ))}
+      </div>
+      <div className="external-risk-card__metric">
+        <strong>{activeView.category}</strong>
+        <span>{activeView.score} / 100 ARI</span>
+      </div>
+      <p className="ari-card__summary">{activeView.workspaceSignals.renewal}</p>
+      <div className="external-risk-card__drivers" aria-label={`${activeView.label} external risk drivers`}>
+        {topFactors.map((factor) => (
+          <span key={factor.id}>{factor.label}</span>
+        ))}
+      </div>
+      <dl className="external-risk-card__impact">
+        <div>
+          <dt>Affected Clients</dt>
+          <dd>{executiveSignals.affectedClients}</dd>
+        </div>
+        <div>
+          <dt>Renewals</dt>
+          <dd>{executiveSignals.renewalsForReview}</dd>
+        </div>
+      </dl>
+      <div className="market-card__status ari-card__status">
+        <span />
+        External impact
+        <small>{formatAriLastUpdated()}</small>
+      </div>
+      <button className="ari-card__action" type="button" onClick={() => onViewAnalysis(view)}>
+        View Impact
+      </button>
+    </aside>
+  );
+}
+
 function MarketConditions() {
   return (
     <aside className="market-card" aria-label="Market conditions">
@@ -264,6 +322,7 @@ export function Shell({ children }) {
         <Brand />
         <Navigation />
         <AviationRiskIndexCard onViewAnalysis={openAriAnalysis} />
+        <ExternalRiskImpactCard onViewAnalysis={openAriAnalysis} />
         <MarketConditions />
       </aside>
 
