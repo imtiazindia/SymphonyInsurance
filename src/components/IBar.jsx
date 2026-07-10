@@ -49,7 +49,10 @@ function createRequestId() {
 
 function deriveActiveClientId(location) {
   const params = new URLSearchParams(location.search);
-  return params.get('clientId');
+  const queryClientId = params.get('clientId');
+  if (queryClientId) return queryClientId;
+  const clientRouteMatch = location.pathname.match(/^\/clients\/([^/]+)/);
+  return clientRouteMatch ? decodeURIComponent(clientRouteMatch[1]) : null;
 }
 
 export function IBar() {

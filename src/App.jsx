@@ -21,6 +21,7 @@ export default function App() {
         <Route path="/ibar" element={<IBarResultsPage />} />
         <Route path="/account-manager" element={<AccountManagerWorkspace />} />
         <Route path="/clients" element={<ClientWorkspacePage />} />
+        <Route path="/clients/:clientId/*" element={<ClientWorkspacePage />} />
         <Route path="/renewals" element={<RenewalWorkspace />} />
         <Route path="/renewals/:renewalId" element={<RenewalDetailWorkspace />} />
         <Route path="/submissions" element={<SubmissionWorkspace />} />

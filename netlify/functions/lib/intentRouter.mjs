@@ -25,7 +25,7 @@ export function classifyIntent(query, entities) {
     };
   }
 
-  if (/meeting brief|brief me|client summary|summary for|overview for/.test(q) && entities.client) {
+  if (/meeting brief|brief me|client summary|summary for|overview for|summarize .*client|summarise .*client/.test(q) && entities.client) {
     return { intent: 'client_summary', confidence: 0.87, filters: entities.filters };
   }
 
@@ -33,7 +33,7 @@ export function classifyIntent(query, entities) {
     return { intent: 'ceo_priorities', confidence: 0.86, filters: entities.filters };
   }
 
-  if (/risk index|ari|aviation risk|threat|weather|geopolitical|energy|fuel/.test(q)) {
+  if (/\brisk index\b|\bari\b|\baviation risk\b|\bthreat\b|\bweather\b|\bgeopolitical\b|\benergy\b|\bfuel\b/.test(q)) {
     return { intent: 'ari_impact', confidence: 0.86, filters: entities.filters };
   }
 

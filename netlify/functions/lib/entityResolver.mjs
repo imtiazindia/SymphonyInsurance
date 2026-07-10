@@ -30,6 +30,7 @@ export function resolveEntities(query, data, request = {}) {
   const activeClient = request.activeClientId
     ? data.clients.find((client) => client.id === request.activeClientId)
     : null;
+  const contextClientRequested = Boolean(activeClient && /\b(this|current|active)\s+client\b|\bclient\b/.test(normalized));
 
   const clientMatches = data.clients
     .map((client) => ({
@@ -43,7 +44,7 @@ export function resolveEntities(query, data, request = {}) {
     .filter((item) => item.score > 0.2)
     .sort((a, b) => b.score - a.score);
 
-  entities.client = clientMatches[0]?.client ?? activeClient ?? null;
+  entities.client = contextClientRequested ? activeClient : clientMatches[0]?.client ?? activeClient ?? null;
   entities.clientMatches = clientMatches.slice(0, 8).map((item) => ({ ...item.client, matchScore: item.score }));
 
   const userMatches = data.teamMembers

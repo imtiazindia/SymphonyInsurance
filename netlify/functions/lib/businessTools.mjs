@@ -1,5 +1,5 @@
 const ROUTES = {
-  client: (id) => `/clients?clientId=${encodeURIComponent(id)}`,
+  client: (id) => `/clients/${encodeURIComponent(id)}`,
   renewal: (id) => `/renewals/${encodeURIComponent(id)}`,
   submission: (id) => `/submissions/${encodeURIComponent(id)}`,
   placement: (id) => `/market-placement/${encodeURIComponent(id)}`,

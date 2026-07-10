@@ -2582,6 +2582,740 @@ svg {
   font-weight: 800;
 }
 
+.client360-page {
+  display: grid;
+  gap: 18px;
+  max-width: 1540px;
+  margin: 0 auto;
+}
+
+.client360-portfolio-hero,
+.client360-header {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.client360-portfolio-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 20px;
+}
+
+.client360-portfolio-hero span,
+.client360-header__main > div > span,
+.client360-breadcrumbs,
+.client360-brief-panel header span {
+  color: var(--blue);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.client360-portfolio-hero h1,
+.client360-header h1 {
+  margin: 5px 0 7px;
+  color: var(--text);
+  font-size: clamp(1.85rem, 2.35vw, 2.55rem);
+  line-height: 1.05;
+}
+
+.client360-portfolio-hero p,
+.client360-header p,
+.client360-narrative {
+  max-width: 900px;
+  margin: 0;
+  color: #315174;
+  font-size: 0.95rem;
+  line-height: 1.48;
+}
+
+.client360-filter-card {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 11px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.client360-filter-card label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.client360-filter-card label span,
+.client360-filter-card__search span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.client360-filter-card select,
+.client360-filter-card input {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  color: var(--text);
+  border: 1px solid #d9e3ef;
+  border-radius: 8px;
+  background: #f9fbff;
+  font: inherit;
+  font-size: 0.82rem;
+  outline: 0;
+}
+
+.client360-filter-card select {
+  padding: 0 9px;
+}
+
+.client360-filter-card__search div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #d9e3ef;
+  border-radius: 8px;
+  background: #f9fbff;
+}
+
+.client360-filter-card__search input {
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.client360-portfolio-table {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.client360-portfolio-table__head,
+.client360-row {
+  display: grid;
+  grid-template-columns: minmax(210px, 1.55fr) minmax(140px, 1fr) repeat(8, minmax(86px, 0.75fr));
+  align-items: center;
+  gap: 10px;
+  min-width: 1180px;
+  padding: 12px 15px;
+}
+
+.client360-portfolio-table__head {
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  background: #f7faff;
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.client360-row {
+  color: #315174;
+  border-bottom: 1px solid #edf2f8;
+  font-size: 0.82rem;
+}
+
+.client360-row:hover {
+  background: #f8fbff;
+}
+
+.client360-row strong,
+.client360-row small {
+  display: block;
+}
+
+.client360-row strong {
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.client360-row small {
+  margin-top: 3px;
+  color: var(--muted);
+}
+
+.client360-risk {
+  display: inline-flex;
+  justify-content: center;
+  min-height: 25px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.client360-risk--red {
+  color: #8d302c;
+  background: #fde8e6;
+}
+
+.client360-risk--amber {
+  color: #8b5d15;
+  background: #fff2d7;
+}
+
+.client360-risk--blue {
+  color: #1d5aa6;
+  background: #e7f0ff;
+}
+
+.client360-risk--green {
+  color: #1f6a50;
+  background: #e2f3ec;
+}
+
+.client360-header {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.client360-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-transform: none;
+}
+
+.client360-header__main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+.client360-header__meta,
+.client360-summary-strip,
+.client360-kpi-row,
+.client360-document-summary {
+  display: grid;
+  gap: 12px;
+}
+
+.client360-header__meta {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.client360-header__meta div,
+.client360-summary-metric,
+.client360-detail-grid div,
+.client360-financial-grid div {
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+  background: #f8fbff;
+}
+
+.client360-header__meta span,
+.client360-header__meta strong,
+.client360-summary-metric span,
+.client360-summary-metric strong,
+.client360-summary-metric small,
+.client360-detail-grid dt,
+.client360-detail-grid dd,
+.client360-financial-grid dt,
+.client360-financial-grid dd {
+  display: block;
+  margin: 0;
+}
+
+.client360-header__meta span,
+.client360-summary-metric span,
+.client360-detail-grid dt,
+.client360-financial-grid dt {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.client360-header__meta strong,
+.client360-summary-metric strong,
+.client360-detail-grid dd,
+.client360-financial-grid dd {
+  margin-top: 5px;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 850;
+}
+
+.client360-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.client360-actions button,
+.client360-actions a,
+.client360-section-link,
+.client360-summary-card a,
+.client360-priority-list a,
+.client360-record-table button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 10px;
+  color: #244363;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #f8fbff;
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.client360-actions button:hover,
+.client360-actions a:hover,
+.client360-summary-card a:hover,
+.client360-priority-list a:hover {
+  color: var(--blue);
+  border-color: #aec3de;
+  background: #fff;
+}
+
+.client360-summary-strip {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.client360-summary-metric {
+  display: grid;
+  gap: 4px;
+  min-height: 118px;
+  color: inherit;
+}
+
+.client360-summary-metric svg {
+  color: var(--blue);
+}
+
+.client360-summary-metric small {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.client360-tabs {
+  position: sticky;
+  top: 88px;
+  z-index: 12;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);
+}
+
+.client360-tabs button,
+.client360-filter-tabs button {
+  min-height: 32px;
+  padding: 0 10px;
+  color: #405b78;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.client360-tabs__active,
+.client360-filter-tabs__active {
+  color: var(--blue) !important;
+  background: var(--blue-soft) !important;
+}
+
+.client360-card,
+.client360-advisory-card,
+.client360-action-log {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.client360-section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 0 0 14px;
+}
+
+.client360-section-title h2,
+.client360-advisory-card h2,
+.client360-summary-card h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.03rem;
+}
+
+.client360-section-title p {
+  max-width: 760px;
+  margin: 5px 0 0;
+  color: #5d7390;
+  font-size: 0.86rem;
+}
+
+.client360-advisory-card dl,
+.client360-priority-list,
+.client360-linked-grid,
+.client360-risk-grid,
+.client360-financial-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.client360-advisory-card dl {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 13px 0 0;
+}
+
+.client360-advisory-card div,
+.client360-priority-list article,
+.client360-summary-card,
+.client360-contact-grid article,
+.client360-drawer-card,
+.client360-risk-item {
+  padding: 13px;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+  background: #f8fbff;
+}
+
+.client360-advisory-card dt,
+.client360-advisory-card dd {
+  display: block;
+  margin: 0;
+}
+
+.client360-advisory-card dt {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.client360-advisory-card dd {
+  margin-top: 5px;
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.client360-priority-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.client360-priority-list article {
+  display: grid;
+  gap: 10px;
+}
+
+.client360-priority-list strong,
+.client360-priority-list span,
+.client360-priority-list p,
+.client360-summary-card p,
+.client360-summary-card small,
+.client360-empty,
+.client360-risk-item p,
+.client360-risk-item small,
+.client360-drawer-card p {
+  margin: 0;
+  color: #405b78;
+  font-size: 0.84rem;
+  line-height: 1.42;
+}
+
+.client360-priority-list strong,
+.client360-drawer-card strong,
+.client360-risk-item strong {
+  color: var(--text);
+  font-size: 0.94rem;
+}
+
+.client360-priority-list dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.client360-priority-list dt,
+.client360-priority-list dd {
+  margin: 0;
+}
+
+.client360-priority-list dt {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.client360-priority-list dd {
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.client360-two-column,
+.client360-linked-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.client360-detail-grid,
+.client360-contact-grid,
+.client360-risk-grid,
+.client360-kpi-row,
+.client360-document-summary,
+.client360-financial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.client360-detail-grid--wide {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 14px;
+}
+
+.client360-filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 12px;
+}
+
+.client360-record-table {
+  display: grid;
+  gap: 0;
+  overflow-x: auto;
+  margin-top: 12px;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+}
+
+.client360-record-table > div,
+.client360-record-table > article,
+.client360-record-table > button {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  gap: 10px;
+  align-items: center;
+  min-width: 900px;
+  min-height: 46px;
+  padding: 10px 12px;
+  color: #405b78;
+  border: 0;
+  border-bottom: 1px solid #edf2f8;
+  background: #fff;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.client360-record-table > div {
+  color: var(--muted);
+  background: #f7faff;
+  font-size: 0.66rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.client360-record-table strong,
+.client360-record-table a {
+  color: var(--text);
+  font-weight: 850;
+}
+
+.client360-record-table--aircraft > div,
+.client360-record-table--aircraft > button,
+.client360-record-table--pilots > div,
+.client360-record-table--pilots > article {
+  grid-template-columns: 1.2fr 0.65fr 0.8fr 1.2fr 0.9fr 0.8fr;
+}
+
+.client360-drawer-card {
+  margin-top: 12px;
+}
+
+.client360-chip-list,
+.client360-related-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.client360-chip-list span,
+.client360-related-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 9px;
+  color: #385675;
+  border: 1px solid #d8e2ee;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.client360-progress-line {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+  background: #f8fbff;
+}
+
+.client360-progress-line div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.client360-progress-line span,
+.client360-progress-line strong {
+  color: #405b78;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.client360-progress-line i {
+  display: block;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e4ecf5;
+}
+
+.client360-progress-line b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+}
+
+.client360-actions--inline {
+  margin-top: 12px;
+}
+
+.client360-action-log {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.client360-action-log span {
+  padding: 8px 10px;
+  color: #385675;
+  border-radius: 8px;
+  background: #f8fbff;
+  font-size: 0.78rem;
+}
+
+.client360-brief-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(11, 23, 48, 0.32);
+}
+
+.client360-brief-panel {
+  width: min(980px, 100%);
+  max-height: min(860px, calc(100vh - 40px));
+  overflow: auto;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.client360-brief-panel header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 15px;
+}
+
+.client360-brief-panel header h2 {
+  margin: 4px 0 0;
+  color: var(--text);
+}
+
+.client360-brief-panel header div:last-child {
+  display: flex;
+  gap: 8px;
+}
+
+.client360-brief-panel button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 10px;
+  color: #244363;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #f8fbff;
+  font-weight: 850;
+}
+
+.client360-brief-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.client360-brief-grid article {
+  padding: 14px;
+  border: 1px solid #e2ebf5;
+  border-radius: 9px;
+  background: #f8fbff;
+}
+
+.client360-brief-grid h3 {
+  margin: 0 0 7px;
+  color: var(--text);
+  font-size: 0.96rem;
+}
+
+.client360-brief-grid p {
+  margin: 0;
+  color: #405b78;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 .card,
 .data-card,
 .metric-card {
@@ -7681,6 +8415,17 @@ svg {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: start;
   }
+
+  .client360-filter-card,
+  .client360-header__meta,
+  .client360-summary-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .client360-advisory-card dl,
+  .client360-detail-grid--wide {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 1020px) {
@@ -7799,6 +8544,32 @@ svg {
 
   .compliance-business-impact {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .client360-header__main,
+  .client360-portfolio-hero,
+  .client360-section-title,
+  .client360-brief-panel header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .client360-filter-card,
+  .client360-summary-strip,
+  .client360-advisory-card dl,
+  .client360-priority-list,
+  .client360-two-column,
+  .client360-linked-grid,
+  .client360-risk-grid,
+  .client360-kpi-row,
+  .client360-document-summary,
+  .client360-financial-grid,
+  .client360-brief-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client360-tabs {
+    top: 76px;
   }
 }
 
@@ -8119,6 +8890,58 @@ svg {
   .compliance-ari-panel {
     grid-template-columns: 1fr;
   }
+
+  .client360-header__meta,
+  .client360-detail-grid,
+  .client360-detail-grid--wide,
+  .client360-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client360-portfolio-table {
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .client360-portfolio-table__head {
+    display: none;
+  }
+
+  .client360-row {
+    grid-template-columns: 1fr;
+    min-width: 0;
+    margin-bottom: 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .client360-record-table {
+    overflow: visible;
+    border: 0;
+  }
+
+  .client360-record-table > div {
+    display: none;
+  }
+
+  .client360-record-table > article,
+  .client360-record-table > button,
+  .client360-record-table--aircraft > button,
+  .client360-record-table--pilots > article {
+    grid-template-columns: 1fr;
+    min-width: 0;
+    margin-bottom: 8px;
+    border: 1px solid #e2ebf5;
+    border-radius: 9px;
+  }
+
+  .client360-priority-list dl {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 560px) {
@@ -8272,5 +9095,25 @@ svg {
 
   .market-priority-card__main {
     grid-template-columns: 1fr;
+  }
+
+  .client360-tabs {
+    top: 74px;
+  }
+
+  .client360-actions,
+  .client360-brief-panel header div:last-child {
+    flex-direction: column;
+  }
+
+  .client360-actions button,
+  .client360-actions a,
+  .client360-brief-panel button {
+    width: 100%;
+  }
+
+  .client360-brief-backdrop {
+    align-items: start;
+    padding: 10px;
   }
 }
