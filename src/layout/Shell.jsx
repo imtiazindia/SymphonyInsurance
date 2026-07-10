@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Bell, ChevronDown, Menu, Search, ShieldCheck } from 'lucide-react';
+import { Bell, ChevronDown, Menu, ShieldCheck } from 'lucide-react';
 import { Drawer } from '../components/Drawer.jsx';
+import { IBar } from '../components/IBar.jsx';
 import { Modal } from '../components/Modal.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
 import { navItems } from '../data/demoData.js';
@@ -206,10 +207,7 @@ function TopBar({ onMenu, onNotify }) {
         <Menu size={21} />
       </button>
 
-      <label className="global-search">
-        <Search size={19} strokeWidth={1.8} />
-        <input type="search" placeholder="Search clients, policies, submissions..." />
-      </label>
+      <IBar />
 
       <div className="top-actions">
         <button className="notification-button" type="button" onClick={onNotify} aria-label="Notifications">

@@ -1,0 +1,439 @@
+const ROUTES = {
+  client: (id) => `/clients?clientId=${encodeURIComponent(id)}`,
+  renewal: (id) => `/renewals/${encodeURIComponent(id)}`,
+  submission: (id) => `/submissions/${encodeURIComponent(id)}`,
+  placement: (id) => `/market-placement/${encodeURIComponent(id)}`,
+  claim: (id) => `/claims/${encodeURIComponent(id)}`,
+  compliance: (id) => `/compliance/${encodeURIComponent(id)}`,
+  document: (id) => `/documents/${encodeURIComponent(id)}`,
+};
+
+function money(value) {
+  const number = Number(value) || 0;
+  if (number >= 1_000_000) return `$${(number / 1_000_000).toFixed(number >= 10_000_000 ? 1 : 2)}M`;
+  if (number >= 1_000) return `$${Math.round(number / 1_000)}K`;
+  return `$${number.toLocaleString('en-US')}`;
+}
+
+function getClient(data, id) {
+  return data.clients.find((client) => client.id === id);
+}
+
+function clientName(data, id) {
+  return getClient(data, id)?.name ?? id;
+}
+
+function containsType(client, type) {
+  if (!type) return true;
+  const needle = type.toLowerCase();
+  return `${client.clientType} ${client.industrySegment}`.toLowerCase().includes(needle);
+}
+
+function clientRecord(client, extras = {}) {
+  return {
+    id: client.id,
+    type: 'client',
+    title: client.name,
+    subtitle: `${client.clientType} • ${client.location}`,
+    status: client.retentionRisk,
+    metrics: [
+      { label: 'Health', value: `${client.clientHealthScore}` },
+      { label: 'Revenue', value: money(client.estimatedRevenue) },
+      { label: 'Open claims', value: String(client.openClaimsCount) },
+    ],
+    businessImpact: client.shortBusinessSummary,
+    recommendedAction: client.retentionRisk === 'High' ? 'Review renewal, claims, and document gaps.' : 'Keep relationship and service plan on track.',
+    navigation: { label: 'Open Client', route: ROUTES.client(client.id) },
+    ...extras,
+  };
+}
+
+function renewalRecord(renewal, data) {
+  const client = getClient(data, renewal.clientId);
+  return {
+    id: renewal.id,
+    type: 'renewal',
+    title: client?.name ?? renewal.id,
+    subtitle: `${renewal.currentStage} • expires in ${renewal.daysToExpiry} days`,
+    status: renewal.ownerAttentionRequired ? 'CEO attention' : renewal.currentStage,
+    metrics: [
+      { label: 'Readiness', value: `${renewal.readinessScore}%` },
+      { label: 'Revenue at risk', value: money(renewal.revenueAtRisk) },
+      { label: 'Missing items', value: String(renewal.missingItems.length) },
+    ],
+    businessImpact: renewal.priorityReason,
+    recommendedAction: renewal.missingItems.length ? `Resolve: ${renewal.missingItems.slice(0, 2).join(', ')}` : 'Review final market position.',
+    navigation: { label: 'Open Renewal', route: ROUTES.renewal(renewal.id) },
+  };
+}
+
+function claimRecord(claim, data) {
+  return {
+    id: claim.id,
+    type: 'claim',
+    title: clientName(data, claim.clientId),
+    subtitle: `${claim.claimType} • ${claim.daysOpen} days open`,
+    status: claim.status,
+    metrics: [
+      { label: 'Severity', value: claim.severity },
+      { label: 'Incurred', value: money(claim.incurredAmount) },
+      { label: 'Reserve', value: money(claim.reserveAmount) },
+    ],
+    businessImpact: claim.executiveReviewRequired ? 'Executive review is already flagged.' : 'Monitor for underwriting narrative impact.',
+    recommendedAction: claim.nextAction,
+    navigation: { label: 'Open Claim', route: ROUTES.claim(claim.id) },
+  };
+}
+
+function submissionRecord(submission, data) {
+  return {
+    id: submission.id,
+    type: 'submission',
+    title: clientName(data, submission.clientId),
+    subtitle: `${submission.status} • ${submission.completionPercent}% complete`,
+    status: submission.status,
+    metrics: [
+      { label: 'Completion', value: `${submission.completionPercent}%` },
+      { label: 'Gaps', value: String(submission.documentGaps.length) },
+      { label: 'Concerns', value: String(submission.underwriterConcerns.length) },
+    ],
+    businessImpact: submission.underwriterConcerns[0] ?? 'No material underwriter concern recorded.',
+    recommendedAction: submission.nextAction,
+    navigation: { label: 'Open Submission', route: ROUTES.submission(submission.id) },
+  };
+}
+
+function placementRecord(negotiation, data) {
+  return {
+    id: negotiation.id,
+    type: 'placement',
+    title: clientName(data, negotiation.clientId),
+    subtitle: `${negotiation.currentStatus} • ${negotiation.quotesReceived}/${negotiation.insurersApproached.length} quotes received`,
+    status: negotiation.decisionRequired ? 'Decision required' : negotiation.currentStatus,
+    metrics: [
+      { label: 'Best quote', value: money(negotiation.bestQuote) },
+      { label: 'Target', value: money(negotiation.targetPremium) },
+      { label: 'Savings', value: money(negotiation.estimatedSavings) },
+    ],
+    businessImpact: negotiation.pendingQuestions[0] ?? 'Market placement is moving without a listed blocker.',
+    recommendedAction: `Recommended insurer: ${negotiation.recommendedInsurer}`,
+    navigation: { label: 'Open Placement', route: ROUTES.placement(negotiation.id) },
+  };
+}
+
+function complianceRecord(item, data) {
+  return {
+    id: item.id,
+    type: 'compliance',
+    title: clientName(data, item.clientId),
+    subtitle: `${item.findingType} • due ${item.dueDate}`,
+    status: item.status,
+    metrics: [
+      { label: 'Severity', value: item.severity },
+      { label: 'Status', value: item.status },
+      { label: 'Assigned', value: item.assignedUserId },
+    ],
+    businessImpact: item.businessImpact,
+    recommendedAction: item.correctiveAction,
+    navigation: { label: 'Open Compliance', route: ROUTES.compliance(item.id) },
+  };
+}
+
+function documentRecord(item, data) {
+  return {
+    id: item.id,
+    type: 'document',
+    title: clientName(data, item.clientId),
+    subtitle: `${item.documentType ?? item.type ?? 'Document'} • ${item.status}`,
+    status: item.status,
+    metrics: [
+      { label: 'Status', value: item.status },
+      { label: 'Client', value: item.clientId },
+    ],
+    businessImpact: item.businessImpact ?? 'Document status may affect renewal or submission readiness.',
+    recommendedAction: item.nextAction ?? 'Review and update the document record.',
+    navigation: { label: 'Open Document', route: ROUTES.document(item.id) },
+  };
+}
+
+function filterByClient(records, entities) {
+  return entities.client ? records.filter((record) => record.clientId === entities.client.id) : records;
+}
+
+function buildClientSummary(client, data) {
+  const renewals = data.renewals.filter((item) => item.clientId === client.id);
+  const submissions = data.submissions.filter((item) => item.clientId === client.id);
+  const claims = data.claims.filter((item) => item.clientId === client.id);
+  const placements = data.negotiations.filter((item) => item.clientId === client.id);
+  const compliance = data.compliance.filter((item) => item.clientId === client.id && item.status !== 'Closed');
+  return [
+    clientRecord(client, {
+      recommendedAction: 'Use this as the starting point for the client discussion.',
+    }),
+    ...renewals.slice(0, 2).map((item) => renewalRecord(item, data)),
+    ...submissions.slice(0, 2).map((item) => submissionRecord(item, data)),
+    ...claims.slice(0, 2).map((item) => claimRecord(item, data)),
+    ...placements.slice(0, 1).map((item) => placementRecord(item, data)),
+    ...compliance.slice(0, 1).map((item) => complianceRecord(item, data)),
+  ];
+}
+
+function ariResults(data, entities) {
+  const viewKey = entities.view ?? 'domestic';
+  const view = data.aviationRiskIndex[viewKey];
+  const affected = data.clients
+    .filter((client) => view.affectedClientTypes.some((type) => client.clientType.includes(type.replace(/s$/, '')) || client.industrySegment.toLowerCase().includes(type.toLowerCase().replace(/s$/, ''))))
+    .slice(0, 6)
+    .map((client) => clientRecord(client, {
+      status: `${view.label} ARI exposure`,
+      recommendedAction: view.recommendedActions[0],
+    }));
+
+  return {
+    title: `${view.label} Aviation Risk Index: ${view.score}/100`,
+    summary: view.summary,
+    results: affected,
+    insights: [
+      view.primaryDriverSummary,
+      `${view.workspaceSignals.executive.affectedClients} executive clients and ${view.workspaceSignals.executive.renewalsForReview} renewals are flagged for review.`,
+      `Confidence: ${data.aviationRiskIndex.confidence}.`,
+    ],
+    actions: view.recommendedActions.slice(0, 4).map((label) => ({ label, route: '/renewals' })),
+    warnings: ['Decision-support indicator only; use professional judgment.'],
+    dataScope: [`ARI ${view.label}`, 'clients', 'renewals'],
+  };
+}
+
+export function runBusinessTool({ route, entities, data, request }) {
+  const filters = { ...route.filters };
+  let title = 'iBar Results';
+  let summary = 'Here is the best available view from Symphony data.';
+  let results = [];
+  let insights = [];
+  let actions = [];
+  let warnings = [];
+  let dataScope = [];
+
+  if (route.intent === 'navigation' && route.target) {
+    return {
+      title: `Open ${route.target.label}`,
+      summary: `iBar found a direct navigation match for ${route.target.label}.`,
+      results: [],
+      insights: [],
+      actions: [{ label: `Open ${route.target.label}`, route: route.target.route, type: 'navigate', direct: true }],
+      warnings: [],
+      dataScope: ['navigation'],
+      appliedFilters: filters,
+    };
+  }
+
+  switch (route.intent) {
+    case 'client_summary': {
+      const client = entities.client;
+      title = client ? `${client.name} client brief` : 'Client brief';
+      summary = client ? client.shortBusinessSummary : 'No exact client was identified.';
+      results = client ? buildClientSummary(client, data) : entities.clientMatches.map((item) => clientRecord(item));
+      insights = client
+        ? [
+            `Retention risk is ${client.retentionRisk.toLowerCase()} with a health score of ${client.clientHealthScore}.`,
+            `${client.openClaimsCount} open claims and ${client.openTasksCount} open tasks are visible.`,
+            `Document completeness is ${client.documentCompleteness}%.`,
+          ]
+        : ['Ask for a specific client name to build a meeting brief.'];
+      actions = client ? [{ label: 'Open client workspace', route: ROUTES.client(client.id) }] : [{ label: 'Open clients', route: '/clients' }];
+      dataScope = ['clients', 'renewals', 'submissions', 'claims', 'placements', 'compliance'];
+      break;
+    }
+
+    case 'renewal_search': {
+      const days = filters.days ?? 60;
+      results = filterByClient(data.renewals, entities)
+        .filter((item) => item.daysToExpiry <= days || item.ownerAttentionRequired || item.revenueAtRisk >= (filters.amount ?? Infinity))
+        .sort((a, b) => Number(b.ownerAttentionRequired) - Number(a.ownerAttentionRequired) || b.revenueAtRisk - a.revenueAtRisk)
+        .map((item) => renewalRecord(item, data));
+      title = `Renewals needing attention`;
+      summary = `${results.length} renewal records matched the current priority filters.`;
+      insights = [
+        `${results.filter((item) => item.status === 'CEO attention').length} renewals are marked for CEO attention.`,
+        `Highest revenue at risk: ${results[0]?.metrics.find((metric) => metric.label === 'Revenue at risk')?.value ?? 'none'}.`,
+      ];
+      actions = [{ label: 'Open renewals workspace', route: '/renewals' }];
+      dataScope = ['renewals', 'clients'];
+      break;
+    }
+
+    case 'claim_search': {
+      const threshold = filters.amount ?? 100000;
+      results = filterByClient(data.claims, entities)
+        .filter((item) => item.severity === 'High' || item.incurredAmount >= threshold || item.executiveReviewRequired)
+        .sort((a, b) => b.incurredAmount - a.incurredAmount)
+        .map((item) => claimRecord(item, data));
+      title = `Claims requiring review`;
+      summary = `${results.length} claims match severity, incurred, or executive review signals.`;
+      insights = [
+        `${results.filter((item) => item.status === 'Executive Review').length} claims are already in executive review.`,
+        `Largest incurred value: ${results[0]?.metrics.find((metric) => metric.label === 'Incurred')?.value ?? 'none'}.`,
+      ];
+      actions = [{ label: 'Open claims workspace', route: '/claims' }];
+      dataScope = ['claims', 'clients', 'policies'];
+      break;
+    }
+
+    case 'submission_search': {
+      const percent = filters.percent ?? 80;
+      results = filterByClient(data.submissions, entities)
+        .filter((item) => item.completionPercent < percent || item.status !== 'Ready for Market' || item.documentGaps.length)
+        .sort((a, b) => a.completionPercent - b.completionPercent)
+        .map((item) => submissionRecord(item, data));
+      title = 'Submissions not fully market-ready';
+      summary = `${results.length} submissions have completion gaps, document gaps, or review status.`;
+      insights = [
+        `${results.filter((item) => item.status !== 'Ready for Market').length} submissions are not marked Ready for Market.`,
+        `Lowest completion: ${results[0]?.metrics.find((metric) => metric.label === 'Completion')?.value ?? 'none'}.`,
+      ];
+      actions = [{ label: 'Open submissions workspace', route: '/submissions' }];
+      dataScope = ['submissions', 'clients'];
+      break;
+    }
+
+    case 'placement_search': {
+      results = filterByClient(data.negotiations, entities)
+        .filter((item) => item.currentStatus !== 'Bound' || item.decisionRequired || item.pendingQuestions.length)
+        .sort((a, b) => Number(b.decisionRequired) - Number(a.decisionRequired) || b.estimatedSavings - a.estimatedSavings)
+        .map((item) => placementRecord(item, data));
+      title = entities.client ? `${entities.client.name} placement view` : 'Market placement signals';
+      summary = `${results.length} placements have active status, pending questions, or a decision signal.`;
+      insights = [
+        `${results.filter((item) => item.status === 'Decision required').length} placements require a decision.`,
+        `Best savings visible: ${results[0]?.metrics.find((metric) => metric.label === 'Savings')?.value ?? 'none'}.`,
+      ];
+      actions = [{ label: 'Open market placement', route: '/market-placement' }];
+      dataScope = ['negotiations', 'renewals', 'clients'];
+      break;
+    }
+
+    case 'compliance_search': {
+      results = filterByClient(data.compliance, entities)
+        .filter((item) => item.status === 'Overdue' || item.severity === 'High')
+        .map((item) => complianceRecord(item, data));
+      title = 'Compliance items requiring action';
+      summary = `${results.length} findings are overdue or high severity.`;
+      insights = [`${results.filter((item) => item.status === 'Overdue').length} items are overdue.`];
+      actions = [{ label: 'Open compliance', route: '/compliance' }];
+      dataScope = ['compliance', 'clients'];
+      break;
+    }
+
+    case 'document_search': {
+      results = filterByClient(data.documents, entities)
+        .filter((item) => /missing|needs|expired|pending/i.test(item.status ?? '') || /missing|gap/i.test(item.businessImpact ?? ''))
+        .map((item) => documentRecord(item, data));
+      title = 'Document gaps';
+      summary = `${results.length} document records may need attention.`;
+      insights = [`${new Set(results.map((item) => item.title)).size} clients have document signals.`];
+      actions = [{ label: 'Open documents', route: '/documents' }];
+      dataScope = ['documents', 'clients'];
+      break;
+    }
+
+    case 'team_workload': {
+      results = data.teamMembers
+        .filter((user) => user.workloadScore >= 75 || user.overdueTasks > 2)
+        .sort((a, b) => b.workloadScore - a.workloadScore)
+        .map((user) => ({
+          id: user.id,
+          type: 'team-member',
+          title: user.name,
+          subtitle: user.role,
+          status: user.workloadScore >= 80 ? 'Over capacity' : 'Elevated workload',
+          metrics: [
+            { label: 'Workload', value: `${user.workloadScore}` },
+            { label: 'Open tasks', value: String(user.openTasks) },
+            { label: 'Overdue', value: String(user.overdueTasks) },
+          ],
+          businessImpact: `${user.assignedClients.length} assigned clients may need load balancing.`,
+          recommendedAction: user.workloadScore >= 80 ? 'Rebalance priority tasks this week.' : 'Monitor capacity before assigning new work.',
+          navigation: { label: 'Open Account Manager', route: '/account-manager' },
+        }));
+      title = 'Team workload signals';
+      summary = `${results.length} team members have elevated workload or overdue tasks.`;
+      insights = [`Highest workload: ${results[0]?.title ?? 'none'}.`];
+      actions = [{ label: 'Open account manager workspace', route: '/account-manager' }];
+      dataScope = ['teamMembers', 'tasks', 'clients'];
+      break;
+    }
+
+    case 'ari_impact': {
+      return {
+        ...ariResults(data, entities),
+        appliedFilters: filters,
+      };
+    }
+
+    case 'entity_search': {
+      results = entities.clientMatches.map((item) => clientRecord(item));
+      title = 'Client matches';
+      summary = `${results.length} client records matched your query.`;
+      insights = ['Ask for a meeting brief to include renewals, claims, submissions, and placement status.'];
+      actions = [{ label: 'Open clients', route: '/clients' }];
+      dataScope = ['clients'];
+      break;
+    }
+
+    case 'ceo_priorities':
+    default: {
+      const priorityRenewals = data.renewals.filter((item) => item.ownerAttentionRequired).map((item) => renewalRecord(item, data));
+      const priorityClaims = data.claims.filter((item) => item.executiveReviewRequired).map((item) => claimRecord(item, data));
+      const overloaded = data.teamMembers
+        .filter((item) => item.workloadScore >= 80)
+        .map((user) => ({
+          id: user.id,
+          type: 'team-member',
+          title: user.name,
+          subtitle: user.role,
+          status: 'Over capacity',
+          metrics: [
+            { label: 'Workload', value: `${user.workloadScore}` },
+            { label: 'Open tasks', value: String(user.openTasks) },
+          ],
+          businessImpact: `${user.overdueTasks} overdue tasks may affect service velocity.`,
+          recommendedAction: 'Review task allocation and client follow-ups.',
+          navigation: { label: 'Open Account Manager', route: '/account-manager' },
+        }));
+      results = [...priorityRenewals, ...priorityClaims, ...overloaded].slice(0, 12);
+      title = 'CEO attention required';
+      summary = `${results.length} cross-workspace items are most likely to need CEO attention.`;
+      insights = [
+        `${priorityRenewals.length} renewals are flagged for CEO attention.`,
+        `${priorityClaims.length} claims require executive review.`,
+        `${overloaded.length} account managers are at or above workload threshold.`,
+      ];
+      actions = [
+        { label: 'Open executive overview', route: '/' },
+        { label: 'Open renewals', route: '/renewals' },
+        { label: 'Open claims', route: '/claims' },
+      ];
+      dataScope = ['renewals', 'claims', 'teamMembers'];
+      break;
+    }
+  }
+
+  if (!results.length) {
+    warnings.push('No exact records matched; showing the closest available business context.');
+  }
+
+  return {
+    title,
+    summary,
+    results: results.slice(0, 12),
+    insights,
+    actions,
+    warnings,
+    dataScope,
+    appliedFilters: filters,
+    requestContext: {
+      currentRoute: request.currentRoute,
+      selectedRole: request.selectedRole,
+    },
+  };
+}

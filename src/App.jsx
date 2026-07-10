@@ -4,6 +4,7 @@ import { ClaimsWorkspace } from './pages/ClaimsWorkspace.jsx';
 import { ClientWorkspacePage } from './pages/ClientWorkspacePage.jsx';
 import { Shell } from './layout/Shell.jsx';
 import { ExecutiveOverview } from './pages/ExecutiveOverview.jsx';
+import { IBarResultsPage } from './pages/IBarResultsPage.jsx';
 import { MarketPlacementWorkspace } from './pages/MarketPlacementWorkspace.jsx';
 import { ModulePlaceholderPage } from './pages/ModulePlaceholderPage.jsx';
 import { RenewalDetailWorkspace, RenewalWorkspace } from './pages/RenewalWorkspace.jsx';
@@ -16,6 +17,7 @@ export default function App() {
     <Shell>
       <Routes>
         <Route path="/" element={<ExecutiveOverview />} />
+        <Route path="/ibar" element={<IBarResultsPage />} />
         <Route path="/account-manager" element={<AccountManagerWorkspace />} />
         <Route path="/clients" element={<ClientWorkspacePage />} />
         <Route path="/renewals" element={<RenewalWorkspace />} />
