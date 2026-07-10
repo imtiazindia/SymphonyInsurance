@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Bell, ChevronDown, Menu, ShieldCheck } from 'lucide-react';
+import { Bell, ChevronDown, Menu, ShieldCheck, Sparkles } from 'lucide-react';
+import { DemoExperience } from '../components/DemoExperience.jsx';
 import { Drawer } from '../components/Drawer.jsx';
 import { IBar } from '../components/IBar.jsx';
 import { Modal } from '../components/Modal.jsx';
@@ -264,7 +265,7 @@ function MarketConditions() {
   );
 }
 
-function TopBar({ onMenu, onNotify }) {
+function TopBar({ onMenu, onNotify, demoMode, onDemoMode }) {
   return (
     <header className="top-bar">
       <button className="icon-button menu-button" type="button" onClick={onMenu} aria-label="Open menu">
@@ -274,6 +275,10 @@ function TopBar({ onMenu, onNotify }) {
       <IBar />
 
       <div className="top-actions">
+        <button className={demoMode ? 'demo-mode-toggle demo-mode-toggle--active' : 'demo-mode-toggle'} type="button" onClick={onDemoMode} aria-pressed={demoMode}>
+          <Sparkles size={16} />
+          <span>Demo Mode</span>
+        </button>
         <button className="notification-button" type="button" onClick={onNotify} aria-label="Notifications">
           <Bell size={21} strokeWidth={1.75} />
           <span>3</span>
@@ -316,6 +321,7 @@ export function Shell({ children }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [ariAnalysisOpen, setAriAnalysisOpen] = useState(false);
   const [ariAnalysisView, setAriAnalysisView] = useState('global');
+  const [demoMode, setDemoMode] = useState(false);
 
   function openAriAnalysis(view) {
     setAriAnalysisView(view);
@@ -333,9 +339,11 @@ export function Shell({ children }) {
       </aside>
 
       <div className="app-stage">
-        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} />
+        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} demoMode={demoMode} onDemoMode={() => setDemoMode((value) => !value)} />
         <main className="main-content">{children}</main>
       </div>
+
+      <DemoExperience enabled={demoMode} onEnabledChange={setDemoMode} />
 
       <BottomNavigation />
 

@@ -98,6 +98,18 @@ export function IBar() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [focused]);
 
+  useEffect(() => {
+    function onDemoSubmit(event) {
+      const nextQuery = event.detail?.query;
+      if (typeof nextQuery === 'string') {
+        submit(nextQuery);
+      }
+    }
+
+    window.addEventListener('symphony:ibar:submit', onDemoSubmit);
+    return () => window.removeEventListener('symphony:ibar:submit', onDemoSubmit);
+  });
+
   async function submit(nextQuery = query) {
     const normalized = nextQuery.replace(/\s+/g, ' ').trim();
     if (!normalized || loading) return;
