@@ -4745,11 +4745,20 @@ svg {
 }
 
 .demo-notes div,
-.demo-scenario-kpis,
-.demo-query-list {
+.demo-scenario-kpis {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
+}
+
+.demo-query-list {
+  display: grid;
+  gap: 7px;
+  max-height: 178px;
+  margin-top: 8px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
 }
 
 .demo-notes span,
@@ -4769,6 +4778,7 @@ svg {
   min-height: 30px;
   width: 100%;
   font-size: 0.72rem;
+  text-align: left;
 }
 
 .demo-shortcuts p {

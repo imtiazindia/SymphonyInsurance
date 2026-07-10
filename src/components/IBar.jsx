@@ -138,6 +138,20 @@ function teamRecord(user) {
   };
 }
 
+function simpleRecord({ id, type, title, subtitle, status, metrics = [], businessImpact, recommendedAction, route, label }) {
+  return {
+    id,
+    type,
+    title,
+    subtitle,
+    status,
+    metrics,
+    businessImpact,
+    recommendedAction,
+    navigation: route ? { label: label ?? 'Open Workspace', route } : undefined,
+  };
+}
+
 function buildLocalIBarFallback(query, requestId, location) {
   const q = query.toLowerCase();
   const highValueClient = simulationData.clients.find((client) => /global jet solutions/i.test(client.name)) ?? simulationData.clients[0];
@@ -216,6 +230,169 @@ function buildLocalIBarFallback(query, requestId, location) {
     actions = [{ label: 'Open reports workspace', route: '/reports' }, { label: 'Open executive overview', route: '/' }];
     intent = 'business_analytics';
     dataScope = ['clients', 'renewals', 'claims', 'reports'];
+  } else if (/business health index|what changed|clients drive the most revenue|most revenue/.test(q)) {
+    const topClients = simulationData.clients.slice().sort((a, b) => b.estimatedRevenue - a.estimatedRevenue).slice(0, 6);
+    title = /business health index/.test(q) ? 'Business Health Index explained' : 'Business performance signals';
+    summary = /business health index/.test(q)
+      ? 'Business Health Index blends retention, renewal readiness, submission readiness, revenue risk, claims exposure, compliance, workload, and ARI drag.'
+      : `${topClients[0]?.name ?? 'The top client'} leads the revenue portfolio; local demo mode prepared the top revenue view.`;
+    results = topClients.map(clientRecord);
+    insights = [
+      `${money(annualRevenue)} estimated annual revenue is represented in the client portfolio.`,
+      `${money(revenueAtRisk)} revenue is currently at risk across renewals.`,
+      'Open Reports for trend analysis, forecast, and the executive brief.',
+    ];
+    actions = [{ label: 'Open reports workspace', route: '/reports' }];
+    intent = 'business_analytics';
+    dataScope = ['clients', 'renewals', 'claims', 'reports'];
+  } else if (/submission|not ready/.test(q)) {
+    const submissions = simulationData.submissions
+      .filter((item) => item.status !== 'Ready for Market' || item.completionPercent < 85 || item.documentGaps.length)
+      .slice(0, 8);
+    title = 'Submissions not fully ready';
+    summary = `${submissions.length} submissions have readiness, status, or document signals in the local demo dataset.`;
+    results = submissions.map((submission) => simpleRecord({
+      id: submission.id,
+      type: 'submission',
+      title: simulationData.clients.find((client) => client.id === submission.clientId)?.name ?? submission.id,
+      subtitle: `${submission.status} - ${submission.completionPercent}% complete`,
+      status: submission.status,
+      metrics: [
+        { label: 'Completion', value: `${submission.completionPercent}%` },
+        { label: 'Gaps', value: String(submission.documentGaps.length) },
+        { label: 'Concerns', value: String(submission.underwriterConcerns.length) },
+      ],
+      businessImpact: submission.underwriterConcerns[0] ?? 'Submission should be reviewed before market release.',
+      recommendedAction: submission.nextAction,
+      route: `/submissions/${submission.id}`,
+      label: 'Open Submission',
+    }));
+    insights = [`Lowest completion: ${Math.min(...submissions.map((item) => item.completionPercent))}%.`];
+    actions = [{ label: 'Open submissions workspace', route: '/submissions' }];
+    intent = 'submission_search';
+    dataScope = ['submissions', 'documents', 'clients'];
+  } else if (/placement|quote|insurer/.test(q)) {
+    const placements = simulationData.negotiations.filter((item) => item.currentStatus !== 'Bound' || item.decisionRequired || item.pendingQuestions.length).slice(0, 8);
+    title = /configured insurers/.test(q) ? 'Configured insurer view' : 'Market placement signals';
+    summary = /configured insurers/.test(q)
+      ? `${new Set(simulationData.policies.map((policy) => policy.insurer)).size} insurers are configured in the local demo data.`
+      : `${placements.length} placements have active status, pending questions, or decision signals.`;
+    results = placements.map((placement) => simpleRecord({
+      id: placement.id,
+      type: 'placement',
+      title: simulationData.clients.find((client) => client.id === placement.clientId)?.name ?? placement.id,
+      subtitle: `${placement.currentStatus} - ${placement.quotesReceived}/${placement.insurersApproached.length} quotes`,
+      status: placement.decisionRequired ? 'Decision required' : placement.currentStatus,
+      metrics: [
+        { label: 'Best quote', value: money(placement.bestQuote) },
+        { label: 'Target', value: money(placement.targetPremium) },
+        { label: 'Savings', value: money(placement.estimatedSavings) },
+      ],
+      businessImpact: placement.pendingQuestions[0] ?? 'Placement is moving without a listed blocker.',
+      recommendedAction: `Recommended insurer: ${placement.recommendedInsurer}`,
+      route: `/market-placement/${placement.id}`,
+      label: 'Open Placement',
+    }));
+    insights = [`Configured insurers include ${Array.from(new Set(simulationData.policies.map((policy) => policy.insurer))).slice(0, 4).join(', ')}.`];
+    actions = [{ label: 'Open market placement', route: '/market-placement' }];
+    intent = 'placement_search';
+    dataScope = ['negotiations', 'policies', 'clients'];
+  } else if (/compliance/.test(q)) {
+    const complianceItems = simulationData.compliance.filter((item) => item.status === 'Overdue' || item.severity === 'High').slice(0, 8);
+    title = 'Compliance items requiring action';
+    summary = `${complianceItems.length} compliance findings are overdue or high severity.`;
+    results = complianceItems.map((item) => simpleRecord({
+      id: item.id,
+      type: 'compliance',
+      title: simulationData.clients.find((client) => client.id === item.clientId)?.name ?? item.id,
+      subtitle: `${item.findingType} - due ${item.dueDate}`,
+      status: item.status,
+      metrics: [
+        { label: 'Severity', value: item.severity },
+        { label: 'Status', value: item.status },
+        { label: 'Assigned', value: item.assignedUserId },
+      ],
+      businessImpact: item.businessImpact,
+      recommendedAction: item.correctiveAction,
+      route: `/compliance/${item.id}`,
+      label: 'Open Compliance',
+    }));
+    insights = [`${complianceItems.filter((item) => item.status === 'Overdue').length} findings are overdue.`];
+    actions = [{ label: 'Open compliance workspace', route: '/compliance' }];
+    intent = 'compliance_search';
+    dataScope = ['compliance', 'clients', 'documents'];
+  } else if (/document gaps|document/.test(q)) {
+    const documents = simulationData.documents.filter((item) => /missing|needs|expired|pending/i.test(item.status ?? '') || /missing|gap/i.test(item.businessImpact ?? '')).slice(0, 8);
+    title = 'Client document gaps';
+    summary = `${documents.length} documents may need review or follow-up.`;
+    results = documents.map((document) => simpleRecord({
+      id: document.id,
+      type: 'document',
+      title: simulationData.clients.find((client) => client.id === document.clientId)?.name ?? document.id,
+      subtitle: `${document.documentType} - ${document.status}`,
+      status: document.status,
+      metrics: [
+        { label: 'Required for', value: document.requiredFor },
+        { label: 'Expiry', value: document.expiryDate },
+      ],
+      businessImpact: document.businessImpact,
+      recommendedAction: document.missingReason || 'Review and update the document record.',
+      route: `/documents/${document.id}`,
+      label: 'Open Document',
+    }));
+    insights = [`${new Set(documents.map((item) => item.clientId)).size} clients have document signals.`];
+    actions = [{ label: 'Open documents workspace', route: '/documents' }];
+    intent = 'document_search';
+    dataScope = ['documents', 'clients', 'renewals'];
+  } else if (/aviation risk|ari|risk impact/.test(q)) {
+    const ari = simulationData.aviationRiskIndex?.domestic;
+    title = `Domestic Aviation Risk Index: ${ari?.score ?? 0}/100`;
+    summary = ari?.summary ?? 'Aviation risk index data is available in the shared model.';
+    results = simulationData.clients.slice(0, 6).map((client) => clientRecord(client, {
+      status: `${ari?.category ?? 'ARI'} exposure`,
+      recommendedAction: ari?.recommendedActions?.[0] ?? 'Review exposed aviation accounts.',
+    }));
+    insights = [
+      ari?.primaryDriverSummary ?? 'Primary aviation risk drivers are available.',
+      `${ari?.workspaceSignals?.executive?.affectedClients ?? 0} executive clients are affected in the configured signal.`,
+    ];
+    actions = [{ label: 'Open executive overview', route: '/' }, { label: 'Open reports workspace', route: '/reports' }];
+    intent = 'ari_impact';
+    dataScope = ['aviationRiskIndex', 'clients', 'renewals'];
+  } else if (/workflow architecture|who manages claims|configured insurers|ai configuration|open ai configuration/.test(q)) {
+    const claimManagers = simulationData.teamMembers.filter((member) => /claim/i.test(member.role));
+    title = 'Platform administration configuration';
+    summary = 'Administration shows users, roles, workflow architecture, configured insurers, iBar configuration, business rules, and system health.';
+    results = [
+      simpleRecord({
+        id: 'admin-workflow',
+        type: 'configuration',
+        title: 'Workflow architecture',
+        subtitle: 'Client -> Renewal -> Submission -> Market Placement -> Binding -> Claims -> Compliance',
+        status: 'Configured',
+        metrics: [{ label: 'Stages', value: '8' }, { label: 'Rules', value: '7' }],
+        businessImpact: 'The platform exposes responsibility, documents, decision points, and outputs for every major workflow.',
+        recommendedAction: 'Open workflow diagram in Administration.',
+        route: '/administration#admin-workflow',
+        label: 'Open Workflow',
+      }),
+      simpleRecord({
+        id: 'admin-claims',
+        type: 'configuration',
+        title: 'Claims responsibility',
+        subtitle: claimManagers.map((member) => member.name).join(', ') || 'Claims Coordinator role',
+        status: 'Configured',
+        metrics: [{ label: 'Claim owners', value: String(claimManagers.length) }],
+        businessImpact: 'Claims responsibility is visible in the role and workload model.',
+        recommendedAction: 'Review role matrix and workload.',
+        route: '/administration#admin-users',
+        label: 'Open Users',
+      }),
+    ];
+    insights = [`Configured insurers include ${Array.from(new Set(simulationData.policies.map((policy) => policy.insurer))).slice(0, 5).join(', ')}.`];
+    actions = [{ label: 'Open administration', route: '/administration' }, { label: 'Open AI configuration', route: '/administration#admin-ibar' }];
+    intent = 'admin_configuration';
+    dataScope = ['teamMembers', 'policies', 'workflows', 'businessRules'];
   }
 
   return {

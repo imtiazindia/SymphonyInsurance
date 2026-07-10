@@ -265,6 +265,21 @@ const demoQueries = [
   'Which claims affect renewals?',
   'Show overloaded account managers',
   'Prepare executive briefing',
+  'Which renewals have the most revenue at risk?',
+  'High severity claims over $100,000',
+  'Which submissions are not ready?',
+  'Which placements are waiting on insurers?',
+  'Compare quotes for SkyHigh Airlines',
+  'Show compliance items requiring action',
+  'Which clients have document gaps?',
+  'Show aviation risk impact on renewals',
+  'What changed since yesterday?',
+  'Which clients drive the most revenue?',
+  'Show workflow architecture',
+  'Who manages claims?',
+  'Show configured insurers',
+  'Explain Business Health Index',
+  'Open AI configuration',
 ];
 
 const defaultSettings = {
@@ -407,7 +422,7 @@ function StepPanel({ journey, step, stepIndex, totalSteps, elapsed, remaining, s
       <section>
         <strong>Suggested iBar Queries</strong>
         <div className="demo-query-list">
-          {(step.query ? [step.query, ...demoQueries] : demoQueries).slice(0, 5).map((query) => (
+          {Array.from(new Set(step.query ? [step.query, ...demoQueries] : demoQueries)).map((query) => (
             <button key={query} type="button" onClick={() => onQuery(query)}>{query}</button>
           ))}
         </div>
