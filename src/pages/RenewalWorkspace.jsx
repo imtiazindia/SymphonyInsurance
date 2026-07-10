@@ -21,6 +21,7 @@ import {
   TaskPriorityBadge,
 } from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
+import { getAriView } from '../utils/aviationRiskIndex.js';
 import { getSum } from '../utils/businessCalculations.js';
 
 const asOfDate = '2026-07-09';
@@ -327,6 +328,7 @@ function applyFilters(items, filters) {
 }
 
 function PriorityRenewals({ items }) {
+  const ari = getAriView();
   const priorityItems = items
     .filter((item) => item.priority === 'High' || item.renewal.daysToExpiry <= 45 || item.blockingIssue !== 'No blocking issue')
     .sort((a, b) => {
@@ -343,12 +345,28 @@ function PriorityRenewals({ items }) {
       />
       <div className="renewal-priority-list">
         {priorityItems.map((item) => (
-          <PriorityItemCard
-            key={item.renewal.id}
-            item={buildPriorityItem(item)}
-          />
+          <div className="renewal-priority-with-ari" key={item.renewal.id}>
+            <PriorityItemCard item={buildPriorityItem(item)} />
+            {(item.priority === 'High' || item.renewal.daysToExpiry <= 45) ? (
+              <span className="ari-inline-badge">External Risk Impact: {ari.workspaceSignals.renewal}</span>
+            ) : null}
+          </div>
         ))}
       </div>
+    </section>
+  );
+}
+
+function RenewalExternalRiskImpact() {
+  const ari = getAriView();
+
+  return (
+    <section className="ari-workspace-card">
+      <h2>External Risk Impact</h2>
+      <p>{ari.workspaceSignals.renewal}</p>
+      <ul className="ari-workspace-list">
+        {ari.recommendedActions.slice(0, 3).map((item) => <li key={item}>{item}</li>)}
+      </ul>
     </section>
   );
 }
@@ -438,6 +456,7 @@ export function RenewalWorkspace() {
 
       <RenewalSummary items={filteredItems} />
       <FilterBar filters={filters} setFilters={setFilters} accountManagers={accountManagers} clientTypes={clientTypes} />
+      <RenewalExternalRiskImpact />
       <PriorityRenewals items={filteredItems} />
       <RenewalPipeline items={filteredItems} />
       <RecentRenewalActivity items={filteredItems} />

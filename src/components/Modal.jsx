@@ -1,12 +1,12 @@
 import { X } from 'lucide-react';
 
-export function Modal({ open, title, children, onClose }) {
+export function Modal({ open, title, children, onClose, className = '' }) {
   if (!open) return null;
 
   return (
     <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <button className="modal__backdrop" onClick={onClose} aria-label="Close modal" />
-      <section className="modal__panel">
+      <section className={`modal__panel ${className}`}>
         <div className="modal__header">
           <h2 id="modal-title">{title}</h2>
           <button className="icon-button" type="button" onClick={onClose} aria-label="Close">

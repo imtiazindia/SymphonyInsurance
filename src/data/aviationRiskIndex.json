@@ -1,0 +1,233 @@
+{
+  "lastUpdated": "2026-07-10T09:00:00Z",
+  "confidence": "High",
+  "methodologyNote": "The Aviation Risk Index is a simulated decision-support indicator combining aviation-related weather, geopolitical, economic, regulatory, fuel, infrastructure, and operational conditions. It is intended to support prioritization and does not replace professional judgment.",
+  "global": {
+    "label": "Global",
+    "score": 54,
+    "category": "Moderate",
+    "change": 1,
+    "changeWindow": "since yesterday",
+    "summary": "Fuel volatility and international airspace restrictions are increasing underwriting scrutiny for operators with cross-border exposure. Weather disruption remains elevated across several regions, but the overall market signal is still moderate.",
+    "primaryDriverSummary": "Primary drivers: weather, fuel, and airspace.",
+    "primaryDrivers": ["Weather", "Fuel & Energy", "Geopolitical", "Airspace Disruption"],
+    "businessImpact": [
+      "Increased underwriting questions for cross-border operations",
+      "Potential premium pressure for fuel-sensitive charter accounts",
+      "Higher scrutiny of international operations and routing",
+      "Additional documentation requests around contingency planning"
+    ],
+    "affectedClientTypes": [
+      "Charter Operators",
+      "International Corporate Fleets",
+      "Helicopter Operators",
+      "Airports",
+      "FBOs"
+    ],
+    "recommendedActions": [
+      "Review renewals involving international operations",
+      "Highlight contingency planning in submissions",
+      "Review fuel-sensitive charter accounts",
+      "Prepare clients for additional underwriter questions"
+    ],
+    "workspaceSignals": {
+      "executive": {
+        "affectedClients": 4,
+        "renewalsForReview": 2
+      },
+      "renewal": "Elevated weather and airspace exposure may increase underwriting scrutiny.",
+      "submission": "Current airspace disruption should be addressed in the insurer-facing narrative.",
+      "marketPlacement": "Markets are requesting additional information for international operations.",
+      "claims": "Weather-related claims activity is trending upward.",
+      "client": "Exposed to ARI drivers when operations include international routes, fuel-sensitive usage, or weather-prone regions."
+    },
+    "factors": [
+      {
+        "id": "weather",
+        "label": "Weather",
+        "score": 61,
+        "trend": "up",
+        "change": 4,
+        "reason": "Severe storm activity is increasing disruption exposure across several aviation regions.",
+        "expectedDuration": "3-5 days"
+      },
+      {
+        "id": "fuel-energy",
+        "label": "Fuel & Energy",
+        "score": 58,
+        "trend": "up",
+        "change": 2,
+        "reason": "Jet fuel price volatility is raising operating cost sensitivity for charter and fleet clients.",
+        "expectedDuration": "1-2 weeks"
+      },
+      {
+        "id": "geopolitical",
+        "label": "Geopolitical",
+        "score": 52,
+        "trend": "stable",
+        "change": 0,
+        "reason": "Regional restrictions continue to affect route planning and insurer questions on international operations.",
+        "expectedDuration": "2-4 weeks"
+      },
+      {
+        "id": "airspace",
+        "label": "Airspace Disruption",
+        "score": 49,
+        "trend": "down",
+        "change": 1,
+        "reason": "Some route restrictions are easing, but operators still need evidence of routing controls.",
+        "expectedDuration": "1-2 weeks"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Conditions",
+        "score": 46,
+        "trend": "stable",
+        "change": 0,
+        "reason": "Demand and financing conditions remain mixed but broadly manageable for most aviation insureds.",
+        "expectedDuration": "2-3 weeks"
+      },
+      {
+        "id": "regulatory",
+        "label": "Regulatory Activity",
+        "score": 42,
+        "trend": "up",
+        "change": 1,
+        "reason": "Documentation scrutiny is increasing around pilot training, maintenance, and operational controls.",
+        "expectedDuration": "2-4 weeks"
+      },
+      {
+        "id": "cyber",
+        "label": "Cyber Risk",
+        "score": 39,
+        "trend": "stable",
+        "change": 0,
+        "reason": "Operational technology and booking platform exposure remain present but not materially elevated.",
+        "expectedDuration": "Ongoing"
+      },
+      {
+        "id": "airport-infrastructure",
+        "label": "Airport & Infrastructure",
+        "score": 44,
+        "trend": "up",
+        "change": 2,
+        "reason": "Congestion and maintenance constraints are creating localized delays at several major aviation hubs.",
+        "expectedDuration": "1 week"
+      }
+    ]
+  },
+  "domestic": {
+    "label": "Domestic",
+    "score": 57,
+    "category": "Moderate",
+    "change": 2,
+    "changeWindow": "this week",
+    "summary": "Severe weather and airport disruption are the primary contributors to United States aviation risk this week. Domestic operators may see more underwriter focus on contingency planning, pilot readiness, and weather-related claims exposure.",
+    "primaryDriverSummary": "Primary drivers: weather, airports, and fuel.",
+    "primaryDrivers": ["Weather", "Airport & Infrastructure", "Fuel & Energy", "Regulatory Activity"],
+    "businessImpact": [
+      "Increased weather-related claims exposure",
+      "Possible delays in market responses for weather-exposed risks",
+      "Additional documentation requests for pilot and maintenance planning",
+      "Greater focus on airport disruption and contingency procedures"
+    ],
+    "affectedClientTypes": [
+      "Charter Operators",
+      "Flight Schools",
+      "Airports",
+      "FBOs",
+      "Helicopter Operators"
+    ],
+    "recommendedActions": [
+      "Prioritize weather-exposed clients",
+      "Monitor open weather-related claims",
+      "Highlight contingency planning in submissions",
+      "Review fuel-sensitive charter accounts"
+    ],
+    "workspaceSignals": {
+      "executive": {
+        "affectedClients": 4,
+        "renewalsForReview": 2
+      },
+      "renewal": "Elevated weather exposure may increase underwriting scrutiny.",
+      "submission": "Current airport disruption and weather exposure should be addressed in the insurer-facing narrative.",
+      "marketPlacement": "Markets are asking more questions about contingency planning and domestic disruption exposure.",
+      "claims": "Weather-related claims activity is trending upward.",
+      "client": "Exposed to ARI drivers when operations are weather-sensitive, airport-dependent, or fuel-sensitive."
+    },
+    "factors": [
+      {
+        "id": "weather",
+        "label": "Weather",
+        "score": 68,
+        "trend": "up",
+        "change": 5,
+        "reason": "Severe storm activity is increasing disruption exposure across several domestic aviation regions.",
+        "expectedDuration": "3-5 days"
+      },
+      {
+        "id": "airport-infrastructure",
+        "label": "Airport & Infrastructure",
+        "score": 62,
+        "trend": "up",
+        "change": 3,
+        "reason": "Ground delays and maintenance constraints are increasing operational friction at selected U.S. hubs.",
+        "expectedDuration": "1 week"
+      },
+      {
+        "id": "fuel-energy",
+        "label": "Fuel & Energy",
+        "score": 56,
+        "trend": "up",
+        "change": 2,
+        "reason": "Fuel cost movement is increasing expense pressure for charter and flight school clients.",
+        "expectedDuration": "1-2 weeks"
+      },
+      {
+        "id": "regulatory",
+        "label": "Regulatory Activity",
+        "score": 50,
+        "trend": "stable",
+        "change": 0,
+        "reason": "Underwriters continue to request clear evidence of pilot, maintenance, and safety controls.",
+        "expectedDuration": "2 weeks"
+      },
+      {
+        "id": "economic",
+        "label": "Economic Conditions",
+        "score": 47,
+        "trend": "stable",
+        "change": 0,
+        "reason": "Domestic demand is stable, though financing and operating costs remain under review.",
+        "expectedDuration": "2-3 weeks"
+      },
+      {
+        "id": "cyber",
+        "label": "Cyber Risk",
+        "score": 41,
+        "trend": "up",
+        "change": 1,
+        "reason": "Booking, dispatch, and payment systems remain relevant to operational resilience reviews.",
+        "expectedDuration": "Ongoing"
+      },
+      {
+        "id": "airspace",
+        "label": "Airspace Disruption",
+        "score": 38,
+        "trend": "down",
+        "change": 1,
+        "reason": "Domestic airspace restrictions are limited, though congestion remains a localized concern.",
+        "expectedDuration": "3-5 days"
+      },
+      {
+        "id": "geopolitical",
+        "label": "Geopolitical",
+        "score": 32,
+        "trend": "stable",
+        "change": 0,
+        "reason": "Direct domestic geopolitical impact is limited for most U.S. aviation clients.",
+        "expectedDuration": "Ongoing"
+      }
+    ]
+  }
+}

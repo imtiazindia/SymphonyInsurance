@@ -5,6 +5,15 @@ import { Drawer } from '../components/Drawer.jsx';
 import { Modal } from '../components/Modal.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
 import { navItems } from '../data/demoData.js';
+import {
+  aviationRiskIndex,
+  formatAriChange,
+  formatAriLastUpdated,
+  getAriTone,
+  getAriTopFactors,
+  getAriTrendIcon,
+  getAriTrendLabel,
+} from '../utils/aviationRiskIndex.js';
 
 function Brand() {
   return (
@@ -45,76 +54,125 @@ function Navigation({ onNavigate }) {
   );
 }
 
-const threatRiskViews = {
-  global: {
-    label: 'Global',
-    score: 72,
-    delta: '+4 pts',
-    status: 'Elevated',
-    drivers: [
-      ['Weather', 68],
-      ['Geopolitical', 78],
-      ['Energy', 64],
-      ['Economic', 58],
-    ],
-  },
-  domestic: {
-    label: 'Domestic',
-    score: 54,
-    delta: '+1 pt',
-    status: 'Guarded',
-    drivers: [
-      ['Weather', 61],
-      ['Social', 46],
-      ['Economic', 52],
-      ['Energy', 49],
-    ],
-  },
-};
-
-function ThreatRiskIndex() {
+function AviationRiskIndexCard({ onViewAnalysis }) {
   const [view, setView] = useState('global');
-  const activeView = threatRiskViews[view];
+  const activeView = aviationRiskIndex[view];
+  const topFactors = getAriTopFactors(activeView, 4);
+  const tone = getAriTone(activeView.category);
 
   return (
-    <aside className="market-card threat-card" aria-label="Civil aviation threat and risk assessment index">
-      <div className="threat-card__header">
-        <h2>TRA Index</h2>
+    <aside className={`market-card ari-card ari-card--${tone}`} aria-label="Aviation Risk Index">
+      <div className="ari-card__header">
+        <h2>Aviation Risk Index</h2>
         <span>AI</span>
       </div>
       <div className="market-card__rule" />
-      <div className="threat-toggle" aria-label="Threat risk view">
-        {Object.entries(threatRiskViews).map(([key, item]) => (
+      <div className="ari-toggle" aria-label="Aviation Risk Index view">
+        {['global', 'domestic'].map((key) => (
           <button
             key={key}
             type="button"
-            className={view === key ? 'threat-toggle__button threat-toggle__button--active' : 'threat-toggle__button'}
+            className={view === key ? 'ari-toggle__button ari-toggle__button--active' : 'ari-toggle__button'}
             onClick={() => setView(key)}
           >
-            {item.label}
+            {aviationRiskIndex[key].label}
           </button>
         ))}
       </div>
-      <div className="market-card__metric threat-card__metric">
+      <div className="market-card__metric ari-card__metric">
         <strong>{activeView.score}</strong>
-        <span>{activeView.delta}</span>
         <small>/ 100</small>
+        <em>{activeView.category}</em>
       </div>
-      <div className="threat-driver-list" aria-label={`${activeView.label} risk drivers`}>
-        {activeView.drivers.map(([driver, value]) => (
-          <div className="threat-driver" key={driver}>
-            <span>{driver}</span>
-            <i><b style={{ width: `${value}%` }} /></i>
-            <strong>{value}</strong>
+      <p className="ari-card__movement">{formatAriChange(activeView.change, activeView.changeWindow)}</p>
+      <p className="ari-card__summary">{activeView.primaryDriverSummary}</p>
+      <div className="ari-driver-list" aria-label={`${activeView.label} ARI primary drivers`}>
+        {topFactors.map((factor) => (
+          <div className="ari-driver" key={factor.id}>
+            <span>{factor.label}</span>
+            <strong>{factor.score}</strong>
+            <em aria-label={getAriTrendLabel(factor.trend)}>{getAriTrendIcon(factor.trend)}{factor.change ? ` ${factor.change}` : ''}</em>
           </div>
         ))}
       </div>
-      <div className="market-card__status threat-card__status">
+      <div className="market-card__status ari-card__status">
         <span />
-        {activeView.status}
-        <small>Jul 10, 2026</small>
+        ARI
+        <small>{formatAriLastUpdated()}</small>
       </div>
+      <button className="ari-card__action" type="button" onClick={() => onViewAnalysis(view)}>
+        View Analysis
+      </button>
     </aside>
+  );
+}
+
+function AviationRiskAnalysis({ viewKey }) {
+  const activeView = aviationRiskIndex[viewKey] ?? aviationRiskIndex.domestic;
+  const tone = getAriTone(activeView.category);
+
+  return (
+    <div className="ari-analysis">
+      <section className={`ari-analysis__overall ari-analysis__overall--${tone}`}>
+        <div>
+          <span>Overall Risk</span>
+          <strong>{activeView.score} / 100</strong>
+          <em>{activeView.category}</em>
+        </div>
+        <dl>
+          <div><dt>Trend</dt><dd>{formatAriChange(activeView.change, activeView.changeWindow)}</dd></div>
+          <div><dt>Confidence</dt><dd>{aviationRiskIndex.confidence}</dd></div>
+          <div><dt>Last updated</dt><dd>{formatAriLastUpdated()}</dd></div>
+        </dl>
+      </section>
+
+      <section className="ari-analysis__section">
+        <h3>Executive Summary</h3>
+        <p>{activeView.summary}</p>
+      </section>
+
+      <section className="ari-analysis__section">
+        <h3>Key Contributors</h3>
+        <div className="ari-contributor-list">
+          {activeView.factors.map((factor) => (
+            <article key={factor.id}>
+              <div>
+                <strong>{factor.label}</strong>
+                <span>Score: {factor.score}</span>
+                <em>{getAriTrendLabel(factor.trend)} {getAriTrendIcon(factor.trend)}{factor.change ? ` ${factor.change}` : ''}</em>
+              </div>
+              <p>{factor.reason}</p>
+              <small>Expected duration: {factor.expectedDuration}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="ari-analysis__section">
+        <h3>Likely Business Impact</h3>
+        <ul>
+          {activeView.businessImpact.map((item) => <li key={item}>{item}</li>)}
+        </ul>
+      </section>
+
+      <section className="ari-analysis__section">
+        <h3>Affected Client Segments</h3>
+        <div className="ari-chip-list">
+          {activeView.affectedClientTypes.map((item) => <span key={item}>{item}</span>)}
+        </div>
+      </section>
+
+      <section className="ari-analysis__section">
+        <h3>Recommended Actions</h3>
+        <ul>
+          {activeView.recommendedActions.map((item) => <li key={item}>{item}</li>)}
+        </ul>
+      </section>
+
+      <section className="ari-analysis__note">
+        <p>{aviationRiskIndex.methodologyNote}</p>
+      </section>
+    </div>
   );
 }
 
@@ -194,13 +252,20 @@ function BottomNavigation() {
 export function Shell({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [ariAnalysisOpen, setAriAnalysisOpen] = useState(false);
+  const [ariAnalysisView, setAriAnalysisView] = useState('global');
+
+  function openAriAnalysis(view) {
+    setAriAnalysisView(view);
+    setAriAnalysisOpen(true);
+  }
 
   return (
     <div className="app-shell">
       <aside className="sidebar">
         <Brand />
         <Navigation />
-        <ThreatRiskIndex />
+        <AviationRiskIndexCard onViewAnalysis={openAriAnalysis} />
         <MarketConditions />
       </aside>
 
@@ -232,6 +297,10 @@ export function Shell({ children }) {
             </div>
           </article>
         </div>
+      </Modal>
+
+      <Modal open={ariAnalysisOpen} title="Aviation Risk Index Analysis" className="modal__panel--wide" onClose={() => setAriAnalysisOpen(false)}>
+        <AviationRiskAnalysis viewKey={ariAnalysisView} />
       </Modal>
     </div>
   );

@@ -8,6 +8,7 @@ import {
   RenewalStatusBadge,
 } from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
+import { getAriClientExposure, getAriView } from '../utils/aviationRiskIndex.js';
 
 const compactCurrencyFormatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
@@ -40,6 +41,35 @@ function getClientBundle(clientId) {
     submissions: simulationData.submissions.filter((submission) => submission.clientId === clientId),
     tasks: simulationData.tasks.filter((task) => task.clientId === clientId),
   };
+}
+
+function ClientAriExposure({ client }) {
+  const ari = getAriView();
+  const exposure = getAriClientExposure(client, ari);
+
+  return (
+    <section className="ari-workspace-card">
+      <h2>Aviation Risk Index Exposure</h2>
+      <p>{exposure.note}</p>
+      <div className="ari-workspace-metrics">
+        <div>
+          <strong>{ari.score} / 100</strong>
+          <span>{ari.category}</span>
+        </div>
+        <div>
+          <strong>{exposure.level}</strong>
+          <span>client exposure level</span>
+        </div>
+        <div>
+          <strong>{exposure.drivers.length}</strong>
+          <span>current ARI drivers</span>
+        </div>
+      </div>
+      <div className="ari-chip-list">
+        {exposure.drivers.map((driver) => <span key={driver}>{driver}</span>)}
+      </div>
+    </section>
+  );
 }
 
 export function ClientWorkspacePage() {
@@ -96,6 +126,8 @@ export function ClientWorkspacePage() {
               <ClientHealthBadge score={selectedClient.clientHealthScore} />
             </div>
           </section>
+
+          <ClientAriExposure client={selectedClient} />
 
           <section className="client-detail-grid">
             <LinkedRecord title="Renewal" href={primaryRenewal ? `/renewals/${primaryRenewal.id}` : '/renewals'} action="Open renewal">

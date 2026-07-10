@@ -18,6 +18,7 @@ import {
   RevenueImpactLabel,
 } from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
+import { getAriTopFactors, getAriView } from '../utils/aviationRiskIndex.js';
 import { getClaimsExposure, getSum } from '../utils/businessCalculations.js';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -404,6 +405,21 @@ function RiskStory({ bundle }) {
   );
 }
 
+function ExternalRiskConsideration() {
+  const ari = getAriView();
+  const factors = getAriTopFactors(ari, 3);
+
+  return (
+    <section className="ari-workspace-card">
+      <h2>External Risk Consideration</h2>
+      <p>{ari.workspaceSignals.submission}</p>
+      <ul className="ari-workspace-list">
+        {factors.map((factor) => <li key={factor.id}>{factor.label}: {factor.reason}</li>)}
+      </ul>
+    </section>
+  );
+}
+
 function DocumentChecklist({ documents }) {
   const [documentState, setDocumentState] = useState(() => Object.fromEntries(documents.map((document) => [document.id, { note: '', status: document.status }])));
 
@@ -558,6 +574,7 @@ export function SubmissionWorkspace() {
           <SubmissionSummary bundle={bundle} readinessCards={readinessCards} />
           <SubmissionReadiness cards={readinessCards} />
           <RiskStory bundle={bundle} />
+          <ExternalRiskConsideration />
           <section className="submission-two-column">
             <DocumentChecklist documents={checklist} />
             <div className="submission-side-stack">
