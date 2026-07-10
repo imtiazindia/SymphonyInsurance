@@ -4535,6 +4535,20 @@ svg {
   background: var(--blue-soft);
 }
 
+.demo-mode-active {
+  --demo-surface: rgba(255, 255, 255, 0.99);
+  --demo-surface-subtle: #fbfdff;
+  --demo-border: #c7d8ef;
+  --demo-shadow:
+    0 28px 70px rgba(15, 33, 58, 0.22),
+    0 10px 24px rgba(33, 110, 230, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.72) inset;
+  --demo-shadow-compact:
+    0 18px 46px rgba(15, 33, 58, 0.18),
+    0 7px 18px rgba(33, 110, 230, 0.09),
+    0 0 0 1px rgba(255, 255, 255, 0.72) inset;
+}
+
 .demo-toolbar {
   position: fixed;
   right: 24px;
@@ -4547,11 +4561,11 @@ svg {
   gap: 7px;
   max-width: min(980px, calc(100vw - 48px));
   padding: 9px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--demo-border);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
+  background: var(--demo-surface);
+  box-shadow: var(--demo-shadow);
+  backdrop-filter: blur(18px) saturate(1.12);
 }
 
 .demo-toolbar--collapsed {
@@ -4573,7 +4587,8 @@ svg {
   color: #244363;
   border: 1px solid #d8e2ee;
   border-radius: 8px;
-  background: #fff;
+  background: linear-gradient(180deg, #fff, #f7fbff);
+  box-shadow: 0 5px 14px rgba(15, 33, 58, 0.08);
   font-size: 0.75rem;
   font-weight: 850;
   text-decoration: none;
@@ -4587,6 +4602,8 @@ svg {
 .demo-audience-return:hover {
   color: var(--blue);
   border-color: #b9cde5;
+  background: #fff;
+  box-shadow: 0 9px 22px rgba(33, 110, 230, 0.14);
 }
 
 .demo-annotation-group {
@@ -4595,7 +4612,8 @@ svg {
   padding: 4px;
   border: 1px solid #e2ebf5;
   border-radius: 9px;
-  background: #f8fbff;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 33, 58, 0.08);
 }
 
 .demo-annotation-group button {
@@ -4614,11 +4632,11 @@ svg {
   max-height: calc(100vh - 150px);
   overflow: auto;
   padding: 16px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--demo-border);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.97);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
+  background: var(--demo-surface);
+  box-shadow: var(--demo-shadow);
+  backdrop-filter: blur(18px) saturate(1.12);
 }
 
 .demo-step-panel-tab {
@@ -4668,9 +4686,10 @@ svg {
 .demo-bookmarks,
 .demo-question-mode {
   padding: 12px;
-  border: 1px solid #e2ebf5;
+  border: 1px solid #d9e7f8;
   border-radius: 9px;
-  background: #f8fbff;
+  background: var(--demo-surface-subtle);
+  box-shadow: 0 9px 24px rgba(15, 33, 58, 0.08);
 }
 
 .demo-step-panel section strong,
@@ -4757,7 +4776,7 @@ svg {
   max-height: 178px;
   margin-top: 8px;
   overflow-y: auto;
-  padding-right: 4px;
+  padding: 3px 4px 3px 0;
   scrollbar-width: thin;
 }
 
@@ -4768,6 +4787,7 @@ svg {
   border: 1px solid #d8e2ee;
   border-radius: 999px;
   background: #fff;
+  box-shadow: 0 4px 12px rgba(15, 33, 58, 0.06);
   font-size: 0.7rem;
   font-style: normal;
   font-weight: 850;
@@ -4808,9 +4828,10 @@ svg {
 .demo-question-mode {
   display: grid;
   gap: 9px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(14px);
+  border-color: var(--demo-border);
+  background: var(--demo-surface);
+  box-shadow: var(--demo-shadow-compact);
+  backdrop-filter: blur(18px) saturate(1.12);
 }
 
 .demo-journey-navigator select,
@@ -4865,15 +4886,15 @@ svg {
   inset: 0;
   z-index: 76;
   pointer-events: none;
-  background: rgba(15, 33, 58, 0.03);
+  background: rgba(15, 33, 58, 0.06);
 }
 
 .demo-highlight-overlay--low {
-  background: rgba(15, 33, 58, 0.02);
+  background: rgba(15, 33, 58, 0.035);
 }
 
 .demo-highlight-overlay--high {
-  background: rgba(15, 33, 58, 0.07);
+  background: rgba(15, 33, 58, 0.1);
 }
 
 .demo-spotlight {
@@ -4885,9 +4906,9 @@ svg {
   border: 2px solid rgba(37, 99, 235, 0.48);
   border-radius: 14px;
   box-shadow:
-    0 0 0 9999px rgba(248, 251, 255, 0.18),
-    0 18px 46px rgba(15, 33, 58, 0.12),
-    0 0 28px rgba(37, 99, 235, 0.18);
+    0 0 0 9999px rgba(248, 251, 255, 0.1),
+    0 28px 72px rgba(15, 33, 58, 0.2),
+    0 0 34px rgba(37, 99, 235, 0.28);
   animation: demoPulse 2.4s ease-in-out infinite;
 }
 
@@ -4903,22 +4924,22 @@ svg {
   background: #fff;
   font-size: 0.74rem;
   font-weight: 850;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--demo-shadow-compact);
 }
 
 @keyframes demoPulse {
   0%,
   100% {
     box-shadow:
-      0 0 0 9999px rgba(248, 251, 255, 0.18),
-      0 18px 46px rgba(15, 33, 58, 0.12),
-      0 0 18px rgba(37, 99, 235, 0.12);
+      0 0 0 9999px rgba(248, 251, 255, 0.1),
+      0 28px 72px rgba(15, 33, 58, 0.2),
+      0 0 22px rgba(37, 99, 235, 0.18);
   }
   50% {
     box-shadow:
-      0 0 0 9999px rgba(248, 251, 255, 0.18),
-      0 18px 46px rgba(15, 33, 58, 0.12),
-      0 0 30px rgba(37, 99, 235, 0.22);
+      0 0 0 9999px rgba(248, 251, 255, 0.1),
+      0 28px 72px rgba(15, 33, 58, 0.2),
+      0 0 38px rgba(37, 99, 235, 0.34);
   }
 }
 
@@ -4933,10 +4954,11 @@ svg {
   width: min(410px, calc(100vw - 820px));
   padding: 13px;
   color: #315174;
-  border: 1px solid #d8e2ee;
+  border: 1px solid var(--demo-border);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.97);
-  box-shadow: var(--shadow);
+  background: var(--demo-surface);
+  box-shadow: var(--demo-shadow);
+  backdrop-filter: blur(18px) saturate(1.12);
 }
 
 .demo-smart-callout p {
@@ -5001,10 +5023,11 @@ svg {
   max-height: calc(100vh - 118px);
   overflow: auto;
   padding: 16px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--demo-border);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.98);
-  box-shadow: var(--shadow);
+  background: var(--demo-surface);
+  box-shadow: var(--demo-shadow);
+  backdrop-filter: blur(18px) saturate(1.12);
 }
 
 .demo-settings-panel label {
@@ -5030,6 +5053,7 @@ svg {
   bottom: 18px;
   z-index: 95;
   opacity: 0.2;
+  box-shadow: var(--demo-shadow-compact);
 }
 
 .demo-audience-return:hover {
@@ -5053,7 +5077,8 @@ svg {
   padding: 10px;
   border: 1px solid #e2ebf5;
   border-radius: 9px;
-  background: #f8fbff;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 33, 58, 0.08);
   font-size: 0.8rem;
 }
 
