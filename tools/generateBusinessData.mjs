@@ -4,7 +4,7 @@ import path from 'node:path';
 const dataDir = path.resolve('src/data');
 
 const teamMembers = [
-  ['USR-001', 'Alexandra Morgan', 'Owner', 68, 18, 2, ['CLI-001', 'CLI-002', 'CLI-003', 'CLI-004', 'CLI-005', 'CLI-006'], 'AM'],
+  ['USR-001', 'Alexandra Morgan', 'CEO', 68, 18, 2, ['CLI-001', 'CLI-002', 'CLI-003', 'CLI-004', 'CLI-005', 'CLI-006'], 'AM'],
   ['USR-002', 'Maya Srinivasan', 'Account Manager', 82, 24, 4, ['CLI-001', 'CLI-002', 'CLI-003', 'CLI-009', 'CLI-010', 'CLI-011', 'CLI-012'], 'MS'],
   ['USR-003', 'Julian Mercer', 'Placement Lead', 76, 19, 3, ['CLI-001', 'CLI-002', 'CLI-003', 'CLI-004', 'CLI-007', 'CLI-008'], 'JM'],
   ['USR-004', 'Arielle Chen', 'Account Manager', 71, 21, 2, ['CLI-004', 'CLI-005', 'CLI-006', 'CLI-013', 'CLI-014', 'CLI-015'], 'AC'],

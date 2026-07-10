@@ -89,7 +89,7 @@ function TopBar({ onMenu, onNotify }) {
           <UserAvatar initials="AM" tone="blue" />
           <div>
             <strong>Alexandra Morgan</strong>
-            <span>Owner</span>
+            <span>CEO</span>
           </div>
           <ChevronDown size={18} />
         </div>
