@@ -257,7 +257,7 @@ const journeyData = [
 ];
 
 const demoQueries = [
-  'Open Falcon Air Charter',
+  'Open Global Jet Solutions',
   'Show renewals due this month',
   'Prepare client meeting brief for Global Jet Solutions',
   'What needs my attention today?',
@@ -696,7 +696,10 @@ export function DemoExperience({ enabled, onEnabledChange }) {
   }
 
   function runQuery(query) {
-    window.dispatchEvent(new CustomEvent('symphony:ibar:submit', { detail: { query } }));
+    patchState({ active: false, paused: true });
+    window.setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('symphony:ibar:submit', { detail: { query } }));
+    }, 0);
   }
 
   function addAnnotation(type) {
