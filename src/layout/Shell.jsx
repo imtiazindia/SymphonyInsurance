@@ -8,6 +8,13 @@ import { Modal } from '../components/Modal.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
 import { navItems } from '../data/demoData.js';
 import {
+  BRIEFING_EVENT,
+  clearBriefingState,
+  readBriefingData,
+  readBriefingState,
+  saveBriefingState,
+} from '../utils/briefingSession.js';
+import {
   aviationRiskIndex,
   formatAriChange,
   formatAriLastUpdated,
@@ -386,6 +393,84 @@ function ShortcutOverlay({ open, onClose }) {
   );
 }
 
+function BriefingContinuationBar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [briefingRecord, setBriefingRecord] = useState(() => readBriefingData());
+  const [reviewState, setReviewState] = useState(() => readBriefingState());
+  const briefing = briefingRecord?.briefing;
+  const active = reviewState.active && briefing?.priorities?.length && !location.pathname.startsWith('/briefing');
+  const currentIndex = Math.max(0, Math.min(reviewState.currentIndex ?? 0, (briefing?.priorities?.length ?? 1) - 1));
+  const priority = briefing?.priorities?.[currentIndex];
+  const reviewed = priority ? Boolean(reviewState.reviewed?.[priority.recordId]) : false;
+
+  useEffect(() => {
+    function refresh() {
+      setBriefingRecord(readBriefingData());
+      setReviewState(readBriefingState());
+    }
+
+    window.addEventListener(BRIEFING_EVENT, refresh);
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener(BRIEFING_EVENT, refresh);
+      window.removeEventListener('storage', refresh);
+    };
+  }, []);
+
+  if (!active || !priority) return null;
+
+  function update(next) {
+    const resolved = { ...reviewState, ...next };
+    setReviewState(resolved);
+    saveBriefingState(resolved);
+  }
+
+  function markReviewed() {
+    update({
+      reviewed: {
+        ...(reviewState.reviewed ?? {}),
+        [priority.recordId]: new Date().toISOString(),
+      },
+    });
+  }
+
+  function goToIndex(index) {
+    const safeIndex = Math.max(0, Math.min(index, briefing.priorities.length - 1));
+    const nextPriority = briefing.priorities[safeIndex];
+    update({ currentIndex: safeIndex, active: true });
+    navigate(nextPriority.primaryAction.route);
+  }
+
+  function exit() {
+    clearBriefingState();
+    setReviewState(readBriefingState());
+  }
+
+  return (
+    <>
+      <aside className="briefing-workspace-callout" aria-label="Briefing workspace highlight">
+        <Sparkles size={15} />
+        <p><strong>{priority.highlightTarget?.replaceAll('-', ' ')}</strong> {priority.recommendedAction}</p>
+      </aside>
+      <aside className="briefing-continuation-bar" aria-label="Executive briefing review controls">
+        <div>
+          <span>Executive Briefing · Priority {currentIndex + 1} of {briefing.priorities.length}</span>
+          <strong>{priority.clientName} {priority.type}</strong>
+          <small>{reviewed ? 'Reviewed in this session' : priority.title}</small>
+        </div>
+        <nav>
+          <button type="button" onClick={() => navigate('/briefing/today')}>Back to Briefing</button>
+          <button type="button" onClick={markReviewed}>{reviewed ? 'Reviewed' : 'Mark Reviewed'}</button>
+          <button type="button" onClick={() => goToIndex(currentIndex - 1)} disabled={currentIndex === 0}>Previous</button>
+          <button type="button" onClick={() => goToIndex(currentIndex + 1)} disabled={currentIndex >= briefing.priorities.length - 1}>Next</button>
+          <button type="button" onClick={exit}>Exit</button>
+        </nav>
+      </aside>
+    </>
+  );
+}
+
 export function Shell({ children }) {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -544,6 +629,7 @@ export function Shell({ children }) {
       </Modal>
 
       <ShortcutOverlay open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <BriefingContinuationBar />
       <ToastCenter toasts={toasts} onDismiss={dismissToast} />
     </div>
   );

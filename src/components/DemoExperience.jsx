@@ -180,11 +180,11 @@ const journeyData = [
         focus: 'Natural language orchestration across the platform',
         purpose: 'End with AI-assisted productivity and navigation.',
         value: ['Users hunt for answers across modules', 'iBar lets users ask business questions and navigate directly into workflows.', 'The platform becomes faster to use without hiding the underlying workspaces.'],
-        notes: ['iBar is not a chatbot bolted on top; it is an operating layer over the business model.', 'Use a suggested query to show orchestration.'],
+        notes: ["Instead of navigating the system manually, the platform prepares the owner's priorities for the day.", 'iBar is not a chatbot bolted on top; it is an operating layer over the business model.', 'Use a suggested query to show orchestration.'],
         talkingPoints: ['Natural language', 'Business questions', 'Workflow orchestration'],
         callout: 'Ask iBar what needs attention today, then open the relevant workflow.',
         estimate: 50,
-        query: 'Prepare executive briefing',
+        query: 'Prepare me for my day',
       },
     ],
   },
@@ -257,6 +257,7 @@ const journeyData = [
 ];
 
 const demoQueries = [
+  'Prepare me for my day',
   'What should I focus on today?',
   'Prepare today’s executive briefing',
   'Prepare board briefing',

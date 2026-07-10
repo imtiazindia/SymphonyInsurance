@@ -21,6 +21,7 @@ const CAPABILITY_BY_INTENT = {
   team_workload: 'Analysis',
   workflow_orchestration: 'Cross-Workspace Orchestration',
   ari_impact: 'Executive Intelligence',
+  executive_daily_briefing: 'Executive Intelligence',
 };
 
 function capabilityFamily(intent) {
@@ -214,6 +215,82 @@ function buildWorkflowPlan({ route, entities, actionCards }) {
 }
 
 export function renderOperatingResponse({ request, route, entities, data, toolResults }) {
+  if (toolResults.executiveDailyBriefing) {
+    const briefing = toolResults.executiveDailyBriefing;
+    const actionCards = briefing.priorities.map((priority) => ({
+      id: `${priority.type}-${priority.recordId}`,
+      type: priority.type,
+      title: priority.clientName,
+      subtitle: priority.title,
+      issue: priority.summary,
+      businessImpact: priority.businessImpact,
+      financialImpact: priority.financialImpact,
+      owner: priority.owner,
+      priority: `Priority ${priority.rank}`,
+      confidence: route.confidence,
+      reason: priority.recommendedAction,
+      primaryAction: priority.primaryAction,
+      secondaryAction: priority.secondaryActions?.[0] ?? null,
+      metrics: [
+        { label: 'Financial impact', value: priority.financialImpact },
+        { label: 'Owner', value: priority.owner },
+        { label: 'Due', value: priority.dueDate },
+      ],
+    }));
+
+    return {
+      version: 'iBar-v2-executive-briefing',
+      capabilityFamily: 'Executive Intelligence',
+      businessAnswer: {
+        headline: briefing.title,
+        answer: briefing.openingSentence,
+        why: briefing.businessHealth.summary,
+        businessImpact: `${briefing.priorityCount} executive priorities require review.`,
+        financialImpact: briefing.portfolio.revenueAtRisk,
+        primaryAction: 'Open Executive Briefing',
+      },
+      actionCards,
+      businessImpact: {
+        summary: briefing.businessHealth.summary,
+        financialImpact: briefing.portfolio.revenueAtRisk,
+        owner: request.selectedRole ?? 'CEO',
+        priority: briefing.businessHealth.label,
+        confidence: route.confidence,
+      },
+      recommendedActions: briefing.priorities.map((priority) => ({
+        label: priority.primaryAction.label,
+        route: priority.primaryAction.route,
+        why: priority.businessImpact,
+        priority: `Priority ${priority.rank}`,
+      })),
+      supportingRecords: toolResults.results ?? [],
+      relatedWorkspaces: [
+        { label: 'Executive Briefing', route: '/briefing/today', reason: 'Review the full daily briefing.' },
+        { label: 'Renewals', route: '/renewals', reason: 'Review renewal readiness and blockers.' },
+        { label: 'Claims', route: '/claims', reason: 'Review claim exposure and next action.' },
+        { label: 'Compliance', route: '/compliance', reason: 'Review corrective actions.' },
+      ],
+      relatedQuestions: briefing.suggestedQueries,
+      reasoningSummary: {
+        reason: 'Built from deterministic business tools and the current Symphony demonstration dataset.',
+        priority: briefing.businessHealth.label,
+        confidence: route.confidence,
+        dataSourcesUsed: briefing.sourceSummary.dataSourcesUsed,
+      },
+      briefing: null,
+      workflowPlan: null,
+      smartPriorities: null,
+      commandPalette: {
+        recentCommands: request.conversationContext?.map((item) => item.query).slice(0, 4) ?? [],
+        suggestedCommands: briefing.suggestedQueries,
+        popularCommands: ['Open the first priority', 'What remains?', 'Show missing documents', 'Prepare client meeting brief'],
+        contextCommands: ['Return to my briefing', 'Move to the next priority', 'Mark reviewed'],
+        roleCommands: roleCommands(request.selectedRole),
+        keyboardShortcuts: ['Ctrl/Cmd + K', '/', '?', 'Esc'],
+      },
+    };
+  }
+
   const actionCards = (toolResults.results ?? []).map((item) => resultToActionCard(item, data));
   const smartPriorities = /priorit|decision|ceo/.test(route.intent) ? buildSmartPriorities(data) : null;
   const briefing = generateBriefing({ route, entities, data, toolResults });

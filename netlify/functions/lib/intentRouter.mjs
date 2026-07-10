@@ -50,6 +50,10 @@ export function classifyIntent(query, entities) {
     };
   }
 
+  if (/prepare me for my day|start my day|today'?s briefing|give me today|what needs my attention today|prepare my executive briefing|good morning|show today'?s priorities/.test(q)) {
+    return { intent: 'executive_daily_briefing', confidence: 0.94, filters: entities.filters };
+  }
+
   if (/my priorities|today'?s priorities|smart priorities|what should i focus on today|focus today|strategic priorities/.test(q)) {
     return { intent: 'smart_priorities', confidence: 0.9, filters: entities.filters };
   }

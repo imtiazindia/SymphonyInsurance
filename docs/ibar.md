@@ -54,3 +54,14 @@ iBar v2 adds operating-layer fields while preserving backward compatibility:
 - `commandPalette`
 
 These fields must stay grounded in deterministic business tools and the shared JSON model. The UI should render them as operating actions, not chat bubbles.
+
+## Executive Daily Briefing
+
+Phase 15.5 adds the deterministic `executive_daily_briefing` intent for commands such as `Prepare me for my day`, `Start my day`, `Give me today's briefing`, and `Show today's priorities`.
+
+The Netlify function builds the briefing through `lib/executiveDailyBriefing.mjs`. The React route `/briefing/today` renders the premium briefing experience and stores review progress in session storage only:
+
+- `symphony:briefing:today`
+- `symphony:briefing:review`
+
+Review state marks priorities as reviewed for the session; it does not mutate business records or claim that underlying issues are resolved.

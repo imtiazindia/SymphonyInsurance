@@ -1,3 +1,5 @@
+import { getExecutiveDailyBriefing } from './executiveDailyBriefing.mjs';
+
 const ROUTES = {
   client: (id) => `/clients/${encodeURIComponent(id)}`,
   renewal: (id) => `/renewals/${encodeURIComponent(id)}`,
@@ -356,6 +358,50 @@ export function runBusinessTool({ route, entities, data, request }) {
   }
 
   switch (route.intent) {
+    case 'executive_daily_briefing': {
+      const briefing = getExecutiveDailyBriefing({
+        data,
+        selectedRole: request.selectedRole,
+        selectedUserId: request.selectedUserId,
+        currentDate: request.currentDate ?? '2026-07-10',
+        scenario: request.scenario ?? 'healthy',
+      });
+      const results = briefing.priorities.map((priority) => ({
+        id: priority.recordId,
+        type: priority.type,
+        title: priority.clientName,
+        subtitle: priority.title,
+        status: `Priority ${priority.rank}`,
+        metrics: [
+          { label: 'Financial impact', value: priority.financialImpact },
+          { label: 'Owner', value: priority.owner },
+          { label: 'Due', value: priority.dueDate },
+        ],
+        businessImpact: priority.businessImpact,
+        recommendedAction: priority.recommendedAction,
+        navigation: priority.primaryAction,
+      }));
+      return {
+        title: briefing.title,
+        summary: briefing.openingSentence,
+        results,
+        insights: [
+          briefing.businessHealth.summary,
+          `${briefing.portfolio.revenueAtRisk} revenue at risk across the portfolio.`,
+          `${briefing.standardWork.openTasks} standard tasks remain open for the selected role.`,
+        ],
+        actions: [
+          { label: 'Open Executive Briefing', route: '/briefing/today', type: 'briefing', direct: false },
+          { label: 'Open first priority', route: briefing.priorities[0]?.primaryAction.route },
+          { label: 'Return to Executive Overview', route: '/' },
+        ],
+        warnings: [],
+        dataScope: briefing.sourceSummary.dataSourcesUsed,
+        appliedFilters: filters,
+        executiveDailyBriefing: briefing,
+      };
+    }
+
     case 'unresolved_entity': {
       results = entities.clientMatches.slice(0, 4).map((item) => clientRecord(item, {
         status: 'Possible match',

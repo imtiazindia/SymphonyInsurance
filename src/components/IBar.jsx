@@ -2,12 +2,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, CheckCircle2, Command, Loader2, Search, Sparkles, TriangleAlert, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { simulationData } from '../data/demoData.js';
+import { saveBriefingData, saveBriefingState } from '../utils/briefingSession.js';
 
 const HISTORY_KEY = 'symphony:ibar:recent';
 const CONTEXT_KEY = 'symphony:ibar:context';
 const LAST_RESULT_KEY = 'symphony:ibar:lastResult';
 
 const DEFAULT_SUGGESTIONS = [
+  'Prepare me for my day',
   'What should I focus on today?',
   'Prepare today’s executive briefing',
   'Which renewals have the most revenue at risk?',
@@ -463,7 +465,7 @@ export function IBar() {
             ? ['Which documents are blocking revenue?', 'Show missing renewal documents', 'Open highest priority renewal']
             : location.pathname.startsWith('/clients')
               ? ['What should happen next?', 'Prepare client relationship summary', 'Show open claims for this client']
-              : ['Show today’s priorities', 'Prepare executive briefing', 'Open Global Jet Solutions'];
+              : ['Prepare me for my day', 'Show today’s priorities', 'Prepare executive briefing', 'Open Global Jet Solutions'];
 
     const groups = [
       { label: 'Recent Commands', items: history.slice(0, 4) },
@@ -570,6 +572,20 @@ export function IBar() {
 
       writeJsonStorage(window.sessionStorage, LAST_RESULT_KEY, payload);
       writeJsonStorage(window.sessionStorage, `symphony:ibar:result:${payload.requestId}`, payload);
+      if (payload.intent === 'executive_daily_briefing' && payload.executiveDailyBriefing) {
+        saveBriefingData(payload);
+        saveBriefingState({ active: false, currentIndex: 0, reviewed: {}, scrollTop: 0 });
+        setStatus({ tone: 'success', text: 'Executive briefing ready' });
+        window.dispatchEvent(new CustomEvent('symphony:toast', {
+          detail: {
+            title: 'Executive briefing ready',
+            message: payload.executiveDailyBriefing.openingSentence,
+            tone: 'success',
+          },
+        }));
+        navigate(`/briefing/today?requestId=${encodeURIComponent(payload.requestId)}`);
+        return;
+      }
       setStatus({
         tone: payload.status === 'error' ? 'warning' : 'success',
         text: payload.statusLine?.label ?? 'Answer ready',

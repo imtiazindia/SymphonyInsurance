@@ -74,6 +74,8 @@ export function parseIBarRequest(event) {
     selectedRole: normalizeWhitespace(String(body.selectedRole ?? 'CEO')).slice(0, 80),
     selectedUserId: normalizeWhitespace(String(body.selectedUserId ?? 'USR-001')).slice(0, 40),
     activeClientId: normalizeWhitespace(String(body.activeClientId ?? '')).slice(0, 40) || null,
+    currentDate: normalizeWhitespace(String(body.currentDate ?? '2026-07-10')).slice(0, 20),
+    scenario: normalizeWhitespace(String(body.scenario ?? 'healthy')).slice(0, 40),
     conversationContext,
   };
 }

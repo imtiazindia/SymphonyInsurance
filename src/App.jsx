@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AccountManagerWorkspace } from './pages/AccountManagerWorkspace.jsx';
 import { ClaimsWorkspace } from './pages/ClaimsWorkspace.jsx';
@@ -16,43 +17,48 @@ import { SubmissionWorkspace } from './pages/SubmissionWorkspace.jsx';
 import { WorkspacePage } from './pages/WorkspacePage.jsx';
 import { navItems } from './data/demoData.js';
 
+const ExecutiveBriefingPage = lazy(() => import('./pages/ExecutiveBriefingPage.jsx').then((module) => ({ default: module.ExecutiveBriefingPage })));
+
 export default function App() {
   return (
     <Shell>
-      <Routes>
-        <Route path="/" element={<ExecutiveOverview />} />
-        <Route path="/ibar" element={<IBarResultsPage />} />
-        <Route path="/account-manager" element={<AccountManagerWorkspace />} />
-        <Route path="/clients" element={<ClientWorkspacePage />} />
-        <Route path="/clients/:clientId/*" element={<ClientWorkspacePage />} />
-        <Route path="/renewals" element={<RenewalWorkspace />} />
-        <Route path="/renewals/:renewalId" element={<RenewalDetailWorkspace />} />
-        <Route path="/submissions" element={<SubmissionWorkspace />} />
-        <Route path="/submissions/:submissionId" element={<SubmissionWorkspace />} />
-        <Route path="/market-placement" element={<MarketPlacementWorkspace />} />
-        <Route path="/market-placement/:negotiationId" element={<MarketPlacementWorkspace />} />
-        <Route path="/claims" element={<ClaimsWorkspace />} />
-        <Route path="/claims/:claimId" element={<ClaimsWorkspace />} />
-        <Route path="/compliance" element={<ComplianceRiskWorkspace />} />
-        <Route path="/documents" element={<DocumentIntelligenceHub />} />
-        <Route path="/documents/:documentId" element={<DocumentIntelligenceHub />} />
-        <Route path="/reports" element={<ReportsAnalyticsWorkspace />} />
-        <Route path="/administration" element={<PlatformAdministrationWorkspace />} />
-        <Route path="/compliance/:complianceId" element={<ModulePlaceholderPage title="Compliance" idParam="complianceId" />} />
-        {navItems
-          .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions', '/market-placement', '/claims', '/compliance', '/documents', '/reports', '/administration'].includes(item.path))
-          .map((item) => (
-            <Route
-              key={item.path}
-              path={item.path}
-              element={
-                ['Renewals', 'Submissions', 'Market Placement', 'Claims', 'Compliance', 'Documents', 'Administration'].includes(item.label)
-                  ? <ModulePlaceholderPage title={item.label} />
-                  : <WorkspacePage title={item.label} tone={item.tone} />
-              }
-            />
-          ))}
-      </Routes>
+      <Suspense fallback={<div className="briefing-empty"><h1>Loading workspace</h1><p>Preparing the selected view.</p></div>}>
+        <Routes>
+          <Route path="/" element={<ExecutiveOverview />} />
+          <Route path="/ibar" element={<IBarResultsPage />} />
+          <Route path="/briefing/today" element={<ExecutiveBriefingPage />} />
+          <Route path="/account-manager" element={<AccountManagerWorkspace />} />
+          <Route path="/clients" element={<ClientWorkspacePage />} />
+          <Route path="/clients/:clientId/*" element={<ClientWorkspacePage />} />
+          <Route path="/renewals" element={<RenewalWorkspace />} />
+          <Route path="/renewals/:renewalId" element={<RenewalDetailWorkspace />} />
+          <Route path="/submissions" element={<SubmissionWorkspace />} />
+          <Route path="/submissions/:submissionId" element={<SubmissionWorkspace />} />
+          <Route path="/market-placement" element={<MarketPlacementWorkspace />} />
+          <Route path="/market-placement/:negotiationId" element={<MarketPlacementWorkspace />} />
+          <Route path="/claims" element={<ClaimsWorkspace />} />
+          <Route path="/claims/:claimId" element={<ClaimsWorkspace />} />
+          <Route path="/compliance" element={<ComplianceRiskWorkspace />} />
+          <Route path="/documents" element={<DocumentIntelligenceHub />} />
+          <Route path="/documents/:documentId" element={<DocumentIntelligenceHub />} />
+          <Route path="/reports" element={<ReportsAnalyticsWorkspace />} />
+          <Route path="/administration" element={<PlatformAdministrationWorkspace />} />
+          <Route path="/compliance/:complianceId" element={<ModulePlaceholderPage title="Compliance" idParam="complianceId" />} />
+          {navItems
+            .filter((item) => !['/', '/account-manager', '/clients', '/renewals', '/submissions', '/market-placement', '/claims', '/compliance', '/documents', '/reports', '/administration'].includes(item.path))
+            .map((item) => (
+              <Route
+                key={item.path}
+                path={item.path}
+                element={
+                  ['Renewals', 'Submissions', 'Market Placement', 'Claims', 'Compliance', 'Documents', 'Administration'].includes(item.label)
+                    ? <ModulePlaceholderPage title={item.label} />
+                    : <WorkspacePage title={item.label} tone={item.tone} />
+                }
+              />
+            ))}
+        </Routes>
+      </Suspense>
     </Shell>
   );
 }
