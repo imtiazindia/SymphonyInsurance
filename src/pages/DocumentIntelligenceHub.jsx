@@ -539,7 +539,7 @@ function RecentDocumentActivity({ documents }) {
     id: `doc-activity-${document.id}`,
     clientId: document.clientId,
     userId: document.ownerId,
-    timestamp: `2026-07-09T${14 - index}:2${index}:00Z`,
+    timestamp: `2026-07-09T${String(14 - index).padStart(2, '0')}:2${index}:00Z`,
     activityType: document.status === 'Approved' ? 'Review Completed' : document.status === 'Needs Review' ? 'Review Pending' : 'Reminder Sent',
     summary: `${document.documentName}: ${document.recommendedAction}`,
     relatedModule: 'Documents',
