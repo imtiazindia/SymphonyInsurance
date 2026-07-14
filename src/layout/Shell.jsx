@@ -251,19 +251,19 @@ function ExternalRiskImpactCard({ onViewAnalysis }) {
 
 function MarketConditions() {
   return (
-    <aside className="market-card" aria-label="Market conditions">
+    <aside className="sidebar-market-card" aria-label="Market conditions">
       <h2>Market Conditions</h2>
-      <div className="market-card__rule" />
+      <div className="sidebar-market-card__rule" />
       <p>Aviation Market Index</p>
-      <div className="market-card__metric">
+      <div className="sidebar-market-card__metric">
         <strong>97</strong>
         <span>-3 pts</span>
         <small>vs last 30 days</small>
       </div>
-      <svg className="market-card__chart" viewBox="0 0 190 70" role="img" aria-label="Stable upward market trend">
+      <svg className="sidebar-market-card__chart" viewBox="0 0 190 70" role="img" aria-label="Stable upward market trend">
         <path d="M3 56 C18 52 25 60 38 47 S60 42 75 32 S97 35 109 24 S130 29 142 17 S166 21 187 10" />
       </svg>
-      <div className="market-card__status">
+      <div className="sidebar-market-card__status">
         <span />
         Stable
       </div>

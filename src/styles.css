@@ -106,7 +106,8 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
   padding: 22px 18px 18px;
   border: 1px solid var(--line);
   border-top-left-radius: 16px;
@@ -114,6 +115,7 @@ svg {
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 10px 0 35px rgba(36, 58, 91, 0.04);
   backdrop-filter: blur(18px);
+  scrollbar-gutter: stable;
 }
 
 .brand {
@@ -190,7 +192,7 @@ svg {
 
 .navigation {
   display: flex;
-  flex: 1;
+  flex: 0 0 auto;
   flex-direction: column;
   gap: 8px;
   min-height: 0;
@@ -240,7 +242,8 @@ svg {
   color: var(--blue);
 }
 
-.market-card {
+.market-card,
+.sidebar-market-card {
   padding: 13px 15px;
   color: #1f3859;
   border: 1px solid var(--line);
@@ -249,7 +252,8 @@ svg {
   box-shadow: var(--shadow-soft);
 }
 
-.market-card h2 {
+.market-card h2,
+.sidebar-market-card h2 {
   margin: 0;
   color: var(--text);
   font-size: 0.98rem;
@@ -257,6 +261,7 @@ svg {
 }
 
 .market-card__rule,
+.sidebar-market-card__rule,
 .card-rule {
   height: 1px;
   margin: 8px 0;
@@ -265,43 +270,52 @@ svg {
 
 .market-card p,
 .market-card small,
-.market-card time {
+.market-card time,
+.sidebar-market-card p,
+.sidebar-market-card small,
+.sidebar-market-card time {
   margin: 0;
   color: var(--muted);
   font-size: 0.78rem;
 }
 
-.market-card__metric {
+.market-card__metric,
+.sidebar-market-card__metric {
   display: flex;
   align-items: baseline;
   gap: 8px;
   margin-top: 7px;
 }
 
-.market-card__metric strong {
+.market-card__metric strong,
+.sidebar-market-card__metric strong {
   color: var(--text);
   font-size: 2.18rem;
   line-height: 1;
 }
 
-.market-card__metric span {
+.market-card__metric span,
+.sidebar-market-card__metric span {
   color: var(--red);
   font-size: 0.9rem;
 }
 
-.market-card__chart {
+.market-card__chart,
+.sidebar-market-card__chart {
   width: 100%;
   height: 40px;
   margin: 7px 0 6px;
 }
 
-.market-card__chart path {
+.market-card__chart path,
+.sidebar-market-card__chart path {
   fill: none;
   stroke: var(--blue);
   stroke-width: 2.2;
 }
 
-.market-card__status {
+.market-card__status,
+.sidebar-market-card__status {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -310,14 +324,16 @@ svg {
   font-size: 0.82rem;
 }
 
-.market-card__status span {
+.market-card__status span,
+.sidebar-market-card__status span {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--teal);
 }
 
-.market-card time {
+.market-card time,
+.sidebar-market-card time {
   display: block;
   margin-top: 9px;
 }
@@ -8301,7 +8317,7 @@ svg {
 
 .market-hero,
 .market-detail-hero,
-.market-card,
+.market-workspace .market-card,
 .market-filter-card,
 .market-recommendation-card {
   border: 1px solid var(--line);
@@ -11910,7 +11926,7 @@ svg {
   }
 }
 
-@media (max-width: 1020px) {
+@media (max-width: 900px) {
   .app-shell {
     grid-template-columns: 1fr;
   }
@@ -12780,7 +12796,7 @@ svg {
   .submission-card,
   .submission-story-card,
   .submission-preview-card,
-  .market-card,
+  .market-workspace .market-card,
   .market-filter-card,
   .market-recommendation-card,
   .claims-card,
