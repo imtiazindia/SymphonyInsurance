@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Bell, CheckCircle2, Menu, Sparkles, X } from 'lucide-react';
+import { Bell, CheckCircle2, LogOut, Menu, Sparkles, X } from 'lucide-react';
 import { DemoExperience } from '../components/DemoExperience.jsx';
 import { Drawer } from '../components/Drawer.jsx';
 import { IBar } from '../components/IBar.jsx';
@@ -10,7 +10,6 @@ import {
   RoleAwareNavigation,
   RoleAwareNotifications,
   RoleScopeNotice,
-  RoleSwitcher,
 } from '../components/RoleExperience.jsx';
 import { SymphonyBrand } from '../components/SymphonyBrand.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
@@ -243,7 +242,7 @@ function MarketConditions() {
   );
 }
 
-function TopBar({ onMenu, onNotify, demoMode, onDemoMode, notificationCount }) {
+function TopBar({ onMenu, onNotify, onExitWorkspace, demoMode, onDemoMode, notificationCount }) {
   const { activeUserId, roleConfiguration } = useRoleExperience();
   const user = simulationData.teamMembers.find((member) => member.id === activeUserId) ?? simulationData.teamMembers[0];
   return (
@@ -255,7 +254,10 @@ function TopBar({ onMenu, onNotify, demoMode, onDemoMode, notificationCount }) {
       <IBar />
 
       <div className="top-actions">
-        <RoleSwitcher />
+        <button className="exit-workspace-button" type="button" onClick={onExitWorkspace} aria-label="Exit workspace and return to role selection">
+          <LogOut size={17} />
+          <span>Exit Workspace</span>
+        </button>
         <button className={demoMode ? 'demo-mode-toggle demo-mode-toggle--active' : 'demo-mode-toggle'} type="button" onClick={onDemoMode} aria-pressed={demoMode}>
           <Sparkles size={16} />
           <span>Demo Mode</span>
@@ -449,7 +451,7 @@ function BriefingContinuationBar() {
 
 export function Shell({ children }) {
   const navigate = useNavigate();
-  const { activeRole, activeUserId, demoMode, roleConfiguration, setDemoMode } = useRoleExperience();
+  const { activeRole, activeUserId, clearActiveRole, demoMode, roleConfiguration, setDemoMode } = useRoleExperience();
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [ariAnalysisOpen, setAriAnalysisOpen] = useState(false);
@@ -480,6 +482,11 @@ export function Shell({ children }) {
       pushToast(next ? 'Demo Mode enabled' : 'Demo Mode disabled', next ? 'Presenter tools are available.' : 'Standard application view restored.');
       return next;
     });
+  }
+
+  function exitWorkspace() {
+    clearActiveRole();
+    navigate('/');
   }
 
   useEffect(() => {
@@ -570,7 +577,7 @@ export function Shell({ children }) {
       </aside>
 
       <div className="app-stage">
-        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} demoMode={demoMode} onDemoMode={toggleDemoMode} notificationCount={notificationCount} />
+        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} onExitWorkspace={exitWorkspace} demoMode={demoMode} onDemoMode={toggleDemoMode} notificationCount={notificationCount} />
         <RoleScopeNotice />
         <main className="main-content">{children}</main>
         <AppFooter demoMode={demoMode} />

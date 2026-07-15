@@ -293,6 +293,39 @@
   color: var(--muted);
 }
 
+.exit-workspace-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  gap: 7px;
+  padding: 8px 12px;
+  color: #294462;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.exit-workspace-button:hover {
+  color: #b42318;
+  border-color: #f0b7b2;
+  background: #fff7f6;
+  transform: translateY(-1px);
+}
+
+.exit-workspace-button:focus-visible {
+  outline: 3px solid rgba(31, 111, 235, 0.2);
+  outline-offset: 2px;
+}
+
 .role-switcher {
   position: fixed;
   z-index: 1200;
@@ -936,6 +969,17 @@
 
   .role-switcher-trigger > span,
   .role-switcher-trigger strong {
+    display: none;
+  }
+
+  .exit-workspace-button {
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
+
+  .exit-workspace-button span {
     display: none;
   }
 
