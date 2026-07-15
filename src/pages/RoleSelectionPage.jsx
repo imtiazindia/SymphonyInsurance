@@ -26,7 +26,7 @@ export function RoleSelectionPage() {
       <section className="role-selection-page__intro">
         <span>SYMPHONY AEROSPACE SERVICES</span>
         <h1>Select Workspace</h1>
-        <p>Select a workspace to continue</p>
+        <p>What do you want to login as...</p>
       </section>
 
       <section className="role-selection-grid" aria-label="Available workspaces">
