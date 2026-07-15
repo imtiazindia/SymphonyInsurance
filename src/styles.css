@@ -1169,8 +1169,10 @@ svg {
 
 .brand__copy span {
   color: #102c55;
-  font-size: 0.67rem;
+  font-size: 0.58rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
 }
 
 .brand__copy em {

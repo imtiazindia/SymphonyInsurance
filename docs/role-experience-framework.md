@@ -1,6 +1,6 @@
 # Role Experience Framework
 
-Symphony One uses a shared client, policy, renewal, submission, placement, claim, compliance, document, task, activity and team dataset for every workspace.
+Symphony Aerospace Services uses a shared client, policy, renewal, submission, placement, claim, compliance, document, task, activity and team dataset for every workspace.
 
 The role framework in `src/config/roleExperiences.js` controls presentation only: landing route, navigation order, default filters, priority ranking, iBar suggestions, notifications, briefing labels and simulated quick actions. Role selection is stored in browser session storage by default, with optional local storage when the user selects **Remember this workspace**.
 

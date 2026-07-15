@@ -24,7 +24,7 @@ export function RoleSelectionPage() {
       </header>
 
       <section className="role-selection-page__intro">
-        <span>SYMPHONY ONE</span>
+        <span>SYMPHONY AEROSPACE SERVICES</span>
         <h1>Select Workspace</h1>
         <p>Select a workspace to continue</p>
       </section>

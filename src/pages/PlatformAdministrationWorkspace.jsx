@@ -97,7 +97,7 @@ const roleDefinitions = [
 ];
 
 const businessSettings = [
-  ['Business Name', 'Symphony One Insurance Brokers', 'Brand used across workspace headers'],
+  ['Business Name', 'Symphony Aerospace Services Insurance Brokers', 'Brand used across workspace headers'],
   ['Office Locations', 'Dallas, Seattle, Teterboro, Van Nuys, Miami', 'Used for regional reporting'],
   ['Business Calendar', 'US aviation brokerage calendar', 'Controls workflow date logic'],
   ['Working Days', 'Monday to Friday', 'Used for task and SLA calculations'],
