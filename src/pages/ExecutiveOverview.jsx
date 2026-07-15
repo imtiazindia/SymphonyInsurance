@@ -112,7 +112,7 @@ function buildAttentionItems(metrics) {
       issue: `${ownerRenewal.currentStage} renewal has ${ownerRenewal.missingItems.length} open item${ownerRenewal.missingItems.length === 1 ? '' : 's'}.`,
       impact: compactCurrency(ownerRenewal.revenueAtRisk),
       owner: userName(ownerRenewal.assignedUserId),
-      nextStep: 'Schedule CEO review and clear blockers before market follow-up.',
+      nextStep: 'Schedule executive review and clear blockers before market follow-up.',
       priority: 'Critical',
       workflow: 'Renewals',
       detailHref: `/renewals/${ownerRenewal.id}`,
@@ -135,7 +135,7 @@ function buildAttentionItems(metrics) {
       id: 'placement-decision',
       clientId: decision.clientId,
       clientName: clientName(decision.clientId),
-      issue: `${decision.recommendedInsurer} terms require a CEO decision.`,
+      issue: `${decision.recommendedInsurer} terms require an executive decision.`,
       impact: `${compactCurrency(decision.estimatedSavings)} savings opportunity`,
       owner: userName(clientById.get(decision.clientId)?.assignedPlacementLeadId),
       nextStep: decision.pendingQuestions[0] ?? 'Review quote strategy and approve market direction.',
@@ -210,7 +210,7 @@ function TopSummary({ metrics }) {
       <BusinessKpiCard
         label="Revenue at Risk"
         value={compactCurrency(metrics.revenueAtRisk)}
-        helper="Needs CEO or team action"
+        helper="Needs owner or team action"
         icon={AlertTriangle}
         tone="red"
       />
@@ -230,7 +230,7 @@ function TopSummary({ metrics }) {
       <BusinessKpiCard
         label="Open Executive Priorities"
         value={metrics.openExecutivePriorities}
-        helper="Requires CEO attention"
+        helper="Requires owner attention"
         icon={FileWarning}
         tone="amber"
       />
@@ -242,7 +242,7 @@ function AttentionRequired({ items }) {
   return (
     <section className="overview-card owner-attention-card">
       <SectionHeader
-        title="CEO Attention Required"
+        title="Owner Attention Required"
         text="Prioritized items with financial or relationship impact."
       />
       <div className="attention-list">
@@ -494,7 +494,7 @@ export function ExecutiveOverview() {
     <div className="executive-overview page-transition">
       <section className="overview-hero">
         <div>
-          <span>CEO Workspace</span>
+          <span>Owner / Executive Workspace</span>
           <h1>Executive Overview</h1>
           <p>How the business is performing today, and what needs your attention.</p>
         </div>

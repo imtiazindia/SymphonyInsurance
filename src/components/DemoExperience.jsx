@@ -20,6 +20,8 @@ import {
   Timer,
   X,
 } from 'lucide-react';
+import { roleExperiences } from '../config/roleExperiences.js';
+import { useRoleExperience } from '../context/RoleContext.jsx';
 
 const DEMO_STATE_KEY = 'symphony:demo:state';
 const DEMO_SETTINGS_KEY = 'symphony:demo:settings';
@@ -59,6 +61,19 @@ const scenarioProfiles = {
 };
 
 const journeyData = [
+  {
+    id: 'six-perspectives',
+    title: 'One Platform, Six Perspectives',
+    outcome: 'Different roles, one connected business platform.',
+    steps: [
+      { title: 'Owner sees business health', roleId: 'owner', route: '/executive-overview', focus: 'Revenue, retention and executive decisions', purpose: 'Begin with the business outcomes requiring leadership attention.', value: ['Fragmented leadership reporting', 'Connected executive priorities', 'Faster high-value decisions'], notes: ['The Owner begins with business health and financial exposure.'], talkingPoints: ['Revenue', 'Retention', 'Executive decisions'], callout: 'One business dataset, prioritized for leadership.', estimate: 35 },
+      { title: 'Account Manager sees client priorities', roleId: 'account-manager', route: '/account-manager', focus: 'Client follow-ups, readiness and documents', purpose: 'Show the same portfolio through the account manager daily workflow.', value: ['Scattered client follow-ups', 'Prioritized relationship work', 'Better client service'], notes: ['The client and renewal values remain unchanged.'], talkingPoints: ['Relationships', 'Readiness', 'Follow-up'], callout: 'The same records now answer a client-service question.', estimate: 35 },
+      { title: 'Placement Lead sees insurer activity', roleId: 'placement', route: '/market-placement', focus: 'Quotes, underwriter questions and decisions', purpose: 'Show how placement sees insurer engagement and market decisions.', value: ['Disconnected market response', 'Connected quote and decision context', 'Clearer recommendations'], notes: ['Highlight insurer response and financial outcome.'], talkingPoints: ['Market response', 'Quotes', 'Recommendation'], callout: 'Placement works from the same renewal and submission.', estimate: 35 },
+      { title: 'Claims Coordinator sees claims requiring action', roleId: 'claims', route: '/claims', focus: 'Carrier response, reserves and client updates', purpose: 'Show the same client relationships through claim intervention needs.', value: ['Claims isolated from account strategy', 'Connected exposure and action view', 'Faster intervention'], notes: ['Claims remain connected to policy and renewal impact.'], talkingPoints: ['Intervention', 'Exposure', 'Renewal impact'], callout: 'Claims context stays connected to the broader client record.', estimate: 35 },
+      { title: 'Compliance Advisor sees future risk', roleId: 'compliance', route: '/compliance-risk', focus: 'Findings, corrective actions and ARI exposure', purpose: 'Show how risk advisory improves future insurability.', value: ['Findings treated as paperwork', 'Risk-ranked improvement work', 'Better renewal outcomes'], notes: ['Use ARI and renewal impact to explain prioritization.'], talkingPoints: ['Risk reduction', 'Evidence', 'Insurability'], callout: 'Compliance translates evidence into practical risk improvement.', estimate: 35 },
+      { title: 'Operations Manager sees workflow capacity', roleId: 'operations', route: '/operations', focus: 'Bottlenecks, overdue work and team capacity', purpose: 'Close with cross-team workflow health across the same records.', value: ['No cross-team operating view', 'Connected bottleneck and capacity view', 'Better workload decisions'], notes: ['Close with: Different roles, one connected business platform.'], talkingPoints: ['Capacity', 'Bottlenecks', 'Handoffs'], callout: 'Different roles, one connected business platform.', estimate: 40 },
+    ],
+  },
   {
     id: 'brokerage',
     title: 'Running an Aviation Insurance Brokerage',
@@ -565,6 +580,7 @@ function CompletionSummary({ onRestart, onExit }) {
 export function DemoExperience({ enabled, onEnabledChange }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { activeRole, setActiveRole } = useRoleExperience();
   const [state, setState] = useState(() => readStorage(DEMO_STATE_KEY, {
     active: false,
     journeyId: 'brokerage',
@@ -658,9 +674,10 @@ export function DemoExperience({ enabled, onEnabledChange }) {
 
   useEffect(() => {
     if (!enabled || !state.active || !settings.autoNavigate) return;
+    if (step.roleId && step.roleId !== activeRole) setActiveRole(step.roleId);
     const target = stepRoute(step);
     if (target !== location.pathname) navigate(target);
-  }, [enabled, state.active, settings.autoNavigate, step, location.pathname, navigate]);
+  }, [activeRole, enabled, state.active, settings.autoNavigate, step, location.pathname, navigate, setActiveRole]);
 
   function patchState(next) {
     setState((current) => ({ ...current, ...next }));
@@ -706,6 +723,13 @@ export function DemoExperience({ enabled, onEnabledChange }) {
     setComplete(false);
     patchState({ journeyId, stepIndex: nextStep, active: true, paused: false });
     if (settings.autoNavigate) navigate(stepRoute(nextJourney.steps[nextStep]));
+  }
+
+  function changeRoleExperience(roleId) {
+    const role = setActiveRole(roleId);
+    if (!role) return;
+    patchState({ active: false, paused: true, stepIndex: 0 });
+    navigate(role.homeRoute);
   }
 
   function addBookmark() {
@@ -782,6 +806,13 @@ export function DemoExperience({ enabled, onEnabledChange }) {
       />
 
       <div className="demo-control-stack">
+        <section className="demo-role-switcher">
+          <header><span>Switch Role Experience</span><strong>Presenter control</strong></header>
+          <select value={activeRole} onChange={(event) => changeRoleExperience(event.target.value)} aria-label="Switch role experience">
+            {roleExperiences.map((role) => <option key={role.id} value={role.id}>{role.label}</option>)}
+          </select>
+          <p>Shared client, policy, renewal, claim and financial records remain unchanged.</p>
+        </section>
         <JourneyNavigator journeys={journeyData} activeJourneyId={state.journeyId} onJourney={changeJourney} currentStep={state.stepIndex} />
         <ScenarioSwitcher scenario={state.scenario} onScenario={(scenario) => patchState({ scenario })} />
         <section className="demo-bookmarks">

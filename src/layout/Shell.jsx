@@ -1,12 +1,22 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Bell, CheckCircle2, ChevronDown, Menu, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Bell, CheckCircle2, Menu, Sparkles, X } from 'lucide-react';
 import { DemoExperience } from '../components/DemoExperience.jsx';
 import { Drawer } from '../components/Drawer.jsx';
 import { IBar } from '../components/IBar.jsx';
 import { Modal } from '../components/Modal.jsx';
+import {
+  getRoleNotifications,
+  RoleAwareNavigation,
+  RoleAwareNotifications,
+  RoleScopeNotice,
+  RoleSwitcher,
+} from '../components/RoleExperience.jsx';
+import { SymphonyBrand } from '../components/SymphonyBrand.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
-import { navItems } from '../data/demoData.js';
+import { getRoleNavigation } from '../config/roleExperiences.js';
+import { useRoleExperience } from '../context/RoleContext.jsx';
+import { simulationData } from '../data/demoData.js';
 import {
   BRIEFING_EVENT,
   clearBriefingState,
@@ -23,45 +33,6 @@ import {
   getAriTrendIcon,
   getAriTrendLabel,
 } from '../utils/aviationRiskIndex.js';
-
-function Brand() {
-  return (
-    <div className="brand" aria-label="Symphony Aerospace Services Insurance Brokers">
-      <span className="brand__mark" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-      </span>
-      <div className="brand__copy">
-        <strong>SYMPHONY</strong>
-        <span>AEROSPACE SERVICES</span>
-        <em>INSURANCE BROKERS</em>
-      </div>
-    </div>
-  );
-}
-
-function Navigation({ onNavigate }) {
-  return (
-    <nav className="navigation" aria-label="Primary navigation">
-      {navItems.map((item) => {
-        const Icon = item.icon;
-        return (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            end={item.path === '/'}
-            onClick={onNavigate}
-            className={({ isActive }) => `nav-item ${isActive ? 'nav-item--active' : ''}`}
-          >
-            <Icon size={20} strokeWidth={1.8} />
-            <span>{item.label}</span>
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
-}
 
 function AviationRiskIndexCard({ onViewAnalysis }) {
   const [view, setView] = useState('global');
@@ -272,7 +243,9 @@ function MarketConditions() {
   );
 }
 
-function TopBar({ onMenu, onNotify, demoMode, onDemoMode }) {
+function TopBar({ onMenu, onNotify, demoMode, onDemoMode, notificationCount }) {
+  const { activeUserId, roleConfiguration } = useRoleExperience();
+  const user = simulationData.teamMembers.find((member) => member.id === activeUserId) ?? simulationData.teamMembers[0];
   return (
     <header className="top-bar">
       <button className="icon-button menu-button" type="button" onClick={onMenu} aria-label="Open menu">
@@ -282,21 +255,21 @@ function TopBar({ onMenu, onNotify, demoMode, onDemoMode }) {
       <IBar />
 
       <div className="top-actions">
+        <RoleSwitcher />
         <button className={demoMode ? 'demo-mode-toggle demo-mode-toggle--active' : 'demo-mode-toggle'} type="button" onClick={onDemoMode} aria-pressed={demoMode}>
           <Sparkles size={16} />
           <span>Demo Mode</span>
         </button>
         <button className="notification-button" type="button" onClick={onNotify} aria-label="Notifications">
           <Bell size={21} strokeWidth={1.75} />
-          <span>3</span>
+          <span>{notificationCount}</span>
         </button>
         <div className="user-profile">
-          <UserAvatar initials="AM" tone="blue" />
+          <UserAvatar initials={user.avatarInitials} tone="blue" />
           <div>
-            <strong>Alexandra Morgan</strong>
-            <span>CEO</span>
+            <strong>{user.name}</strong>
+            <span>{roleConfiguration?.label}</span>
           </div>
-          <ChevronDown size={18} />
         </div>
       </div>
     </header>
@@ -304,14 +277,15 @@ function TopBar({ onMenu, onNotify, demoMode, onDemoMode }) {
 }
 
 function BottomNavigation() {
-  const primary = navItems.slice(0, 5);
+  const { activeRole } = useRoleExperience();
+  const primary = getRoleNavigation(activeRole).filter((item) => item.group === 'primary').slice(0, 5);
   const location = useLocation();
 
   return (
     <nav className="bottom-nav" aria-label="Mobile navigation">
       {primary.map((item) => {
         const Icon = item.icon;
-        const active = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
+        const active = location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);
         return (
           <NavLink key={item.path} to={item.path} className={active ? 'bottom-nav__item bottom-nav__item--active' : 'bottom-nav__item'}>
             <Icon size={19} />
@@ -324,12 +298,13 @@ function BottomNavigation() {
 }
 
 function AppFooter({ demoMode }) {
+  const { roleConfiguration } = useRoleExperience();
   return (
     <footer className="app-footer" aria-label="Application status">
       <span>Version 14.0-demo</span>
       <span>Demo Dataset: Loaded</span>
       <span>Build Date: Jul 10, 2026</span>
-      <span>Current Role: CEO</span>
+      <span>Current Workspace: {roleConfiguration?.label}</span>
       <span>Demo Mode: {demoMode ? 'On' : 'Off'}</span>
     </footer>
   );
@@ -396,6 +371,7 @@ function ShortcutOverlay({ open, onClose }) {
 function BriefingContinuationBar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { roleConfiguration } = useRoleExperience();
   const [briefingRecord, setBriefingRecord] = useState(() => readBriefingData());
   const [reviewState, setReviewState] = useState(() => readBriefingState());
   const briefing = briefingRecord?.briefing;
@@ -455,7 +431,7 @@ function BriefingContinuationBar() {
       </aside>
       <aside className="briefing-continuation-bar" aria-label="Executive briefing review controls">
         <div>
-          <span>Executive Briefing · Priority {currentIndex + 1} of {briefing.priorities.length}</span>
+          <span>{roleConfiguration?.briefingName} · Priority {currentIndex + 1} of {briefing.priorities.length}</span>
           <strong>{priority.clientName} {priority.type}</strong>
           <small>{reviewed ? 'Reviewed in this session' : priority.title}</small>
         </div>
@@ -473,11 +449,11 @@ function BriefingContinuationBar() {
 
 export function Shell({ children }) {
   const navigate = useNavigate();
+  const { activeRole, activeUserId, demoMode, roleConfiguration, setDemoMode } = useRoleExperience();
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [ariAnalysisOpen, setAriAnalysisOpen] = useState(false);
   const [ariAnalysisView, setAriAnalysisView] = useState('global');
-  const [demoMode, setDemoMode] = useState(false);
   const [toasts, setToasts] = useState([]);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
 
@@ -519,7 +495,7 @@ export function Shell({ children }) {
     let awaitingGo = false;
     let timer;
     const routes = {
-      d: ['/', 'Dashboard'],
+      d: [roleConfiguration.homeRoute, roleConfiguration.shortLabel],
       c: ['/clients', 'Clients'],
       r: ['/renewals', 'Renewals'],
       k: ['/claims', 'Claims'],
@@ -579,20 +555,23 @@ export function Shell({ children }) {
       window.removeEventListener('keydown', onKeyDown);
       window.clearTimeout(timer);
     };
-  }, [navigate]);
+  }, [navigate, roleConfiguration]);
+
+  const notificationCount = getRoleNotifications(activeRole, activeUserId).length;
 
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <Brand />
-        <Navigation />
-        <AviationRiskIndexCard onViewAnalysis={openAriAnalysis} />
-        <ExternalRiskImpactCard onViewAnalysis={openAriAnalysis} />
-        <MarketConditions />
+        <SymphonyBrand />
+        <RoleAwareNavigation />
+        {roleConfiguration.sidebarInsights.includes('ari') ? <AviationRiskIndexCard onViewAnalysis={openAriAnalysis} /> : null}
+        {roleConfiguration.sidebarInsights.includes('ari') && activeRole === 'owner' ? <ExternalRiskImpactCard onViewAnalysis={openAriAnalysis} /> : null}
+        {roleConfiguration.sidebarInsights.includes('market') ? <MarketConditions /> : null}
       </aside>
 
       <div className="app-stage">
-        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} demoMode={demoMode} onDemoMode={toggleDemoMode} />
+        <TopBar onMenu={() => setMenuOpen(true)} onNotify={() => setModalOpen(true)} demoMode={demoMode} onDemoMode={toggleDemoMode} notificationCount={notificationCount} />
+        <RoleScopeNotice />
         <main className="main-content">{children}</main>
         <AppFooter demoMode={demoMode} />
       </div>
@@ -602,26 +581,11 @@ export function Shell({ children }) {
       <BottomNavigation />
 
       <Drawer open={menuOpen} title="Navigation" onClose={() => setMenuOpen(false)}>
-        <Navigation onNavigate={() => setMenuOpen(false)} />
+        <RoleAwareNavigation onNavigate={() => setMenuOpen(false)} />
       </Drawer>
 
       <Modal open={modalOpen} title="Priority Notifications" onClose={() => setModalOpen(false)}>
-        <div className="notification-stack">
-          <article>
-            <ShieldCheck size={18} />
-            <div>
-              <strong>Claims follow-up required</strong>
-              <p>Pacific Charters has an executive review item due May 18.</p>
-            </div>
-          </article>
-          <article>
-            <Bell size={18} />
-            <div>
-              <strong>Renewal due in 7 days</strong>
-              <p>Coastal Air Transport requires underwriter feedback review.</p>
-            </div>
-          </article>
-        </div>
+        <RoleAwareNotifications onNavigate={() => setModalOpen(false)} />
       </Modal>
 
       <Modal open={ariAnalysisOpen} title="Aviation Risk Index Analysis" className="modal__panel--wide" onClose={() => setAriAnalysisOpen(false)}>

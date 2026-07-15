@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Clock3, FileText, Loader2, Printer, RefreshCw, Sparkles, X } from 'lucide-react';
+import { useRoleExperience } from '../context/RoleContext.jsx';
 import {
   clearBriefingState,
   readBriefingData,
@@ -51,6 +52,7 @@ function BriefingSkeleton() {
 
 export function ExecutiveBriefingPage() {
   const navigate = useNavigate();
+  const { activeUserId, roleConfiguration } = useRoleExperience();
   const headingRef = useRef(null);
   const { briefingRecord, reviewState, updateState, updateBriefing } = useBriefing();
   const [loading, setLoading] = useState(false);
@@ -85,10 +87,10 @@ export function ExecutiveBriefingPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: 'Prepare me for my day',
+          query: `Prepare ${roleConfiguration.briefingName}`,
           currentRoute: '/briefing/today',
-          selectedRole: 'CEO',
-          selectedUserId: 'USR-001',
+          selectedRole: roleConfiguration.label,
+          selectedUserId: activeUserId,
           currentDate: '2026-07-10',
           conversationContext: [],
         }),
@@ -122,7 +124,7 @@ export function ExecutiveBriefingPage() {
 
   function exitBriefing() {
     clearBriefingState();
-    navigate('/');
+    navigate(roleConfiguration.homeRoute);
   }
 
   if (!briefing && loading) return <BriefingSkeleton />;
@@ -132,9 +134,9 @@ export function ExecutiveBriefingPage() {
       <section className="briefing-page page-transition">
         <div className="briefing-empty">
           <Sparkles size={24} />
-          <h1>Prepare your executive briefing from iBar</h1>
-          <p>{attemptedLoad && refreshNote ? refreshNote : 'Press Ctrl/Cmd + K and ask: Prepare me for my day.'}</p>
-          <Link className="primary-action" to="/">Return to Executive Overview</Link>
+          <h1>Prepare {roleConfiguration.briefingName} from iBar</h1>
+          <p>{attemptedLoad && refreshNote ? refreshNote : `Press Ctrl/Cmd + K and ask: Prepare ${roleConfiguration.briefingName}.`}</p>
+          <Link className="primary-action" to={roleConfiguration.homeRoute}>Return to {roleConfiguration.shortLabel} Workspace</Link>
         </div>
       </section>
     );
@@ -144,7 +146,7 @@ export function ExecutiveBriefingPage() {
     <section className="briefing-page page-transition">
       <header className="briefing-hero">
         <div>
-          <span>Executive Briefing</span>
+          <span>{roleConfiguration.label}</span>
           <h1 tabIndex="-1" ref={headingRef}>{briefing.title}</h1>
           <p>{briefing.openingSentence}</p>
         </div>
@@ -173,7 +175,7 @@ export function ExecutiveBriefingPage() {
             <Sparkles size={15} /> Start Review
           </button>
           <button type="button" onClick={() => window.print()}><Printer size={15} /> Print</button>
-          <Link to="/">Return to Executive Overview</Link>
+          <Link to={roleConfiguration.homeRoute}>Return to {roleConfiguration.shortLabel} Workspace</Link>
           <button type="button" onClick={exitBriefing}><X size={15} /> Exit Briefing</button>
         </nav>
       </section>
@@ -181,12 +183,14 @@ export function ExecutiveBriefingPage() {
       {refreshNote ? <p className="briefing-refresh-note">{refreshNote}</p> : null}
 
       <section className="briefing-health-grid">
-        <article><span>Business Health</span><strong>{briefing.businessHealth.label}</strong><p>{briefing.businessHealth.summary}</p></article>
-        <article><span>Revenue At Risk</span><strong>{briefing.portfolio.revenueAtRisk}</strong><p>Validated from renewal records.</p></article>
-        <article><span>Active Clients</span><strong>{briefing.portfolio.activeClients}</strong><p>Current demonstration portfolio.</p></article>
-        <article><span>Retention</span><strong>{briefing.portfolio.retentionRate}</strong><p>Portfolio retention indicator.</p></article>
-        <article><span>ARI</span><strong>{briefing.portfolio.ari.score}</strong><p>{briefing.portfolio.ari.category}, {briefing.portfolio.ari.change >= 0 ? '+' : ''}{briefing.portfolio.ari.change} change.</p></article>
-        <article><span>Executive Priorities</span><strong>{briefing.priorityCount}</strong><p>Ranked for owner review.</p></article>
+        {(briefing.kpis ?? [
+          { label: 'Business Health', value: briefing.businessHealth.label, helper: briefing.businessHealth.summary },
+          { label: 'Revenue At Risk', value: briefing.portfolio.revenueAtRisk, helper: 'Validated from renewal records.' },
+          { label: 'Active Clients', value: briefing.portfolio.activeClients, helper: 'Current demonstration portfolio.' },
+          { label: 'Retention', value: briefing.portfolio.retentionRate, helper: 'Portfolio retention indicator.' },
+          { label: 'ARI', value: briefing.portfolio.ari.score, helper: `${briefing.portfolio.ari.category} aviation risk environment.` },
+          { label: `${roleConfiguration.shortLabel} Priorities`, value: briefing.priorityCount, helper: 'Ranked for review.' },
+        ]).map((item) => <article key={item.label}><span>{item.label}</span><strong>{item.value}</strong><p>{item.helper}</p></article>)}
       </section>
 
       <section className="briefing-progress-card">
@@ -199,8 +203,8 @@ export function ExecutiveBriefingPage() {
           <aside>
             <CheckCircle2 size={18} />
             <div>
-              <strong>Executive Review Complete</strong>
-              <p>{total} executive priorities have been reviewed. {briefing.standardWork.openTasks} standard operational tasks remain assigned to the team.</p>
+              <strong>{roleConfiguration.shortLabel} Review Complete</strong>
+              <p>{total} priorities have been reviewed. {briefing.standardWork.openTasks} standard operational tasks remain assigned.</p>
             </div>
           </aside>
         ) : (
@@ -216,7 +220,7 @@ export function ExecutiveBriefingPage() {
 
       <section className="briefing-priorities">
         <header>
-          <span>Executive Priorities</span>
+          <span>{roleConfiguration.shortLabel} Priorities</span>
           <h2>What requires attention today</h2>
         </header>
         <div>

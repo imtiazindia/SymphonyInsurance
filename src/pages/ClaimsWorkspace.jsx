@@ -20,6 +20,8 @@ import {
   RevenueImpactLabel,
   TaskPriorityBadge,
 } from '../components/BusinessComponents.jsx';
+import { RoleAwareDashboardHeader } from '../components/RoleExperience.jsx';
+import { useRoleExperience } from '../context/RoleContext.jsx';
 import { simulationData } from '../data/demoData.js';
 import { getAriView } from '../utils/aviationRiskIndex.js';
 import { getAverage, getSum } from '../utils/businessCalculations.js';
@@ -409,7 +411,7 @@ function RecentClaimActivity({ items }) {
   );
 }
 
-function ClaimsListWorkspace({ items, filteredItems, filters, setFilters }) {
+function ClaimsListWorkspace({ items, filteredItems, filters, setFilters, roleConfiguration, onAction }) {
   const clients = Array.from(new Map(items.map((item) => [item.clientId, item.client])).values()).filter(Boolean);
   const coordinators = Array.from(new Map(items.map((item) => [item.coordinator.id, item.coordinator])).values());
   const severities = Array.from(new Set(items.map((item) => item.severity))).sort();
@@ -419,13 +421,17 @@ function ClaimsListWorkspace({ items, filteredItems, filters, setFilters }) {
 
   return (
     <div className="claims-workspace page-transition">
-      <section className="claims-hero">
-        <div>
-          <span>Claims Operations Workspace</span>
-          <h1>Claims Operations</h1>
-          <p>Which claims require our attention today, what is our financial exposure, and what actions should we take?</p>
-        </div>
-        <RevenueImpactLabel value={compactCurrency(totalExposure)} label="Filtered outstanding exposure" />
+      <RoleAwareDashboardHeader
+        eyebrow="Claims Coordinator Workspace"
+        title="Claims Operations"
+        question={roleConfiguration.primaryQuestion}
+        actions={roleConfiguration.quickActions}
+        onAction={onAction}
+      />
+      <section className="claims-current-exposure">
+        <span>Filtered outstanding exposure</span>
+        <strong>{compactCurrency(totalExposure)}</strong>
+        <p>{filteredItems.length} claim records in the current view</p>
       </section>
 
       <ClaimsSummary items={filteredItems} />
@@ -756,9 +762,11 @@ function ClaimDetailWorkspace({ item, actionLog, onAction }) {
 
 export function ClaimsWorkspace() {
   const { claimId } = useParams();
+  const { activeUserId, roleConfiguration } = useRoleExperience();
+  const activeUserIsCoordinator = claimsCoordinators.some((member) => member.id === activeUserId);
   const [filters, setFilters] = useState({
     client: 'all',
-    coordinator: 'all',
+    coordinator: activeUserIsCoordinator ? activeUserId : 'all',
     lossDate: 'all',
     openDays: 'all',
     policyType: 'all',
@@ -781,5 +789,5 @@ export function ClaimsWorkspace() {
     return <ClaimDetailWorkspace item={activeItem} actionLog={actionLog} onAction={addAction} />;
   }
 
-  return <ClaimsListWorkspace items={items} filteredItems={filteredItems} filters={filters} setFilters={setFilters} />;
+  return <ClaimsListWorkspace items={items} filteredItems={filteredItems} filters={filters} setFilters={setFilters} roleConfiguration={roleConfiguration} onAction={addAction} />;
 }

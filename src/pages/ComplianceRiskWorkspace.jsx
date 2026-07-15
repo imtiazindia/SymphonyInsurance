@@ -33,6 +33,8 @@ import {
   RevenueImpactLabel,
 } from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
+import { RoleAwareDashboardHeader } from '../components/RoleExperience.jsx';
+import { useRoleExperience } from '../context/RoleContext.jsx';
 import { getAriClientExposure, getAriTopFactors, getAriView } from '../utils/aviationRiskIndex.js';
 import { getAverage, getClaimsExposure, getDocumentGapCount, getSum } from '../utils/businessCalculations.js';
 
@@ -838,8 +840,10 @@ function ClientRiskDetail({ item, expandedFindingIds, onToggleFinding, onAction,
 }
 
 export function ComplianceRiskWorkspace() {
+  const { activeUserId, roleConfiguration } = useRoleExperience();
+  const activeUserIsAdvisor = simulationData.teamMembers.some((member) => member.id === activeUserId && member.role === 'Compliance Coordinator');
   const [filters, setFilters] = useState({
-    advisor: 'all',
+    advisor: activeUserIsAdvisor ? activeUserId : 'all',
     aircraftType: 'all',
     client: 'all',
     complianceStatus: 'all',
@@ -875,17 +879,16 @@ export function ComplianceRiskWorkspace() {
 
   return (
     <div className="compliance-workspace page-transition">
-      <section className="compliance-hero">
-        <div>
-          <span>Compliance & Risk Advisory</span>
-          <h1>Reduce client risk before it becomes a claim or renewal problem.</h1>
-          <p>Identify elevated operational and insurance risk, explain why it matters, and recommend practical advisory actions that protect renewal outcomes.</p>
-        </div>
-        <aside>
-          <strong>{ariView.category}</strong>
-          <span>Domestic ARI</span>
-          <em>{ariView.score} / 100</em>
-        </aside>
+      <RoleAwareDashboardHeader
+        eyebrow="Compliance & Risk Advisor Workspace"
+        title="Compliance & Risk"
+        question={roleConfiguration.primaryQuestion}
+        actions={roleConfiguration.quickActions}
+        onAction={handleAction}
+      />
+      <section className="compliance-ari-context">
+        <div><span>Domestic Aviation Risk Index</span><strong>{ariView.score} / 100</strong><em>{ariView.category}</em></div>
+        <p>{ariView.workspaceSignals.compliance}</p>
       </section>
 
       <ComplianceSummary items={clientRisks} />

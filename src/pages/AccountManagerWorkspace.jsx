@@ -23,6 +23,7 @@ import {
   RevenueImpactLabel,
 } from '../components/BusinessComponents.jsx';
 import { simulationData } from '../data/demoData.js';
+import { useRoleExperience } from '../context/RoleContext.jsx';
 import { getRenewalsDueSoon } from '../utils/businessCalculations.js';
 
 const asOfDate = '2026-07-09';
@@ -509,8 +510,11 @@ function buildCollaborationItems(assignedClientIds) {
 }
 
 export function AccountManagerWorkspace() {
+  const { activeUserId } = useRoleExperience();
   const accountManagers = simulationData.teamMembers.filter((member) => member.role === 'Account Manager');
-  const [selectedManagerId, setSelectedManagerId] = useState(accountManagers[0]?.id ?? '');
+  const [selectedManagerId, setSelectedManagerId] = useState(
+    accountManagers.some((member) => member.id === activeUserId) ? activeUserId : accountManagers[0]?.id ?? '',
+  );
   const [portfolioFilter, setPortfolioFilter] = useState('all');
   const [completedTaskIds, setCompletedTaskIds] = useState(() => new Set());
   const [requestedDocumentIds, setRequestedDocumentIds] = useState(() => new Set());
@@ -623,7 +627,7 @@ export function AccountManagerWorkspace() {
       <section className="am-hero">
         <div>
           <span>Client Relationships</span>
-          <h1>Account Manager</h1>
+          <h1>Account Manager Workspace</h1>
           <p>Which clients and tasks need my attention today?</p>
         </div>
         <label>

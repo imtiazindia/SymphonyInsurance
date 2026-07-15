@@ -169,5 +169,26 @@
       "CLI-030"
     ],
     "avatarInitials": "GH"
+  },
+  {
+    "id": "USR-011",
+    "name": "Jordan Ellis",
+    "role": "Operations Manager",
+    "workloadScore": 74,
+    "openTasks": 26,
+    "overdueTasks": 5,
+    "assignedClients": [
+      "CLI-001",
+      "CLI-002",
+      "CLI-003",
+      "CLI-004",
+      "CLI-005",
+      "CLI-006",
+      "CLI-009",
+      "CLI-010",
+      "CLI-017",
+      "CLI-022"
+    ],
+    "avatarInitials": "JE"
   }
 ]

@@ -20,6 +20,8 @@ import {
   RevenueImpactLabel,
   TaskPriorityBadge,
 } from '../components/BusinessComponents.jsx';
+import { RoleAwareDashboardHeader } from '../components/RoleExperience.jsx';
+import { useRoleExperience } from '../context/RoleContext.jsx';
 import { simulationData } from '../data/demoData.js';
 import { getSum } from '../utils/businessCalculations.js';
 
@@ -316,10 +318,12 @@ function MarketActivity({ items }) {
 
 export function MarketPlacementWorkspace() {
   const { negotiationId } = useParams();
+  const { activeUserId, roleConfiguration } = useRoleExperience();
+  const activeUserIsPlacementLead = usersById.get(activeUserId)?.role === 'Placement Lead';
   const [filters, setFilters] = useState({
     client: 'all',
     insurer: 'all',
-    placementLead: 'all',
+    placementLead: activeUserIsPlacementLead ? activeUserId : 'all',
     premiumRange: 'all',
     revenueRange: 'all',
     savedView: negotiationId ? 'all' : 'decision',
@@ -343,9 +347,16 @@ export function MarketPlacementWorkspace() {
 
   return (
     <div className="market-workspace page-transition">
+      <RoleAwareDashboardHeader
+        eyebrow="Placement Lead Workspace"
+        title="Market Placement"
+        question={roleConfiguration.primaryQuestion}
+        actions={roleConfiguration.quickActions}
+        onAction={addAction}
+      />
       <section className="market-hero">
         <div>
-          <span>Market Placement Workspace</span>
+          <span>Current Placement Focus</span>
           <h1>{activeItem.client.name}</h1>
           <p>Where is this renewal in the insurance market, what decisions need to be made, and which placement option delivers the best outcome?</p>
         </div>

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, CheckCircle2, Command, Loader2, Search, Sparkles, TriangleAlert, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useRoleExperience } from '../context/RoleContext.jsx';
 import { simulationData } from '../data/demoData.js';
 import { saveBriefingData, saveBriefingState } from '../utils/briefingSession.js';
 
@@ -102,7 +103,7 @@ function renewalRecord(renewal) {
     type: 'renewal',
     title: client?.name ?? renewal.id,
     subtitle: `${renewal.currentStage} - expires in ${renewal.daysToExpiry} days`,
-    status: renewal.ownerAttentionRequired ? 'CEO attention' : renewal.currentStage,
+    status: renewal.ownerAttentionRequired ? 'Owner attention' : renewal.currentStage,
     metrics: [
       { label: 'Readiness', value: `${renewal.readinessScore}%` },
       { label: 'Revenue at risk', value: money(renewal.revenueAtRisk) },
@@ -165,7 +166,7 @@ function simpleRecord({ id, type, title, subtitle, status, metrics = [], busines
   };
 }
 
-function buildLocalIBarFallback(query, requestId, location) {
+function buildLocalIBarFallback(query, requestId, location, roleConfiguration, activeUserId) {
   const q = query.toLowerCase();
   const highValueClient = simulationData.clients.find((client) => /global jet solutions/i.test(client.name)) ?? simulationData.clients[0];
   const dueRenewals = simulationData.renewals
@@ -182,11 +183,11 @@ function buildLocalIBarFallback(query, requestId, location) {
   let summary = 'The secure iBar service was not available, so Symphony prepared a local demo answer from the shared JSON model.';
   let results = [...priorityRenewals, ...priorityClaims, ...overloaded].slice(0, 8);
   let insights = [
-    `${priorityRenewals.length} renewals need CEO attention.`,
+    `${priorityRenewals.length} renewals need owner attention.`,
     `${priorityClaims.length} claims require executive review.`,
     `${overloaded.length} team members have elevated workload.`,
   ];
-  let actions = [{ label: 'Open executive overview', route: '/' }];
+  let actions = [{ label: `Open ${roleConfiguration.shortLabel} workspace`, route: roleConfiguration.homeRoute }];
   let intent = 'local_demo_fallback';
   let dataScope = ['clients', 'renewals', 'claims', 'teamMembers'];
 
@@ -236,7 +237,7 @@ function buildLocalIBarFallback(query, requestId, location) {
     summary = `${money(annualRevenue)} estimated annual revenue and ${money(revenueAtRisk)} revenue at risk are visible in the local demo view.`;
     results = simulationData.clients.slice().sort((a, b) => b.estimatedRevenue - a.estimatedRevenue).slice(0, 6).map(clientRecord);
     insights = [
-      `${priorityRenewals.length} renewals need CEO attention.`,
+      `${priorityRenewals.length} renewals need owner attention.`,
       `${priorityClaims.length} claims require executive review.`,
       'Open Reports for forecast, business health, and decision support.',
     ];
@@ -436,8 +437,10 @@ function buildLocalIBarFallback(query, requestId, location) {
       dataScope,
       appliedFilters: {},
       currentRoute: `${location.pathname}${location.search}`,
-      selectedRole: 'CEO',
-      selectedUserId: 'USR-001',
+      selectedRole: roleConfiguration.label,
+      selectedUserId: activeUserId,
+      roleHomeRoute: roleConfiguration.homeRoute,
+      rolePriorityTypes: roleConfiguration.priorityTypes,
       entityIds: { client: null, claim: null, renewal: null, submission: null, negotiation: null },
     },
   };
@@ -446,6 +449,7 @@ function buildLocalIBarFallback(query, requestId, location) {
 export function IBar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { activeUserId, roleConfiguration } = useRoleExperience();
   const inputRef = useRef(null);
   const abortRef = useRef(null);
   const [query, setQuery] = useState('');
@@ -470,6 +474,7 @@ export function IBar() {
     const groups = [
       { label: 'Recent Commands', items: history.slice(0, 4) },
       { label: 'Context Commands', items: contextCommands },
+      { label: `${roleConfiguration.shortLabel} Suggestions`, items: roleConfiguration.iBarSuggestions },
       { label: 'Suggested Commands', items: DEFAULT_SUGGESTIONS },
       { label: 'Popular Commands', items: POPULAR_COMMANDS },
       { label: 'Keyboard Shortcuts', items: ['Ctrl/Cmd + K focuses iBar', '/ focuses search', '? shows shortcuts'], passive: true },
@@ -484,7 +489,7 @@ export function IBar() {
           .slice(0, group.label === 'Suggested Commands' ? 5 : 4),
       }))
       .filter((group) => group.items.length);
-  }, [history, location.pathname]);
+  }, [history, location.pathname, roleConfiguration]);
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -547,8 +552,10 @@ export function IBar() {
         body: JSON.stringify({
           query: normalized,
           currentRoute: `${location.pathname}${location.search}`,
-          selectedRole: 'CEO',
-          selectedUserId: 'USR-001',
+          selectedRole: roleConfiguration.label,
+          selectedUserId: activeUserId,
+          roleHomeRoute: roleConfiguration.homeRoute,
+          rolePriorityTypes: roleConfiguration.priorityTypes,
           activeClientId: deriveActiveClientId(location),
           conversationContext: getContext(),
           requestId,
@@ -575,10 +582,10 @@ export function IBar() {
       if (payload.intent === 'executive_daily_briefing' && payload.executiveDailyBriefing) {
         saveBriefingData(payload);
         saveBriefingState({ active: false, currentIndex: 0, reviewed: {}, scrollTop: 0 });
-        setStatus({ tone: 'success', text: 'Executive briefing ready' });
+        setStatus({ tone: 'success', text: `${roleConfiguration.shortLabel} briefing ready` });
         window.dispatchEvent(new CustomEvent('symphony:toast', {
           detail: {
-            title: 'Executive briefing ready',
+            title: `${roleConfiguration.briefingName} ready`,
             message: payload.executiveDailyBriefing.openingSentence,
             tone: 'success',
           },
@@ -600,7 +607,7 @@ export function IBar() {
       navigate(`/ibar?requestId=${encodeURIComponent(payload.requestId)}`);
     } catch (error) {
       if (error.name === 'AbortError') return;
-      const fallback = buildLocalIBarFallback(normalized, requestId, location);
+      const fallback = buildLocalIBarFallback(normalized, requestId, location, roleConfiguration, activeUserId);
       writeJsonStorage(window.sessionStorage, LAST_RESULT_KEY, fallback);
       writeJsonStorage(window.sessionStorage, `symphony:ibar:result:${fallback.requestId}`, fallback);
       setStatus({ tone: 'success', text: fallback.statusLine.label });
