@@ -14022,6 +14022,16 @@ svg {
   line-height: 1.18;
 }
 
+/* Client and account names are supporting context, not primary page headings. */
+.client360-header h1,
+.renewal-detail-hero h1,
+.submission-hero h1,
+.market-hero h1,
+.claim-detail-hero h1 {
+  font-size: clamp(1.15rem, 1.3vw, 1.4rem);
+  line-height: 1.25;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
