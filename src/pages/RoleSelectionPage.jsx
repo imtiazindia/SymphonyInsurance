@@ -13,7 +13,7 @@ export function RoleSelectionPage() {
 
   function openWorkspace(role) {
     setActiveRole(role.id, { remember });
-    navigate(role.homeRoute, { replace: true });
+    navigate(role.homeRoute);
   }
 
   return (

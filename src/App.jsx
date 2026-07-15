@@ -25,9 +25,8 @@ export default function App() {
   const location = useLocation();
   const { activeRole, roleConfiguration } = useRoleExperience();
 
-  if (location.pathname === '/select-role') return <RoleSelectionPage />;
+  if (location.pathname === '/' || location.pathname === '/select-role') return <RoleSelectionPage />;
   if (!activeRole) return <Navigate to="/select-role" replace state={{ from: location.pathname }} />;
-  if (location.pathname === '/') return <Navigate to={roleConfiguration.homeRoute} replace />;
 
   return (
     <RoleRouteGuard>
