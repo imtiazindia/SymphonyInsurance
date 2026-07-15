@@ -5,7 +5,6 @@ import {
   Bell,
   BriefcaseBusiness,
   CalendarClock,
-  CheckCircle2,
   ChevronDown,
   CircleAlert,
   FileWarning,
@@ -28,29 +27,24 @@ function clientName(clientId) {
 export function RoleExperienceCard({ role, active = false, compact = false, onSelect }) {
   const Icon = role.icon;
   return (
-    <button
-      type="button"
+    <article
       className={`role-experience-card ${compact ? 'role-experience-card--compact' : ''} ${active ? 'role-experience-card--active' : ''}`}
-      onClick={() => onSelect(role)}
-      aria-label={`Open ${role.label} workspace. ${role.description}`}
-      aria-current={active ? 'true' : undefined}
     >
       <span className="role-experience-card__icon"><Icon size={24} /></span>
       <span className="role-experience-card__copy">
-        <strong>{role.label}</strong>
+        <button
+          className="role-experience-card__title"
+          type="button"
+          onClick={() => onSelect(role)}
+          aria-label={`Open ${role.label} workspace`}
+          aria-current={active ? 'page' : undefined}
+        >
+          <strong>{role.label}</strong>
+          <ArrowRight size={16} />
+        </button>
         <p>{role.description}</p>
       </span>
-      {!compact ? (
-        <span className="role-experience-card__focus">
-          <small>Primary focus</small>
-          {role.priorities.map((priority) => <span key={priority}><CheckCircle2 size={14} /> {priority}</span>)}
-        </span>
-      ) : null}
-      <span className="role-experience-card__action">
-        {active ? 'Current Workspace' : 'Open Workspace'}
-        <ArrowRight size={16} />
-      </span>
-    </button>
+    </article>
   );
 }
 

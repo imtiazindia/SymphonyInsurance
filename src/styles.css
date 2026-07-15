@@ -123,8 +123,8 @@
   align-content: start;
   gap: 16px;
   min-width: 0;
-  min-height: 318px;
-  padding: 24px;
+  min-height: 174px;
+  padding: 22px;
   overflow: hidden;
   color: var(--text);
   text-align: left;
@@ -161,11 +161,46 @@
   min-width: 0;
 }
 
-.role-experience-card__copy strong {
-  display: block;
+.role-experience-card__title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  padding: 0;
+  color: var(--text);
+  text-align: left;
+  border: 0;
+  background: transparent;
+}
+
+.role-experience-card__title strong {
   overflow-wrap: anywhere;
   font-size: 1.16rem;
   line-height: 1.25;
+}
+
+.role-experience-card__title svg {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: var(--blue);
+  transition: transform 160ms ease;
+}
+
+.role-experience-card__title:hover strong,
+.role-experience-card__title:focus-visible strong {
+  color: var(--blue);
+}
+
+.role-experience-card__title:hover svg,
+.role-experience-card__title:focus-visible svg {
+  transform: translateX(3px);
+}
+
+.role-experience-card__title:focus-visible {
+  outline: 3px solid rgba(31, 111, 235, 0.2);
+  outline-offset: 5px;
+  border-radius: 4px;
 }
 
 .role-experience-card__copy p {
@@ -176,48 +211,8 @@
   overflow-wrap: anywhere;
 }
 
-.role-experience-card__focus {
-  display: flex;
-  grid-column: 1 / -1;
-  flex-direction: column;
-  gap: 9px;
-  padding-top: 15px;
-  border-top: 1px solid var(--line);
-}
-
-.role-experience-card__focus small {
-  color: var(--muted);
-  font-size: 0.75rem;
-  font-weight: 750;
-  text-transform: uppercase;
-}
-
-.role-experience-card__focus > span {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-soft);
-  font-size: 0.9rem;
-}
-
-.role-experience-card__focus svg {
-  flex: 0 0 auto;
-  color: var(--teal);
-}
-
-.role-experience-card__action {
-  display: flex;
-  grid-column: 1 / -1;
-  align-items: center;
-  justify-content: space-between;
-  align-self: end;
-  color: var(--blue);
-  font-size: 0.9rem;
-  font-weight: 750;
-}
-
 .role-experience-card--compact {
-  min-height: 176px;
+  min-height: 140px;
   padding: 18px;
   box-shadow: none;
 }
@@ -922,9 +917,7 @@
     min-height: 0;
   }
 
-  .role-experience-card__copy,
-  .role-experience-card__focus,
-  .role-experience-card__action {
+  .role-experience-card__copy {
     width: 100%;
     max-width: 100%;
   }
