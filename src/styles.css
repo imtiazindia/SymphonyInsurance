@@ -13996,6 +13996,32 @@ svg {
   }
 }
 
+/* Keep workspace titles compact and readable across operational screens. */
+.role-dashboard-header__intro h1,
+.role-briefing-header h1,
+.overview-hero h1,
+.am-hero h1,
+.module-placeholder-card h1,
+.client-workspace-hero h1,
+.client360-portfolio-hero h1,
+.client360-header h1,
+.document-hero h1,
+.reports-hero h1,
+.admin-hero h1,
+.renewal-hero h1,
+.renewal-detail-hero h1,
+.submission-hero h1,
+.market-hero h1,
+.claims-hero h1,
+.claim-detail-hero h1,
+.ibar-results-hero h1,
+.briefing-hero h1,
+.briefing-empty h1,
+.compliance-hero h1 {
+  font-size: clamp(1.35rem, 1.65vw, 1.78rem);
+  line-height: 1.18;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
