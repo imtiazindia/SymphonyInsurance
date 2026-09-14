@@ -14146,6 +14146,174 @@ svg {
   font-weight: 750;
 }
 
+.client-portal-hero--simple {
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 0.38fr);
+  align-items: center;
+  padding-block: 22px;
+}
+
+.client-portal-hero--simple .client-portal-hero__side {
+  gap: 8px;
+}
+
+.client-portal-hero--simple .client-portal-hero__side .client-panel-link {
+  justify-self: start;
+  margin-top: 2px;
+}
+
+.client-home-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-block: 1px solid var(--line);
+  background: #fff;
+}
+
+.client-home-summary > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 68px;
+  gap: 10px;
+  padding: 12px 18px;
+  color: var(--blue);
+  border-right: 1px solid var(--line);
+}
+
+.client-home-summary > div:last-child {
+  border-right: 0;
+}
+
+.client-home-summary span {
+  color: #3f5b7b;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.client-home-summary strong {
+  margin-right: 3px;
+  color: var(--text);
+  font-size: 1.2rem;
+}
+
+.client-home-primary,
+.client-home-secondary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(350px, 0.7fr);
+  gap: 18px;
+}
+
+.client-home-renewal-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 17px 0;
+}
+
+.client-home-renewal-facts div {
+  min-width: 0;
+  padding-right: 10px;
+  border-right: 1px solid var(--line);
+}
+
+.client-home-renewal-facts div:last-child {
+  border-right: 0;
+}
+
+.client-home-renewal-facts dt,
+.client-home-renewal-facts dd {
+  margin: 0;
+}
+
+.client-home-renewal-facts dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.client-home-renewal-facts dd {
+  margin-top: 3px;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.client-home-secondary {
+  align-items: start;
+}
+
+.client-home-help {
+  display: grid;
+  gap: 14px;
+}
+
+.client-home-help__person {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 11px;
+}
+
+.client-home-help__person small,
+.client-home-help__person strong,
+.client-home-help__person span {
+  display: block;
+}
+
+.client-home-help__person small,
+.client-home-help__person span {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.client-home-help__person strong {
+  margin: 2px 0;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.client-home-help > button {
+  width: 100%;
+  min-height: 42px;
+  color: #fff;
+  border-color: var(--blue);
+  background: var(--blue);
+}
+
+.client-home-quick-links {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.client-home-quick-links a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 9px 0;
+  color: var(--blue);
+  border-bottom: 1px solid var(--line);
+}
+
+.client-home-quick-links a:last-child {
+  border-bottom: 0;
+}
+
+.client-home-quick-links strong,
+.client-home-quick-links small {
+  display: block;
+}
+
+.client-home-quick-links strong {
+  color: var(--text);
+  font-size: 0.84rem;
+}
+
+.client-home-quick-links small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
 .client-portal-kpis {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -14181,7 +14349,8 @@ svg {
 
 .client-panel > .section-header {
   align-items: flex-start;
-  margin-bottom: 16px;
+  margin: 0 0 16px;
+  padding-left: 0;
 }
 
 .client-panel > .section-header h1 {
@@ -14203,6 +14372,7 @@ svg {
   background: #f8fbff;
   font-size: 0.78rem;
   font-weight: 750;
+  white-space: nowrap;
 }
 
 .client-action-list,
@@ -14760,6 +14930,8 @@ svg {
   .client-portal-hero,
   .client-portal-grid,
   .client-portal-grid--attention,
+  .client-home-primary,
+  .client-home-secondary,
   .client-incident-guide {
     grid-template-columns: 1fr;
   }
@@ -14768,6 +14940,10 @@ svg {
     padding: 16px 0 0;
     border-top: 1px solid var(--line);
     border-left: 0;
+  }
+
+  .client-home-help {
+    order: -1;
   }
 
   .client-request-form {
@@ -14797,7 +14973,12 @@ svg {
     padding: 18px;
   }
 
+  .client-portal-hero__meta span:not(:first-child) {
+    display: none;
+  }
+
   .client-portal-kpis,
+  .client-home-summary,
   .client-location-strip,
   .client-location-strip--large,
   .client-renewal-summary,
@@ -14805,19 +14986,83 @@ svg {
     grid-template-columns: 1fr;
   }
 
+  .client-home-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .client-home-summary > div {
+    display: grid;
+    justify-items: center;
+    min-height: 78px;
+    gap: 4px;
+    padding: 10px 6px;
+    text-align: center;
+  }
+
+  .client-home-summary span {
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+
+  .client-home-summary strong {
+    display: block;
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .client-home-renewal-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .client-home-renewal-facts div {
+    display: grid;
+    align-content: start;
+    gap: 3px;
+    padding: 0 8px;
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
+  }
+
+  .client-home-renewal-facts div:last-child {
+    border-right: 0;
+  }
+
+  .client-home-renewal-facts dd {
+    margin-top: 0;
+    overflow-wrap: anywhere;
+  }
+
   .client-portal-kpis .business-kpi-card {
     min-height: 112px;
   }
 
-  .client-action-list article,
   .client-document-list article,
   .client-request-list article {
     grid-template-columns: 1fr;
   }
 
+  .client-action-list article {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 8px 10px;
+  }
+
+  .client-action-list article:nth-child(n + 3) {
+    display: none;
+  }
+
+  .client-action-list article > a {
+    grid-column: 2;
+    justify-self: start;
+  }
+
   .client-action-list article > .business-badge,
   .client-document-list article > svg {
     justify-self: start;
+  }
+
+  .client-home-quick-links small {
+    display: none;
   }
 
   .client-document-actions,

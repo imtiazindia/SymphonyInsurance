@@ -5,7 +5,6 @@ import {
   ArrowRight,
   BadgeCheck,
   Building2,
-  CalendarDays,
   CheckCircle2,
   FileText,
   Headphones,
@@ -17,7 +16,7 @@ import {
   ShieldCheck,
   Upload,
 } from 'lucide-react';
-import { BusinessKpiCard, DocumentStatusBadge, RenewalStatusBadge, TaskPriorityBadge } from '../components/BusinessComponents.jsx';
+import { DocumentStatusBadge, RenewalStatusBadge, TaskPriorityBadge } from '../components/BusinessComponents.jsx';
 import { SectionHeader } from '../components/SectionHeader.jsx';
 import { UserAvatar } from '../components/UserAvatar.jsx';
 import { useRoleExperience } from '../context/RoleContext.jsx';
@@ -53,13 +52,13 @@ function clientClaimNextAction(claim) {
     : claim.nextAction;
 }
 
-function PortalHero({ client, user, renewal, openActions, onQuickAction }) {
+function PortalHero({ client, user, renewal }) {
   return (
-    <section className="client-portal-hero">
+    <section className="client-portal-hero client-portal-hero--simple">
       <div className="client-portal-hero__copy">
-        <span>Client Portal</span>
+        <span>My Insurance</span>
         <h1>Welcome back, {user.name.split(' ')[0]}</h1>
-        <p>{client.name} / {client.shortBusinessSummary}</p>
+        <p>{client.name}. Here is a clear view of what needs your attention.</p>
         <div className="client-portal-hero__meta">
           <span><Building2 size={15} /> Account MFA-2048</span>
           <span><MapPin size={15} /> {simulationData.locations.filter((item) => item.clientId === client.id).length} training locations</span>
@@ -72,18 +71,16 @@ function PortalHero({ client, user, renewal, openActions, onQuickAction }) {
           <strong>{formatDate(renewal.expiryDate)}</strong>
           <span>{renewal.readinessScore}% information ready</span>
         </div>
-        <nav aria-label="Client quick actions">
-          <button type="button" onClick={() => onQuickAction('certificate')}><BadgeCheck size={16} /> Request certificate</button>
-          <button type="button" onClick={() => onQuickAction('incident')}><Plus size={16} /> Report incident</button>
-          <button type="button" onClick={() => onQuickAction('upload')}><Upload size={16} /> Upload document</button>
-        </nav>
-        {openActions ? <p><AlertCircle size={15} /> {openActions} items need your attention</p> : null}
+        <div className="client-renewal-meter" aria-label={`${renewal.readinessScore}% of renewal information ready`}>
+          <i style={{ width: `${renewal.readinessScore}%` }} />
+        </div>
+        <Link className="client-panel-link" to="/client-portal/renewal">View renewal <ArrowRight size={15} /></Link>
       </div>
     </section>
   );
 }
 
-function HomeView({ client, renewal, policies, claims, documents, requests, locations, messages, team, onDocumentAction, onQuickAction }) {
+function HomeView({ client, renewal, claims, documents, requests, messages, team, accountManager, onQuickAction }) {
   const missingDocuments = documents.filter((item) => /Missing|Expired/.test(item.status));
   const openRequests = requests.filter((item) => item.status !== 'Complete');
   const actions = [
@@ -91,22 +88,22 @@ function HomeView({ client, renewal, policies, claims, documents, requests, loca
     ...openRequests.filter((item) => item.status === 'Waiting on Client').map((item) => ({ id: item.id, priority: 'Medium', title: item.title, detail: item.lastUpdate, action: 'Provide information', route: '/client-portal/requests' })),
     ...claims.filter((item) => item.status !== 'Closed').slice(0, 1).map((item) => ({ id: item.id, priority: item.severity, title: item.claimType, detail: clientClaimNextAction(item), action: 'Open claim', route: '/client-portal/claims' })),
   ];
+  const visibleActions = actions.slice(0, 3);
+  const openClaims = claims.filter((item) => item.status !== 'Closed').length;
 
   return (
     <>
-      <section className="client-portal-kpis" aria-label="Insurance summary">
-        <BusinessKpiCard icon={CalendarDays} label="Days to Renewal" value={renewal.daysToExpiry} helper={renewal.currentStage} tone="blue" />
-        <BusinessKpiCard icon={AlertCircle} label="Your Open Actions" value={actions.length} helper="Information needed" tone={actions.length ? 'amber' : 'green'} />
-        <BusinessKpiCard icon={FileText} label="Document Readiness" value={`${client.documentCompleteness}%`} helper={`${missingDocuments.length} documents missing`} tone="teal" />
-        <BusinessKpiCard icon={Headphones} label="Open Claims" value={claims.filter((item) => item.status !== 'Closed').length} helper="Updates available" tone="red" />
-        <BusinessKpiCard icon={MessageSquareText} label="Open Requests" value={openRequests.length} helper="Tracked by Symphony" tone="blue" />
+      <section className="client-home-summary" aria-label="Insurance summary">
+        <div><AlertCircle size={19} /><span><strong>{actions.length}</strong> items need you</span></div>
+        <div><FileText size={19} /><span><strong>{client.documentCompleteness}%</strong> documents ready</span></div>
+        <div><MessageSquareText size={19} /><span><strong>{openRequests.length}</strong> open requests</span></div>
       </section>
 
-      <section className="client-portal-grid client-portal-grid--attention">
+      <section className="client-home-primary">
         <div className="client-panel client-panel--priority">
-          <SectionHeader eyebrow="Your actions" title="What Symphony Needs From You" text="Complete these items to keep coverage and renewal work moving." />
+          <SectionHeader title="What Needs Your Attention" text="The most important items to keep your insurance work moving." action={actions.length > visibleActions.length ? <Link to="/client-portal/documents">View all</Link> : null} />
           <div className="client-action-list">
-            {actions.length ? actions.map((item) => (
+            {visibleActions.length ? visibleActions.map((item) => (
               <article key={item.id}>
                 <TaskPriorityBadge priority={item.priority} />
                 <div><strong>{item.title}</strong><p>{item.detail}</p></div>
@@ -117,54 +114,40 @@ function HomeView({ client, renewal, policies, claims, documents, requests, loca
         </div>
 
         <div className="client-panel">
-          <SectionHeader eyebrow="Renewal" title="Renewal Progress" text={`${renewal.readinessScore}% of requested information is complete.`} action={<RenewalStatusBadge status={renewal.currentStage} />} />
+          <SectionHeader title="Renewal Progress" text={`${renewal.readinessScore}% of requested information is complete.`} action={<RenewalStatusBadge status={renewal.currentStage} />} />
           <div className="client-renewal-meter"><i style={{ width: `${renewal.readinessScore}%` }} /></div>
-          <ol className="client-renewal-steps">
-            {['Information', 'Broker Review', 'Insurer Market', 'Options', 'Binding'].map((stage, index) => <li key={stage} className={index === 0 ? 'is-active' : ''}><span>{index + 1}</span>{stage}</li>)}
-          </ol>
+          <dl className="client-home-renewal-facts">
+            <div><dt>Days remaining</dt><dd>{renewal.daysToExpiry}</dd></div>
+            <div><dt>Current step</dt><dd>{renewal.currentStage}</dd></div>
+            <div><dt>Documents needed</dt><dd>{missingDocuments.length}</dd></div>
+          </dl>
           <Link className="client-panel-link" to="/client-portal/renewal">Continue renewal <ArrowRight size={15} /></Link>
         </div>
       </section>
 
-      <section className="client-panel">
-        <SectionHeader eyebrow="Operations" title="Your Insured Footprint" text="Locations, aircraft and active policy coverage connected to your account." action={<Link to="/client-portal/fleet">View fleet</Link>} />
-        <div className="client-location-strip">
-          {locations.map((location) => (
-            <article key={location.id}>
-              <div><MapPin size={18} /><strong>{location.airportCode}</strong></div>
-              <h3>{location.name}</h3>
-              <p>{location.city}, {location.state}</p>
-              <dl><div><dt>Aircraft</dt><dd>{location.aircraftCount}</dd></div><div><dt>Students</dt><dd>{location.studentCount}</dd></div></dl>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="client-portal-grid">
+      <section className="client-home-secondary">
         <div className="client-panel">
-          <SectionHeader eyebrow="Coverage" title="Active Insurance Program" text="A concise view of the policies protecting your operation." />
-          <div className="client-coverage-list">
-            {policies.map((policy) => <article key={policy.id}><ShieldCheck size={19} /><div><strong>{policy.policyType}</strong><p>{policy.insurer} / Expires {formatDate(policy.expiryDate)}</p></div><StatusPill status={policy.status} /></article>)}
-          </div>
-        </div>
-        <div className="client-panel">
-          <SectionHeader eyebrow="Broker updates" title="Recent Messages" text="Updates shared with your Meridian team." />
+          <SectionHeader title="Recent Updates" text="The latest messages from your Symphony team." action={<Link to="/client-portal/requests">View requests</Link>} />
           <div className="client-message-list">
-            {messages.map((message) => {
+            {messages.slice(0, 2).map((message) => {
               const sender = team.find((member) => member.id === message.senderUserId);
               return <article key={message.id}><UserAvatar initials={sender?.avatarInitials ?? 'SY'} tone="blue" /><div><strong>{message.subject}</strong><p>{message.summary}</p><small>{sender?.name ?? 'Symphony team'} / {dateTime.format(new Date(message.timestamp))}</small></div>{message.status === 'Unread' ? <span>New</span> : null}</article>;
             })}
           </div>
         </div>
-      </section>
-
-      <section className="client-panel client-broker-team">
-        <SectionHeader eyebrow="Your Symphony team" title="People Supporting Your Account" text="Contact the right person without searching through internal departments." />
-        <div>
-          {team.filter((member) => ['USR-004', 'USR-006', 'USR-007'].includes(member.id)).map((member) => (
-            <article key={member.id}><UserAvatar initials={member.avatarInitials} tone="blue" /><div><strong>{member.name}</strong><p>{member.role}</p></div><button type="button" onClick={() => onQuickAction('message')}><Send size={15} /> Message</button></article>
-          ))}
-        </div>
+        <aside className="client-panel client-home-help">
+          <div className="client-home-help__person">
+            <UserAvatar initials={accountManager.avatarInitials} tone="blue" />
+            <div><small>Your account manager</small><strong>{accountManager.name}</strong><span>Here when you need assistance.</span></div>
+          </div>
+          <button type="button" onClick={() => onQuickAction('message')}><Send size={16} /> Send a message</button>
+          <div className="client-home-quick-links" aria-label="Common client actions">
+            <Link to="/client-portal/requests"><BadgeCheck size={18} /><span><strong>Request a certificate</strong><small>Start or track a service request</small></span><ArrowRight size={16} /></Link>
+            <Link to="/client-portal/documents"><Upload size={18} /><span><strong>Upload a document</strong><small>Add renewal or policy information</small></span><ArrowRight size={16} /></Link>
+            <Link to="/client-portal/claims"><Headphones size={18} /><span><strong>Claims</strong><small>{openClaims ? `${openClaims} open claim${openClaims === 1 ? '' : 's'}` : 'Report or review a claim'}</small></span><ArrowRight size={16} /></Link>
+            <Link to="/client-portal/fleet"><Plane size={18} /><span><strong>Fleet and locations</strong><small>Review your insured operations</small></span><ArrowRight size={16} /></Link>
+          </div>
+        </aside>
       </section>
     </>
   );
@@ -385,7 +368,6 @@ export function ClientPortalWorkspace() {
   const team = simulationData.teamMembers;
   const accountManager = team.find((item) => item.id === client.assignedAccountManagerId) ?? team[0];
   const claimsCoordinator = team.find((item) => item.role === 'Claims Coordinator') ?? team[0];
-  const openActions = records.documents.filter((item) => item.status === 'Missing').length + requests.filter((item) => item.status === 'Waiting on Client').length;
   const viewProps = { ...records, client, user, requests, team, accountManager, claimsCoordinator, onDocumentAction: handleDocumentAction, onQuickAction: handleQuickAction, onAction: announce, onSubmit: addRequest };
   const views = {
     home: <HomeView {...viewProps} />,
@@ -399,7 +381,7 @@ export function ClientPortalWorkspace() {
 
   return (
     <div className="client-portal page-transition">
-      <PortalHero client={client} user={user} renewal={records.renewal} openActions={openActions} onQuickAction={handleQuickAction} />
+      <PortalHero client={client} user={user} renewal={records.renewal} />
       {views[section] ?? views.home}
     </div>
   );
