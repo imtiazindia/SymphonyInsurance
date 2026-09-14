@@ -1,0 +1,26 @@
+[
+  {
+    "id": "CUSR-001",
+    "clientId": "CLI-006",
+    "name": "Jordan Blake",
+    "title": "Risk and Insurance Manager",
+    "role": "Client Administrator",
+    "email": "jordan.blake@meridianflight.example",
+    "phone": "+1 480 555 0184",
+    "avatarInitials": "JB",
+    "locationAccess": ["LOC-001", "LOC-002", "LOC-003", "LOC-004"],
+    "permissions": ["view-policies", "manage-renewal-data", "manage-fleet", "manage-pilots", "upload-documents", "submit-claims", "request-certificates"]
+  },
+  {
+    "id": "CUSR-002",
+    "clientId": "CLI-006",
+    "name": "Morgan Lee",
+    "title": "Chief Flight Instructor",
+    "role": "Client Contributor",
+    "email": "morgan.lee@meridianflight.example",
+    "phone": "+1 480 555 0127",
+    "avatarInitials": "ML",
+    "locationAccess": ["LOC-001", "LOC-002"],
+    "permissions": ["view-policies", "manage-pilots", "upload-documents"]
+  }
+]

@@ -20,6 +20,7 @@ import { SubmissionWorkspace } from './pages/SubmissionWorkspace.jsx';
 import { RoleSelectionPage } from './pages/RoleSelectionPage.jsx';
 
 const ExecutiveBriefingPage = lazy(() => import('./pages/ExecutiveBriefingPage.jsx').then((module) => ({ default: module.ExecutiveBriefingPage })));
+const ClientPortalWorkspace = lazy(() => import('./pages/ClientPortalWorkspace.jsx').then((module) => ({ default: module.ClientPortalWorkspace })));
 
 export default function App() {
   const location = useLocation();
@@ -34,6 +35,8 @@ export default function App() {
         <Suspense fallback={<div className="briefing-empty"><h1>Loading workspace</h1><p>Preparing the selected view.</p></div>}>
           <Routes>
           <Route path="/executive-overview" element={<ExecutiveOverview />} />
+          <Route path="/client-portal" element={<ClientPortalWorkspace />} />
+          <Route path="/client-portal/:section" element={<ClientPortalWorkspace />} />
           <Route path="/operations" element={<OperationsManagerWorkspace />} />
           <Route path="/ibar" element={<IBarResultsPage />} />
           <Route path="/briefing/today" element={<ExecutiveBriefingPage />} />

@@ -58,6 +58,7 @@ export function RoleContextProvider({ children }) {
     clearRoleSpecificSession();
     writeRole(next, next.remember);
     setRoleState(next);
+    if (configuration.id === 'client') setDemoMode(false);
     window.dispatchEvent(new CustomEvent(ROLE_CHANGE_EVENT, { detail: next }));
     return configuration;
   }

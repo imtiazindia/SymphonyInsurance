@@ -24,6 +24,13 @@ import {
 } from 'lucide-react';
 
 export const navigationCatalog = {
+  clientHome: { label: 'My Insurance', path: '/client-portal', icon: Home },
+  clientRenewal: { label: 'Renewal Center', path: '/client-portal/renewal', icon: RefreshCw },
+  clientFleet: { label: 'Fleet & Locations', path: '/client-portal/fleet', icon: Plane },
+  clientPeople: { label: 'Pilots & Instructors', path: '/client-portal/people', icon: UsersRound },
+  clientDocuments: { label: 'Documents', path: '/client-portal/documents', icon: FileStack },
+  clientRequests: { label: 'Requests & Certificates', path: '/client-portal/requests', icon: CheckSquare2 },
+  clientClaims: { label: 'Claims', path: '/client-portal/claims', icon: Headphones },
   executive: { label: 'Executive Overview', path: '/executive-overview', icon: Home },
   operations: { label: 'Operations Overview', path: '/operations', icon: Gauge },
   accountManager: { label: 'Account Manager Workspace', path: '/account-manager', icon: UserRoundCog },
@@ -231,6 +238,34 @@ export const roleExperiences = [
     briefingName: "Today's Risk Advisory Briefing",
     allowedViews: [...sharedViews, '/findings', '/improvement-plans', '/aviation-risk-index'],
     sidebarInsights: ['ari'],
+  },
+  {
+    id: 'client',
+    label: 'Client / Insured',
+    shortLabel: 'Client',
+    icon: Building2,
+    activeUserId: 'CUSR-001',
+    homeRoute: '/client-portal',
+    description: 'Manage your insurance, renewal information, fleet records, documents, claims and service requests.',
+    primaryQuestion: 'What does my broker need from me, and what should I do next?',
+    priorities: ['Renewal requirements', 'Fleet and instructor updates', 'Claims and service requests'],
+    navigationItems: ['clientHome', 'clientRenewal', 'clientFleet', 'clientPeople', 'clientDocuments', 'clientRequests', 'clientClaims'],
+    secondaryNavigation: [],
+    emphasizedNavigation: ['clientHome', 'clientRenewal', 'clientDocuments'],
+    defaultKpis: ['renewalDate', 'clientActions', 'documentReadiness', 'openClaims', 'openRequests'],
+    priorityTypes: ['renewal-information', 'missing-document', 'claim-update', 'certificate-request', 'coverage-change'],
+    quickActions: ['Request Certificate', 'Report Incident', 'Update Aircraft', 'Upload Document'],
+    iBarSuggestions: [
+      'What does Symphony need from me?',
+      'Show my renewal progress',
+      'Which documents are missing?',
+      'Show my open service requests',
+      'How do I report an incident?',
+    ],
+    notificationCategories: ['renewal-information', 'missing-document', 'claim-update', 'certificate-request', 'coverage-change'],
+    briefingName: 'My Insurance Summary',
+    allowedViews: ['/client-portal'],
+    sidebarInsights: [],
   },
 ];
 

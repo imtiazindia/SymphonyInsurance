@@ -240,5 +240,93 @@
     "uploadedDate": "2026-06-16",
     "missingReason": "",
     "businessImpact": "Supports renewal readiness"
+  },
+  {
+    "id": "DOC-023",
+    "clientId": "CLI-006",
+    "documentType": "Aircraft Schedule",
+    "status": "Missing",
+    "expiryDate": "2026-08-20",
+    "requiredFor": "Renewal Submission",
+    "uploadedDate": null,
+    "missingReason": "Fort Worth aircraft additions have not been incorporated into the signed schedule",
+    "businessImpact": "Required before the renewal submission can be released"
+  },
+  {
+    "id": "DOC-024",
+    "clientId": "CLI-006",
+    "documentType": "Five-Year Loss Runs",
+    "status": "Needs Review",
+    "expiryDate": "2026-08-20",
+    "requiredFor": "Renewal Submission",
+    "uploadedDate": "2026-07-06",
+    "missingReason": "",
+    "businessImpact": "Broker review is required before insurer distribution"
+  },
+  {
+    "id": "DOC-025",
+    "clientId": "CLI-006",
+    "documentType": "Safety Management Manual",
+    "status": "Approved",
+    "expiryDate": "2027-03-31",
+    "requiredFor": "Renewal Submission",
+    "uploadedDate": "2026-06-24",
+    "missingReason": "",
+    "businessImpact": "Demonstrates formal safety controls to insurers"
+  },
+  {
+    "id": "DOC-026",
+    "clientId": "CLI-006",
+    "documentType": "Maintenance Program",
+    "status": "Needs Review",
+    "expiryDate": "2026-12-31",
+    "requiredFor": "Renewal Submission",
+    "uploadedDate": "2026-07-02",
+    "missingReason": "",
+    "businessImpact": "Current revision must be confirmed for the mixed fleet"
+  },
+  {
+    "id": "DOC-027",
+    "clientId": "CLI-006",
+    "documentType": "Hangar and Airport Agreements",
+    "status": "Missing",
+    "expiryDate": "2026-08-20",
+    "requiredFor": "Fort Worth Location Addition",
+    "uploadedDate": null,
+    "missingReason": "Executed Fort Worth hangar agreement has not been uploaded",
+    "businessImpact": "Delays final premises and hangarkeepers confirmation"
+  },
+  {
+    "id": "DOC-028",
+    "clientId": "CLI-006",
+    "documentType": "Emergency Response Plan",
+    "status": "Approved",
+    "expiryDate": "2027-01-31",
+    "requiredFor": "Risk Review",
+    "uploadedDate": "2026-06-14",
+    "missingReason": "",
+    "businessImpact": "Supports the client safety narrative"
+  },
+  {
+    "id": "DOC-029",
+    "clientId": "CLI-006",
+    "documentType": "Prior Policy Package",
+    "status": "Approved",
+    "expiryDate": "2026-08-20",
+    "requiredFor": "Renewal Review",
+    "uploadedDate": "2026-05-28",
+    "missingReason": "",
+    "businessImpact": "Provides current coverage terms for renewal comparison"
+  },
+  {
+    "id": "DOC-030",
+    "clientId": "CLI-006",
+    "documentType": "Instructor Recurrent Training Evidence",
+    "status": "Missing",
+    "expiryDate": "2026-07-29",
+    "requiredFor": "Pilot Roster Review",
+    "uploadedDate": null,
+    "missingReason": "Training evidence is outstanding for two instructors",
+    "businessImpact": "Needed to present complete instructor qualifications"
   }
 ]

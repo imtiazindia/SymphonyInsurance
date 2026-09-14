@@ -16,13 +16,20 @@ import {
 } from 'lucide-react';
 import activitiesJson from './activities.json';
 import businessMetricsJson from './businessMetrics.json';
+import certificateRequestsJson from './certificateRequests.json';
 import claimsJson from './claims.json';
+import clientMessagesJson from './clientMessages.json';
+import clientUsersJson from './clientUsers.json';
 import clientsJson from './clients.json';
 import complianceJson from './compliance.json';
 import documentsJson from './documents.json';
+import aircraftJson from './aircraft.json';
+import locationsJson from './locations.json';
 import negotiationsJson from './negotiations.json';
+import pilotsJson from './pilots.json';
 import policiesJson from './policies.json';
 import renewalsJson from './renewals.json';
+import serviceRequestsJson from './serviceRequests.json';
 import submissionsJson from './submissions.json';
 import tasksJson from './tasks.json';
 import teamMembersJson from './teamMembers.json';
@@ -60,14 +67,21 @@ function clientName(clientId) {
 
 export const simulationData = {
   activities: activitiesJson,
+  aircraft: aircraftJson,
   businessMetrics: businessMetricsJson,
+  certificateRequests: certificateRequestsJson,
   claims: claimsJson,
+  clientMessages: clientMessagesJson,
+  clientUsers: clientUsersJson,
   clients: clientsJson,
   compliance: complianceJson,
   documents: documentsJson,
+  locations: locationsJson,
   negotiations: negotiationsJson,
+  pilots: pilotsJson,
   policies: policiesJson,
   renewals: renewalsJson,
+  serviceRequests: serviceRequestsJson,
   submissions: submissionsJson,
   tasks: tasksJson,
   teamMembers: teamMembersJson,

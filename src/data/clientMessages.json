@@ -1,0 +1,6 @@
+[
+  { "id": "MSG-001", "clientId": "CLI-006", "senderUserId": "USR-004", "recipientUserId": "CUSR-001", "timestamp": "2026-07-09T15:15:00Z", "subject": "Renewal information still needed", "summary": "Please upload the final aircraft schedule and instructor roster before our renewal review call.", "status": "Unread", "relatedModule": "Renewal" },
+  { "id": "MSG-002", "clientId": "CLI-006", "senderUserId": "USR-007", "recipientUserId": "CUSR-001", "timestamp": "2026-07-09T13:05:00Z", "subject": "Instructor statement for open claim", "summary": "The adjuster needs the instructor statement and maintenance release for the damaged aircraft.", "status": "Unread", "relatedModule": "Claims" },
+  { "id": "MSG-003", "clientId": "CLI-006", "senderUserId": "USR-006", "recipientUserId": "CUSR-002", "timestamp": "2026-07-08T17:20:00Z", "subject": "Pilot roster format confirmed", "summary": "The roster template is ready. Please include certificate type, total time and recurrent training date.", "status": "Read", "relatedModule": "Documents" },
+  { "id": "MSG-004", "clientId": "CLI-006", "senderUserId": "USR-004", "recipientUserId": "CUSR-001", "timestamp": "2026-07-07T10:30:00Z", "subject": "Fort Worth aircraft endorsement", "summary": "The carrier is reviewing both new aircraft. We expect terms before July 18.", "status": "Read", "relatedModule": "Service Request" }
+]

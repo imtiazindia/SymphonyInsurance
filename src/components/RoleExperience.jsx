@@ -19,6 +19,7 @@ import { BusinessKpiCard, TaskPriorityBadge } from './BusinessComponents.jsx';
 
 const clientById = new Map(simulationData.clients.map((client) => [client.id, client]));
 const userById = new Map(simulationData.teamMembers.map((user) => [user.id, user]));
+const clientUserById = new Map(simulationData.clientUsers.map((user) => [user.id, user]));
 
 function clientName(clientId) {
   return clientById.get(clientId)?.name ?? 'Portfolio';
@@ -146,8 +147,11 @@ export function RoleSwitcher() {
 
 export function RoleRouteGuard({ children }) {
   const location = useLocation();
-  const { activeRole } = useRoleExperience();
+  const { activeRole, roleConfiguration } = useRoleExperience();
   if (!activeRole) return <Navigate to="/select-role" replace state={{ from: location.pathname }} />;
+  if (activeRole === 'client' && !isRouteInRoleExperience(activeRole, location.pathname)) {
+    return <Navigate to={roleConfiguration.homeRoute} replace />;
+  }
   return children;
 }
 
@@ -266,6 +270,17 @@ export function getRoleNotifications(roleId, activeUserId) {
     simulationData.claims.filter((item) => item.status !== 'Closed').slice(0, 3).forEach((item) => notices.push({ id: item.id, icon: ShieldAlert, title: item.executiveReviewRequired ? 'Claim intervention required' : 'Claim update due', message: `${clientName(item.clientId)}: ${item.nextAction}`, route: `/claims/${item.id}`, tone: item.severity === 'High' ? 'high' : 'medium' }));
   } else if (roleId === 'compliance') {
     simulationData.compliance.filter((item) => item.status !== 'Closed').slice(0, 3).forEach((item) => notices.push({ id: item.id, icon: ShieldAlert, title: item.status === 'Overdue' ? 'Corrective action overdue' : 'Risk action due', message: `${clientName(item.clientId)}: ${item.findingType}`, route: '/compliance-risk', tone: item.severity === 'High' ? 'high' : 'medium' }));
+  } else if (roleId === 'client') {
+    const clientUser = clientUserById.get(activeUserId);
+    const clientId = clientUser?.clientId;
+    const renewal = simulationData.renewals.find((item) => item.clientId === clientId);
+    const missingDocument = simulationData.documents.find((item) => item.clientId === clientId && /Missing|Expired/.test(item.status));
+    const waitingRequest = simulationData.serviceRequests.find((item) => item.clientId === clientId && item.status === 'Waiting on Client');
+    const claim = simulationData.claims.find((item) => item.clientId === clientId && item.status !== 'Closed');
+    if (renewal?.missingItems.length) notices.push({ id: renewal.id, icon: CalendarClock, title: 'Renewal information needed', message: `${renewal.missingItems.length} items are still needed for your renewal.`, route: '/client-portal/renewal', tone: 'high' });
+    if (missingDocument) notices.push({ id: missingDocument.id, icon: FileWarning, title: 'Document required', message: `${missingDocument.documentType} is needed from your team.`, route: '/client-portal/documents', tone: 'high' });
+    if (waitingRequest) notices.push({ id: waitingRequest.id, icon: Bell, title: 'Service request needs information', message: waitingRequest.title, route: '/client-portal/requests', tone: 'medium' });
+    if (claim) notices.push({ id: claim.id, icon: ShieldAlert, title: 'Open claim update', message: 'Review the latest claim status and requested client information.', route: '/client-portal/claims', tone: claim.severity === 'High' ? 'high' : 'medium' });
   }
 
   return notices.slice(0, 4);

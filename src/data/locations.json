@@ -1,0 +1,58 @@
+[
+  {
+    "id": "LOC-001",
+    "clientId": "CLI-006",
+    "name": "Mesa Training Center",
+    "airportCode": "KFFZ",
+    "city": "Mesa",
+    "state": "AZ",
+    "address": "4850 Falcon Field Parkway",
+    "operationType": "Primary and instrument training",
+    "annualFlightHours": 12800,
+    "studentCount": 286,
+    "aircraftCount": 4,
+    "status": "Active"
+  },
+  {
+    "id": "LOC-002",
+    "clientId": "CLI-006",
+    "name": "Scottsdale Advanced Center",
+    "airportCode": "KSDL",
+    "city": "Scottsdale",
+    "state": "AZ",
+    "address": "15100 North Airport Drive",
+    "operationType": "Commercial and multi-engine training",
+    "annualFlightHours": 7100,
+    "studentCount": 142,
+    "aircraftCount": 3,
+    "status": "Active"
+  },
+  {
+    "id": "LOC-003",
+    "clientId": "CLI-006",
+    "name": "San Diego Coastal Center",
+    "airportCode": "KMYF",
+    "city": "San Diego",
+    "state": "CA",
+    "address": "3725 John J Montgomery Drive",
+    "operationType": "Private, instrument and recurrent training",
+    "annualFlightHours": 6400,
+    "studentCount": 118,
+    "aircraftCount": 3,
+    "status": "Active"
+  },
+  {
+    "id": "LOC-004",
+    "clientId": "CLI-006",
+    "name": "Fort Worth Career Center",
+    "airportCode": "KFTW",
+    "city": "Fort Worth",
+    "state": "TX",
+    "address": "201 American Concourse",
+    "operationType": "Career pilot and instructor training",
+    "annualFlightHours": 3900,
+    "studentCount": 74,
+    "aircraftCount": 2,
+    "status": "Opening Review"
+  }
+]

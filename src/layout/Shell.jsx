@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Bell, CheckCircle2, LogOut, Menu, Sparkles, X } from 'lucide-react';
+import { Bell, CheckCircle2, LogOut, Menu, Search, Sparkles, X } from 'lucide-react';
 import { DemoExperience } from '../components/DemoExperience.jsx';
 import { Drawer } from '../components/Drawer.jsx';
 import { IBar } from '../components/IBar.jsx';
@@ -242,26 +242,63 @@ function MarketConditions() {
   );
 }
 
+function ClientPortalSearch() {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState('');
+
+  function submit(event) {
+    event.preventDefault();
+    const normalized = query.toLowerCase();
+    const destination = normalized.includes('claim') || normalized.includes('incident')
+      ? '/client-portal/claims'
+      : normalized.includes('pilot') || normalized.includes('instructor')
+        ? '/client-portal/people'
+        : normalized.includes('aircraft') || normalized.includes('fleet') || normalized.includes('location')
+          ? '/client-portal/fleet'
+          : normalized.includes('certificate') || normalized.includes('request')
+            ? '/client-portal/requests'
+            : normalized.includes('document') || normalized.includes('upload')
+              ? '/client-portal/documents'
+              : normalized.includes('renew')
+                ? '/client-portal/renewal'
+                : '/client-portal';
+    navigate(destination);
+    setQuery('');
+  }
+
+  return (
+    <form className="client-portal-search" onSubmit={submit}>
+      <Search size={18} />
+      <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search my policies, documents and requests..." aria-label="Search my insurance records" />
+    </form>
+  );
+}
+
 function TopBar({ onMenu, onNotify, onExitWorkspace, demoMode, onDemoMode, notificationCount }) {
   const { activeUserId, roleConfiguration } = useRoleExperience();
-  const user = simulationData.teamMembers.find((member) => member.id === activeUserId) ?? simulationData.teamMembers[0];
+  const user = simulationData.teamMembers.find((member) => member.id === activeUserId)
+    ?? simulationData.clientUsers.find((member) => member.id === activeUserId)
+    ?? simulationData.teamMembers[0];
+  const isClient = roleConfiguration?.id === 'client';
   return (
     <header className="top-bar">
       <button className="icon-button menu-button" type="button" onClick={onMenu} aria-label="Open menu">
         <Menu size={21} />
       </button>
 
-      <IBar />
+      {isClient ? <ClientPortalSearch /> : <IBar />}
 
       <div className="top-actions">
         <button className="exit-workspace-button" type="button" onClick={onExitWorkspace} aria-label="Exit workspace and return to role selection">
           <LogOut size={17} />
           <span>Exit Workspace</span>
         </button>
-        <button className={demoMode ? 'demo-mode-toggle demo-mode-toggle--active' : 'demo-mode-toggle'} type="button" onClick={onDemoMode} aria-pressed={demoMode}>
-          <Sparkles size={16} />
-          <span>Demo Mode</span>
-        </button>
+        {!isClient ? (
+          <button className={demoMode ? 'demo-mode-toggle demo-mode-toggle--active' : 'demo-mode-toggle'} type="button" onClick={onDemoMode} aria-pressed={demoMode}>
+            <Sparkles size={16} />
+            <span>Demo Mode</span>
+          </button>
+        ) : null}
         <button className="notification-button" type="button" onClick={onNotify} aria-label="Notifications">
           <Bell size={21} strokeWidth={1.75} />
           <span>{notificationCount}</span>
@@ -270,7 +307,7 @@ function TopBar({ onMenu, onNotify, onExitWorkspace, demoMode, onDemoMode, notif
           <UserAvatar initials={user.avatarInitials} tone="blue" />
           <div>
             <strong>{user.name}</strong>
-            <span>{roleConfiguration?.label}</span>
+            <span>{user.title ?? roleConfiguration?.label}</span>
           </div>
         </div>
       </div>
@@ -583,7 +620,7 @@ export function Shell({ children }) {
         <AppFooter demoMode={demoMode} />
       </div>
 
-      <DemoExperience enabled={demoMode} onEnabledChange={setDemoMode} />
+      {activeRole !== 'client' ? <DemoExperience enabled={demoMode} onEnabledChange={setDemoMode} /> : null}
 
       <BottomNavigation />
 
